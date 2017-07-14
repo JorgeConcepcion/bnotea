@@ -1,0 +1,46 @@
+
+<%include ../partials/header%>
+
+    <div id="login-overlay" class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              
+              <h4 class="modal-title" id="myModalLabel">Change Password</h4>
+          </div>
+          <div class="modal-body">
+              <div class="row">
+                  <div class="col-xs-12">
+                      <div class="well">
+                          <form id="loginForm" method="POST" action="/change" >
+                              <div class="form-group">
+                                  <label for="username" class="control-label">Username</label>
+                                  <input type="text" class="form-control" id="username" name="username"  required="" title="Please enter you username" placeholder="username">
+                                  <span class="help-block"></span>
+                              </div>
+                              <div class="form-group">
+                                  <label for="password" class="control-label">Current Password</label>
+                                  <input type="password" class="form-control" id="currentPassword" name="currentPassword"  required="" title="Please enter your password" placeholder="current password">
+                                  <span class="help-block"></span>
+                              </div>
+                              <div class="form-group">
+                                  <label for="newPassword" class="control-label">New Password</label>
+                                  <input type="password" class="form-control" id="newPassword" name="newPassword"  required="" title="Please enter your password" placeholder="new password">
+                                  <span class="help-block"></span>
+                              </div>
+                              <div class="form-group">
+                                  <label for="repeatNewPassword" class="control-label">Repeat New Password</label>
+                                  <input type="password" class="form-control" id="repeatNewPassword" name="repeatNewPassword"  required="" title="Please enter your password" placeholder="repeat new password">
+                                  <span class="help-block"></span>
+                              </div>
+                              <button class="btn btn-success btn-block">Change Password</button>
+                              <a href="/login" class="btn btn-default btn-block">Cancel</a>
+                              
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+  <%include ../partials/footer %>
