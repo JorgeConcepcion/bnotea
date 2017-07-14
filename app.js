@@ -11,7 +11,6 @@ var express =require("express"),
     authenticationRoutes=require("./routes/authentication"),
     analistRoutes=require("./routes/analist"),
     clientRoutes=require("./routes/client"),
-    assistantClientRoutes=require("./routes/assistant-client"),
     passport=require("passport"),
     LocalStrategy=require("passport-local"),
     passportLocalMongoose=require("passport-local-mongoose"),
@@ -49,7 +48,6 @@ app.use(authenticationRoutes);
 app.use("/superuser/:superuserID/assistant",assistantRoutes);
 app.use("/superuser/:superuserID/analist",analistRoutes);
 app.use("/superuser/:superuserID/client",clientRoutes);
-app.use("/superuser/:superuserID/assistant/:assistantID/client",assistantClientRoutes);
 app.use(Middleware.passCurrentUser);
 
 
