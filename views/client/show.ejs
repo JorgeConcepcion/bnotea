@@ -1,231 +1,170 @@
 <%include ../partials/header%>
 
-<div id="throbber" style="display:none; min-height:120px;"></div>
-<div id="noty-holder"></div>
-<div id="wrapper">
-    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="http://cijulenlinea.ucr.ac.cr/dev-users/">
-                <img src="http://placehold.it/200x50&text=LOGO" alt="LOGO">
-            </a>
-        </div>
-        <!-- Top Menu Items -->
-        <ul class="nav navbar-right top-nav">
-                   
-            <li><a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a></li>
-                
-        </ul>
-        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav side-nav">
-                <li>
-                    <a href="#" data-toggle="collapse" data-target="#submenu-1"><i class="fa fa-fw fa-star"></i> CLIENTS <i class="fa fa-fw fa-angle-down pull-right"></i></a>
-                    <ul id="submenu-1" class="collapse">
-                        <li><a href="/superuser/<%=superuser._id%>/client"><i class="fa fa-search"></i> SHOW</a></li>
-                        <li><a href="/superuser/<%=superuser._id%>/client/new"><i class="fa fa-plus"></i> NEW</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" data-toggle="collapse" data-target="#submenu-2"><i class="fa fa-fw fa-star"></i>  ASSISTANTS <i class="fa fa-fw fa-angle-down pull-right"></i></a>
-                    <ul id="submenu-2" class="collapse">
-                        <li><a href="/superuser/<%=superuser._id%>/assistant"><i class="fa fa-search"></i> SHOW</a></li>
-                        <li><a href="/superuser/<%=superuser._id%>/assistant/new"><i class="fa fa-plus"></i> NEW</a></li>
-                    </ul>
-                </li>
-                 <li>
-                    <a href="#" data-toggle="collapse" data-target="#submenu-3"><i class="fa fa-fw fa-star"></i>  ANALISTS <i class="fa fa-fw fa-angle-down pull-right"></i></a>
-                    <ul id="submenu-3" class="collapse">
-                        <li><a href="/superuser/<%=superuser._id%>/analist"><i class="fa fa-search"></i> SHOW</a></li>
-                        <li><a href="/superuser/<%=superuser._id%>/analist/new"><i class="fa fa-plus"></i> NEW</a></li>
-                    </ul>
-                </li>
-                 <li>
-                    <a href="#" data-toggle="collapse" data-target="#submenu-4"><i class="fa fa-fw fa-star"></i>  PROFILE <i class="fa fa-fw fa-angle-down pull-right"></i></a>
-                    <ul id="submenu-4" class="collapse">
-                        <li><a href="/superuser/<%=superuser._id%>/edit"><i class="fa fa-fw fa-user" aria-hidden="true"></i> EDIT</a></li>
-                        <li><a href="/change"><i class="fa fa-fw fa-cog"></i> CHANGE PASSWORD</a></li>
-                    </ul>
-                </li>
-                 <li>
-                    <a href="#" data-toggle="collapse" data-target="#submenu-5"><i class="fa fa-fw fa-star"></i>  REPORTS <i class="fa fa-fw fa-angle-down pull-right"></i></a>
-                    <ul id="submenu-5" class="collapse">
-                        <li><a href="#"><i class="fa fa-question"></i> COMMING SOON</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </nav>
-
-    <div id="page-wrapper">
-        <div class="container-fluid">
-            <!-- Page Heading -->
-            <div class="row" id="main" >
-                <div class="col-sm-12 col-md-12 well" id="content">
-                    <img id="superuserPhoto" src="<%=superuser.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
-                    <h2 id="welcome">Welcome <%=superuser.firstName%></h2>
-                    <h4 id="welcome"><%=superuser.company%></h4>
-                    <h5 id="welcome">Clients</h5>
-                    <a href="/superuser/<%=superuser._id%>/client/"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="row" id="main" >
+            <div class="col-sm-12 col-md-12 well" id="content">
+                <img id="superuserPhoto" src="<%=superuser.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
+                <h2 id="welcome">Welcome <%=superuser.firstName%></h2>
+                <h4 id="welcome"><%=superuser.company%></h4>
+                <h5 id="welcome">Clients</h5>
+                <a href="/superuser/<%=superuser._id%>/client/"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+            </div>
+            <div class="container-fluid" style="padding-top: 60px;">
+                <!--Displaying client, including delete deactivate and edit buttons-->
+                <div class="row">
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+                        <img id="dashPhoto" src="<%=client.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <h2><%=client.firstName+" "+client.lastName%></h2>
+                        <a class="btn btn-success"href="/superuser/<%=superuser._id%>/client/<%=client._id%>/edit">Edit</a>
+                        <form class="clientButton" method="post" action="/superuser/<%=superuser._id%>/client/<%=client._id%>?_method=DELETE">
+                            <input style="display:none" type="text" value="deactivate" name="deleteFlag">
+                            <button class="btn btn-warning ">Deactivate</button>
+                        </form>
+                        <form class="clientButton" method="post" action="/superuser/<%=superuser._id%>/client/<%=client._id%>?_method=DELETE">
+                            <button class="btn btn-danger ">Delete</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="container-fluid" style="padding-top: 60px;">
-                    <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-2">
-                            <img src="<%=client.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
-                        </div>
-                         <div class="col-md-6 col-sm-6 col-xs-6">
-                            <h2><%=client.firstName+" "+client.lastName%></h2>
-                             <a class="btn btn-success"href="/superuser/<%=superuser._id%>/client/<%=client._id%>/edit">Edit</a>
-                             <form class="clientButton" method="post" action="/superuser/<%=superuser._id%>/client/<%=client._id%>?_method=DELETE">
-                                 <input style="display:none" type="text" value="deactivate" name="deleteFlag">
-                                 <button class="btn btn-warning ">Deactivate</button>
-                             </form>
-                             <form class="clientButton" method="post" action="/superuser/<%=superuser._id%>/client/<%=client._id%>?_method=DELETE">
-                                 <button class="btn btn-danger ">Delete</button>
-                             </form>
-                        </div>
-                   </div>
-                   <div class="row">
-                       <div class="col-md-3 col-sm-12 col-xs-12">
-                           <h4 class="page-header">Info</h4> 
-                       </div>
-                   </div>
-                   <div class="row custom-table">
-                       <div class="col-md-4 col-sm-12 col-xs-12">
-                       <table class="table table-bordered">
-                          <tbody>
-                             <tr>
-                              <th scope="row"> Diagnosis</th>
-                              <td><%=client.diagnosis%></td>
-                            </tr>
-                            <tr>
-                              <th scope="row"> Legal Guardian</th>
-                              <td><%=client.guardian%></td>
-                            </tr>
-                             <tr>
-                              <th scope="row"> Phone</th>
-                              <td><%=client.phone%></td>
-                            </tr>
-                             <tr>
-                              <th scope="row"> Medicaid Number</th>
-                              <td><%=client.medicaidNumber%></td>
-                            </tr>
-                            <tr>
-                              <th scope="row"> Assistant</th>
-                              <td><%=client.assistant.firstName+" "+client.assistant.lastName%></td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Analist</th>
-                              <td><%=client.analist.firstName+" "+client.analist.lastName%></td>
-                            </tr>
-                          </tbody>
+                <div class="row">
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <h4 class="page-header">Info</h4> 
+                    </div>
+                </div>
+                 <!--Show client info-->
+                <div class="row custom-table">
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th scope="row"> Diagnosis</th>
+                                    <td><%=client.diagnosis%></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"> Legal Guardian</th>
+                                    <td><%=client.guardian%></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"> Phone</th>
+                                    <td><%=client.phone%></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"> Medicaid Number</th>
+                                    <td><%=client.medicaidNumber%></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"> Assistant</th>
+                                    <td><%=client.assistant.firstName+" "+client.assistant.lastName%></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Analist</th>
+                                    <td><%=client.analist.firstName+" "+client.analist.lastName%></td>
+                                </tr>
+                            </tbody>
                         </table>
-                        </div>
-                   </div>
-                   <div class="row">
-                       <div class="col-md-3 col-sm-12 col-xs-12">
-                           <h4 class="page-header">Maladaptative Behaviors</h4> 
-                       </div>
-                   </div>
-                   <div class="row custom-table">
-                       <div class="col-md-4 col-sm-12 col-xs-12">
-                       <table class="table table-bordered">
-                          <thead>
-                            <tr>
-                              <th>Behavior</th>
-                              <th>Baseline</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          <%client.maladaptativeBehaviors.forEach(function(maladaptativeBehavior){%>
-                            <tr>
-                              <th scope="row"><%=maladaptativeBehavior.name%></th>
-                              <td><%=maladaptativeBehavior.baseline%></td>
-                            </tr>
-                          <%})%>
-                          </tbody>
+                    </div>
+                </div>
+                <!--Show client maladaptative behaviors-->
+                <div class="row">
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <h4 class="page-header">Maladaptative Behaviors</h4> 
+                    </div>
+                </div>
+                <div class="row custom-table">
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Behavior</th>
+                                    <th>Baseline</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%client.maladaptativeBehaviors.forEach(function(maladaptativeBehavior){%>
+                                    <tr>
+                                        <th scope="row"><%=maladaptativeBehavior.name%></th>
+                                        <td><%=maladaptativeBehavior.baseline%></td>
+                                    </tr>
+                                <%})%>
+                            </tbody>
                         </table>
-                        </div>
-                   </div>
-                    <div class="row">
-                       <div class="col-md-3 col-sm-12 col-xs-12">
-                           <h4 class="page-header">Replacement Behaviors</h4> 
-                       </div>
-                   </div>
-                   <div class="row custom-table">
-                       <div class="col-md-4 col-sm-12 col-xs-12">
-                       <table class="table table-bordered">
-                          <thead>
-                            <tr>
-                              <th>Replacement</th>
-                              <th>Baseline</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          <%client.replacementsBehaviors.forEach(function(replacementBehavior){%>
-                            <tr>
-                              <th scope="row"><%=replacementBehavior.name%></th>
-                              <td><%=replacementBehavior.baseline%></td>
-                            </tr>
-                          <%})%>
-                          </tbody>
+                    </div>
+                </div>
+                <!--Show client maladaptative behaviors-->
+                <div class="row">
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <h4 class="page-header">Replacement Behaviors</h4> 
+                    </div>
+                </div>
+                <div class="row custom-table">
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Replacement</th>
+                                    <th>Baseline (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%client.replacementsBehaviors.forEach(function(replacementBehavior){%>
+                                    <tr>
+                                        <th scope="row"><%=replacementBehavior.name%></th>
+                                        <td><%=replacementBehavior.baseline%></td>
+                                    </tr>
+                                <%})%>
+                            </tbody>
                         </table>
-                        </div>
-                   </div>
-                   <div class="row">
-                       <div class="col-md-3 col-sm-3 col-xs-3">
-                           <h4 class="page-header">Approvals</h4> 
-                       </div>
-                   </div>
-                   <div class="row custom-table">
-                       <div class="col-md-8 col-sm-8 col-xs-8">
-                       <table class="table table-bordered">
-                          <thead>
-                            <tr>
-                              <th>Number</th>
-                              <th>Start Date</th>
-                              <th>End Date</th>
-                              <th>Units</th>
-                              <th>Procedure</th>
-                              <th>Available Units</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          <%client.approvals.forEach(function(approval){%>
-                          <%if(approval.endDate>Date.now()){%>
-                              <tr class="current">
-                          <%}%>
-                          <%if(approval.endDate<Date.now()){%>
-                              <tr>
-                          <%}%>
-                              <th scope="row"><%=approval.number%></th>
-                              <td><%=(approval.startDate.getMonth()+1)+"/"+approval.startDate.getDate()+"/"+approval.startDate.getFullYear()%></td>
-                              <td><%=(approval.endDate.getMonth()+1)+"/"+approval.endDate.getDate()+"/"+approval.endDate.getFullYear()%></td>
-                              <td><%=approval.units%></td>
-                              <td><%=approval.procedure%></td>
-                              <td><%=approval.availableUnits%></td>
-                            </tr>
-                          <%})%>
-                          </tbody>
+                    </div>
+                </div>
+                <!--Show client approvals--> 
+                <div class="row">
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <h4 class="page-header">Approvals</h4> 
+                    </div>
+                </div>
+                <div class="row custom-table">
+                    <div class="col-md-8 col-sm-8 col-xs-8">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Number</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Units</th>
+                                    <th>Procedure</th>
+                                    <th>Available Units</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%client.approvals.forEach(function(approval){%>
+                                    <%if(approval.endDate>Date.now()){%>
+                                        <tr class="current">
+                                    <%}%>
+                                    <%if(approval.endDate<Date.now()){%>
+                                        <tr>
+                                    <%}%>
+                                            <th scope="row"><%=approval.number%></th>
+                                            <td><%=(approval.startDate.getMonth()+1)+"/"+approval.startDate.getDate()+"/"+approval.startDate.getFullYear()%></td>
+                                            <td><%=(approval.endDate.getMonth()+1)+"/"+approval.endDate.getDate()+"/"+approval.endDate.getFullYear()%></td>
+                                            <td><%=approval.units%></td>
+                                            <td><%=approval.procedure%></td>
+                                            <td><%=approval.availableUnits%></td>
+                                        </tr>
+                                <%})%>
+                            </tbody>
                         </table>
-                        </div>
-                   </div>
-               </div>
-               
-            <!-- /.row -->
-           </div>
-        <!-- /.container-fluid -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- /.row -->   
     </div>
+    <!-- /.container-fluid -->
+</div>
     <!-- /#page-wrapper -->
-</div><!-- /#wrapper -->
 
 
 

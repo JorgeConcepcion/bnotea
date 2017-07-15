@@ -6,7 +6,7 @@ var userSchema=new mongoose.Schema({
     password:String,
     type:String,
     userRef:mongoose.Schema.Types.ObjectId
-})
+});
 
 userSchema.plugin(passportLocalMongoose);
 module.exports=mongoose.model("User",userSchema);

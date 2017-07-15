@@ -39,6 +39,6 @@ var clientSchema=new mongoose.Schema({
                 lastName:{type:String,default:""}
             }
         
-})
+});
 
 module.exports=mongoose.model("Client",clientSchema);

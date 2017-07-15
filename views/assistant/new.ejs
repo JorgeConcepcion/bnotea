@@ -1,153 +1,86 @@
 <%include ../partials/header%>
 
-<div id="throbber" style="display:none; min-height:120px;"></div>
-<div id="noty-holder"></div>
-<div id="wrapper">
-    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="http://cijulenlinea.ucr.ac.cr/dev-users/">
-                <img src="http://placehold.it/200x50&text=LOGO" alt="LOGO">
-            </a>
+<div id="page-wrapper">
+  <div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="row" id="main" >
+      <div class="col-sm-12 col-md-12 well" id="content">
+        <img id="superuserPhoto" src="<%=superuser.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
+        <h2 id="welcome">Welcome <%=superuser.firstName%></h2>
+        <h4 id="welcome"><%=superuser.company%></h4>
+        <h5 id="welcome">Assistants</h5>
+      </div>
+      <div class="container" style="padding-top: 60px;">
+        <h1 class="page-header">New Assistant</h1>
+        <!--Displaying a placeholder picture-->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="text-center">
+          <img src="/resources/Person-placeholder.jpg" class="avatar img-circle img-thumbnail" alt="avatar">
+          <h6>Upload a different photo...</h6>
+          <input type="file" class="text-center center-block well well-sm">
+          </div>
         </div>
-        <!-- Top Menu Items -->
-        <ul class="nav navbar-right top-nav">
-                   
-            <li><a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a></li>
-                
-        </ul>
-        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav side-nav">
-                <li>
-                    <a href="#" data-toggle="collapse" data-target="#submenu-1"><i class="fa fa-fw fa-star"></i> CLIENTS <i class="fa fa-fw fa-angle-down pull-right"></i></a>
-                    <ul id="submenu-1" class="collapse">
-                        <li><a href="/superuser/<%=superuser._id%>/client"><i class="fa fa-search"></i> SHOW</a></li>
-                        <li><a href="/superuser/<%=superuser._id%>/client/new"><i class="fa fa-plus"></i> NEW</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" data-toggle="collapse" data-target="#submenu-2"><i class="fa fa-fw fa-star"></i>  ASSISTANTS <i class="fa fa-fw fa-angle-down pull-right"></i></a>
-                    <ul id="submenu-2" class="collapse">
-                        <li><a href="/superuser/<%=superuser._id%>/assistant"><i class="fa fa-search"></i> SHOW</a></li>
-                        <li><a href="/superuser/<%=superuser._id%>/assistant/new"><i class="fa fa-plus"></i> NEW</a></li>
-                    </ul>
-                </li>
-                 <li>
-                    <a href="#" data-toggle="collapse" data-target="#submenu-3"><i class="fa fa-fw fa-star"></i>  ANALISTS <i class="fa fa-fw fa-angle-down pull-right"></i></a>
-                    <ul id="submenu-3" class="collapse">
-                        <li><a href="/superuser/<%=superuser._id%>/analist"><i class="fa fa-search"></i> SHOW</a></li>
-                        <li><a href="/superuser/<%=superuser._id%>/analist/new"><i class="fa fa-plus"></i> NEW</a></li>
-                    </ul>
-                </li>
-                 <li>
-                    <a href="#" data-toggle="collapse" data-target="#submenu-4"><i class="fa fa-fw fa-star"></i>  PROFILE <i class="fa fa-fw fa-angle-down pull-right"></i></a>
-                    <ul id="submenu-4" class="collapse">
-                        <li><a href="/superuser/<%=superuser._id%>/edit"><i class="fa fa-fw fa-user" aria-hidden="true"></i> EDIT</a></li>
-                        <li><a href="/change"><i class="fa fa-fw fa-cog"></i> CHANGE PASSWORD</a></li>
-                    </ul>
-                </li>
-                 <li>
-                    <a href="#" data-toggle="collapse" data-target="#submenu-5"><i class="fa fa-fw fa-star"></i>  REPORTS <i class="fa fa-fw fa-angle-down pull-right"></i></a>
-                    <ul id="submenu-5" class="collapse">
-                        <li><a href="#"><i class="fa fa-question"></i> COMMING SOON</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </nav>
-
-    <div id="page-wrapper">
-        <div class="container-fluid">
-            <!-- Page Heading -->
-            <div class="row" id="main" >
-                <div class="col-sm-12 col-md-12 well" id="content">
-                    <img id="superuserPhoto" src="<%=superuser.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
-                    <h2 id="welcome">Welcome <%=superuser.firstName%></h2>
-                    <h4 id="welcome"><%=superuser.company%></h4>
-                    <h5 id="welcome">Assistants</h5>
-                </div>
-                <div class="container" style="padding-top: 60px;">
-                     <h1 class="page-header">New Assistant</h1>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                  <div class="text-center">
-                    <img src="/resources/Person-placeholder.jpg" class="avatar img-circle img-thumbnail" alt="avatar">
-                    <h6>Upload a different photo...</h6>
-                    <input type="file" class="text-center center-block well well-sm">
-                  </div>
-                </div>
-                <!-- edit form column -->
-                <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
-                  <form  method="POST" action="/superuser/<%=superuser._id%>/assistant" class="form-horizontal" >
-                    <div class="form-group">
-                      <label class="col-lg-3 control-label">First name:</label>
-                      <div class="col-lg-8">
-                        <input class="form-control" placeholder="first name" name="assistant[firstName]" type="text">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-lg-3 control-label">Last name:</label>
-                      <div class="col-lg-8">
-                        <input class="form-control" placeholder="last name" name="assistant[lastName]" type="text">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-lg-3 control-label">Phone:</label>
-                      <div class="col-lg-8">
-                        <input class="form-control" placeholder="phone" name="assistant[phone]" type="text">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-lg-3 control-label">Email:</label>
-                      <div class="col-lg-8">
-                        <input class="form-control" placeholder="email" name="assistant[email]" type="text">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-lg-3 control-label">Provider ID:</label>
-                      <div class="col-lg-8">
-                        <input class="form-control" placeholder="provider id" name="assistant[providerId]" type="text">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-lg-3 control-label">Username:</label>
-                      <div class="col-lg-8">
-                        <input class="form-control" placeholder="username" name="username" type="text">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-lg-3 control-label">Password:</label>
-                      <div class="col-lg-8">
-                        <input class="form-control" placeholder="password" name="password" type="password">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label"></label>
-                      <div class="col-md-8">
-                        <button class="btn btn-primary">Add</button> 
-                        <span></span>
-                        <a href="/superuser/<%=superuser._id%>" class="btn btn-default"> Cancel</a>
-                      </div>
-                    </div>
-                  </form>
-                   
-                </div>
+        <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
+          <!--Form to create an assistant-->
+          <form  method="POST" action="/superuser/<%=superuser._id%>/assistant" class="form-horizontal" >
+            <div class="form-group">
+              <label class="col-lg-3 control-label">First name:</label>
+              <div class="col-lg-8">
+                <input class="form-control" placeholder="first name" name="assistant[firstName]" type="text">
+              </div>
             </div>
-            <!-- /.row -->
+            <div class="form-group">
+              <label class="col-lg-3 control-label">Last name:</label>
+              <div class="col-lg-8">
+                <input class="form-control" placeholder="last name" name="assistant[lastName]" type="text">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-3 control-label">Phone:</label>
+              <div class="col-lg-8">
+                <input class="form-control" placeholder="phone" name="assistant[phone]" type="text">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-3 control-label">Email:</label>
+              <div class="col-lg-8">
+                <input class="form-control" placeholder="email" name="assistant[email]" type="text">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-3 control-label">Provider ID:</label>
+              <div class="col-lg-8">
+                <input class="form-control" placeholder="provider id" name="assisistant[providerId]" type="text">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-3 control-label">Username:</label>
+              <div class="col-lg-8">
+                <input class="form-control" placeholder="username" name="username" type="text">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-3 control-label">Password:</label>
+              <div class="col-lg-8">
+                <input class="form-control" placeholder="password" name="password" type="password">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-3 control-label"></label>
+              <div class="col-md-8">
+                <button class="btn btn-primary">Add</button> 
+                <span></span>
+                <a href="/superuser/<%=superuser._id%>" class="btn btn-default"> Cancel</a>
+              </div>
+            </div>
+          </form>
         </div>
-        <!-- /.container-fluid -->
+      </div>
     </div>
+      <!-- /.row -->
+  </div>
+      <!-- /.container-fluid -->
+</div>
     <!-- /#page-wrapper -->
-</div><!-- /#wrapper -->
-
-
 
 <%include ../partials/footer%>

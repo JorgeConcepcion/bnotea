@@ -15,6 +15,6 @@ var analistSchema=new mongoose.Schema({
                 ref:"Client"
             },
         ]
-})
+});
 
 module.exports=mongoose.model("Analist",analistSchema);

@@ -1,8 +1,11 @@
 
+
+//Show the add behavior fields
 $(".fa-plus-behavior").on("click",function(){
 	$('#behavior-add').fadeToggle();
-})
+});
 
+//Add new behavior to the behavior table
 $('#behavior-add').on("keypress",function(event){
 	if(event.which===13){
 		var index=0;
@@ -17,11 +20,14 @@ $('#behavior-add').on("keypress",function(event){
 		$('#behavior-add').fadeToggle();
 		
 	}
-})
+});
 
+//Show the add replacement fields
 $(".fa-plus-replacement").on("click",function(){
 	$('#replacement-add').fadeToggle();
-})
+});
+
+//Add new replacement to the replacement table
 $('#replacement-add').on("keypress",function(event){
 	if(event.which===13){
 		var index=0;
@@ -29,7 +35,6 @@ $('#replacement-add').on("keypress",function(event){
 		if(element!=undefined){
 			index=Number(element.split("[")[2].split("]")[0])+1;	
 		}
-		
 		console.log(index);
 		$("#replacement-table").append('<tr class="replacement-table-row"></tr>')
 		$("#replacement-table tr:last-child").append('<th scope="row"><input class="table-input" value="'+$(".replacement-name").val()+'"name="client[replacementsBehaviors]['+index+'][name]" type="text"></th>');
@@ -37,11 +42,14 @@ $('#replacement-add').on("keypress",function(event){
 		$('#replacement-add').fadeToggle();
 		
 	}
-})
+});
 
+//Show the add approval fields
 $(".fa-plus-approval").on("click",function(){
 	$('#approval-add').fadeToggle();
-})
+});
+
+//Add new approval to the approval table
 $('#approval-add').on("keypress",function(event){
 	if(event.which===13){
 		var index=0;
@@ -60,15 +68,17 @@ $('#approval-add').on("keypress",function(event){
 		$('#approval-add').fadeToggle();
 		
 	}
-})
+});
 
+//Delete approvals, replacements and behaviors
 $(".trash").on("click",function(event){
 	$(this).parent().parent().fadeOut(500,function(){
 		$(this).remove();
 	});
 	event.stopPropagation();
-})
+});
 
+//Stop the form from submitting by pressing enter
 $(document).on('submit', 'form', function(e) {
     if (e.delegateTarget.activeElement.type!=="submit") {
         e.preventDefault();

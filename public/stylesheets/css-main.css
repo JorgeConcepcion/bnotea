@@ -1,4 +1,4 @@
-@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
+
 @media(min-width:768px) {
     body {
         margin-top: 50px;
@@ -142,25 +142,111 @@
     padding: 5px 15px;
 }
 
+ul {
+  list-style-type: none;
+}
+
 .thumbnail{
     margin:0 auto;
     width:25vw;
     border:0;
     text-align: center;
-}
-ul {
-  list-style-type: none;
+    margin-bottom:30px;
 }
 
 .img-thumbnail{
-    max-width:55%;
+    max-width:50%;
 }
-#welcome{
+
+.welcome{
     color:#2d88bc;
 }
+
+
+/*HERE STARTS THE SPECIFIC PAGES FUNCTIONALITY */
+
+
+
+/*COME BACK ARROW*/
+.fa.fa-arrow-left{
+     font-size:2vw;
+     color:#2d88bc;
+     margin-left:30px;
+}
+
+/*IMAGES IN THE INDEX PAGES, THIS IMAGES GO TO THE SHOW PAGE*/
+.thumbnail a>img{
+    max-width:35%;
+    cursor:pointer;
+}
+
+/*SEARCH FUNCTIONALITY*/
+#searchButton{
+	outline: none;
+	border:0px;
+	background: none;
+	color:#2d88bc;	
+}
+#searchForm{
+	float:right;
+}
+/*END SEARCH FUNCTIONALITY*/
 
 #superuserPhoto{
     max-width:7.5%;
     float:left;
     margin-right:20px;
+}
+/*PHOTO OF THE CLIENT ASSISTANT OR SUPERUSER IN ITS SHOW PAGE*/
+#dashPhoto{
+    max-width:100%;
+}
+
+/*THIS IT TO DISPLAY THE EDIT DELETE DEACTIVATE...BUTTONS ON THE SAME LINE*/
+.clientButton{
+    display:inline;
+}
+
+/*HERE STARTS THE CLIENT EDIT PART*/
+h4 .fa-plus{
+	float: right;
+	color: #2d88bc;
+}
+h4 .fa-plus:hover{
+    cursor:pointer;
+}
+.table-input{
+
+	border: 0px solid rgba(0,0,0, 0);
+}
+.table-input:focus{
+    outline: none;
+}
+#behavior-add,#replacement-add,#approval-add{
+    display:none;
+}
+.fa.fa-trash{
+    float:right;
+}
+td span{
+	display:inline-block;
+	width:50%;
+}
+.trash{
+  	
+	height: 100%;
+	cursor: pointer;
+	text-align: center;
+	transition: 0.2s linear;
+	width:0;
+	opacity:0;
+}
+.table-row:hover .trash{
+	width: 50%;
+	opacity:1;
+}
+
+/*CHANGE THE CURRENT APPROVAL COLOR*/
+.current{
+    color:#00C851;
 }

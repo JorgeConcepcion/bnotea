@@ -1,3 +1,5 @@
+
+//This function controls the behavior of the nav-bar
 $(function(){
     $('[data-toggle="tooltip"]').tooltip();
     $(".side-nav .collapse").on("hide.bs.collapse", function() {                   

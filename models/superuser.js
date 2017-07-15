@@ -29,6 +29,6 @@ var superuserSchema=new mongoose.Schema({
                 ref:"Assistant"
             },
         ],  
-})
+});
 
 module.exports=mongoose.model("Superuser",superuserSchema);
