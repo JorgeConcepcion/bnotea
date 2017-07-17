@@ -7,13 +7,14 @@ var express=require("express"),
     Assistant=require("../models/assistant"),
     Analist=require("../models/analist"),
     //middleware
-    Middleware=require("../middleware");
-
+    Middleware=require("../middleware"),
+    //functions
+    Functions=require("../functions");
 //INDEX ROUTE
 router.get("/",Middleware.isLoggedIn,function(req,res){
     var regex;
     if(req.query.search){
-        regex=new RegExp(escapeRegex(req.query.search),"gi");
+        regex=new RegExp(Functions.escapeRegex(req.query.search),"gi");
         Superuser.findById(req.params.superuserID).populate("clients",null,{firstName:regex}).exec(function(err,superuser){
             if(err){
                 console.log(err);
@@ -164,10 +165,7 @@ router.delete("/:clientID",Middleware.isLoggedIn,function(req,res){
    res.redirect("/superuser/"+req.params.superuserID+"/client");
 });
 
-//HELPER FUNCTION USED TO FILTER THE FUZZY SEARCHS
-function escapeRegex(text){
-    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g,"\\$&");
-}
+
 
 
 module.exports=router;

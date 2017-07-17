@@ -21,11 +21,12 @@ var express =require("express"),
     assistantRoutes=require("./routes/assistant"),
     authenticationRoutes=require("./routes/authentication"),
     analistRoutes=require("./routes/analist"),
-    clientRoutes=require("./routes/client");
- 
+    clientRoutes=require("./routes/client"),
+    //private
+    mongooseConnect=require("./private/mongooseConnect");
     
 //CONNECTING TO MONGO
-mongoose.connect("mongodb://localhost/bnotea");
+mongooseConnect.connect();
 
 
 //APP SETS
@@ -64,6 +65,7 @@ seedDB();
 //STARTING THE SERVER
 app.listen(process.env.PORT,process.env.IP,function(){
     console.log("Server started at "+Date.now());
+    console.log()
 });
 
 

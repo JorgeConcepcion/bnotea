@@ -5,14 +5,16 @@ var express=require("express"),
     Superuser=require("../models/superuser"),
     Assistant=require("../models/assistant"),
     User=require("../models/user"),
+    Client=require("../models/client"),
     //midleware
-    Middleware=require("../middleware");
- 
+    Middleware=require("../middleware"),
+    //functions
+    Functions=require("../functions");
 //INDEX ROUTE  
 router.get("/",Middleware.isLoggedIn,function(req,res){
     var regex;
     if(req.query.search){
-        regex=new RegExp(escapeRegex(req.query.search),"gi");
+        regex=new RegExp(Functions.escapeRegex(req.query.search),"gi");
         Superuser.findById(req.params.superuserID).populate("assistants",null,{firstName:regex}).exec(function(err,superuser){
             if(err){
                 console.log(err);
@@ -83,7 +85,7 @@ router.get("/:assistantID",function(req,res){
                 console.log(err);
             }
             else{
-                Assistant.findById(req.params.assistantID,function(err,assistant){
+                Assistant.findById(req.params.assistantID).populate("clients").exec(function(err,assistant){
                     if(err){
                         console.log(err);
                     }
@@ -100,33 +102,69 @@ router.get("/:assistantID",function(req,res){
 //EDIT ROUTES
 router.get("/:assistantID/edit",Middleware.isLoggedIn,function(req,res){
     Superuser.findById(req.params.superuserID,function(err,superuser){
+        if(err){
+            console.log(err);
+        }
+        else{
+            Assistant.findById(req.params.assistantID).populate("clients").exec(function(err,assistant){
                 if(err){
                     console.log(err);
                 }
                 else{
-                    Assistant.findById(req.params.assistantID,function(err,assistant){
+                    Client.find({'assistant.firstName':""},function(err,clients){
                         if(err){
                             console.log(err);
                         }
                         else{
-                            res.render("assistant/edit",{page:"assistant-edit",superuser:superuser,assistant:assistant});
+                            res.render("assistant/edit",{page:"assistant-edit",superuser:superuser,assistant:assistant,clients:clients});
                         }
                     });
-                }
+                 }
+            });
+        }
     });
 });
 
 //UPDATE ROUTE
 router.put("/:assistantID",Middleware.isLoggedIn,function(req,res){
-    Assistant.findByIdAndUpdate(req.params.assistantID,{$set:req.body.assistant},function(err,assistant){
+    var assistantFirstName;
+    var assistantLastName;
+    var assistantClients;
+    Assistant.findById(req.params.assistantID,function(err,assistant){
         if(err){
             console.log(err);
         }
         else{
-            
-            res.redirect("/superuser/"+req.params.superuserID+"/assistant/"+req.params.assistantID);
+            var assistantFirstName=assistant.firstName; 
+            var assistantLastName=assistant.lastName;
+            var assistantClients=assistant.clients;;
+            assistant.clients.splice();
+            assistant.clients=req.body.assistant.clients;
+            assistant.save(function(err){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    var addedClients=Functions.arraycmp(req.body.assistant.clients,assistantClients,"added");
+                    addedClients.forEach(function(addedClient){
+                        Client.findByIdAndUpdate(addedClient,{$set:{'assistant.firstName':assistantFirstName,'assistant.lastName':assistantLastName}},function(err,client){
+                            if(err){
+                                console.log(err);
+                            }
+                        })
+                    })
+                    var deletedClients=Functions.arraycmp(req.body.assistant.clients,assistantClients,"deleted");
+                    deletedClients.forEach(function(addedClient){
+                        Client.findByIdAndUpdate(addedClient,{$set:{'assistant.firstName':'','assistant.lastName':''}},function(err,client){
+                            if(err){
+                                console.log(err);
+                            }
+                        })
+                    })
+                    res.redirect("/superuser/"+req.params.superuserID+"/assistant/"+req.params.assistantID);
+                }
+            })
         }
-        
     });
 });
 
@@ -158,10 +196,7 @@ router.delete("/:assistantID",Middleware.isLoggedIn,function(req,res){
     });
 });
 
-//HELPER FUNCTION USED TO FILTER THE FUZZY SEARCHS
-function escapeRegex(text){
-    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g,"\\$&");
-}
+
     
     
 module.exports=router;

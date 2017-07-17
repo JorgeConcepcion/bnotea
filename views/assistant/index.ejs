@@ -1,54 +1,30 @@
 <%include ../partials/header%>
 
 
-<div id="page-wrapper">
-    <div class="container-fluid">
-        <!-- Page Heading -->
-        <div class="row" id="main" >
-            <div class="col-sm-12 col-md-12 well" id="content">
-                <img id="superuserPhoto" src="<%=superuser.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
-                <h2 id="welcome">Welcome <%=superuser.firstName%></h2>
-                <h4 id="welcome"><%=superuser.company%></h4>
-                <h5 id="welcome">Assistants</h5>
-                <a href="/superuser/<%=superuser._id%>"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
-                <form id="searchForm" class="form-inline" action="/superuser/<%=superuser._id%>/assistant" method="GET">
-                    <label class="sr-only" for="inlineFormInputGroup">Search</label>
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                    <div class="input-group-addon">
-                        <button id="searchButton" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                    </div>
-                        <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Search" name="search">
-                    </div>
-                </form>
-            </div>
-            <!--Displaying all the analists-->
-            <div class="container" style="padding-top: 60px;">
-                <!--ROW START-->
-                <div class="row">
-                    <%superuser.assistants.forEach(function(assistant){%>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="thumbnail">
-                                <div class="text-center">
-                                    <a id="image" href="/superuser/<%=superuser._id%>/assistant/<%=assistant._id%>"><img src="<%=assistant.photo%>" class="avatar img-circle img-thumbnail" alt="avatar"></a>
-                                    <div class="caption">
-                                        <h3><%=assistant.firstName+" "+assistant.lastName%></h3>
-                                        <p><strong>Phone: </strong><%=assistant.phone%></p>
-                                        <p><strong>Email: </strong><%=assistant.email%></p>
-                                        <p><strong>Provider ID: </strong><%=assistant.providerId%></p>
-                                    </div>
-                                </div>
-                            </div>
+
+<!--Displaying all the analists-->
+<div class="container" style="padding-top: 60px;">
+    <!--ROW START-->
+    <div class="row">
+        <%superuser.assistants.forEach(function(assistant){%>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="thumbnail">
+                    <div class="text-center">
+                        <a id="image" href="/superuser/<%=superuser._id%>/assistant/<%=assistant._id%>"><img src="<%=assistant.photo%>" class="avatar img-circle img-thumbnail" alt="avatar"></a>
+                        <div class="caption">
+                            <h3><%=assistant.firstName+" "+assistant.lastName%></h3>
+                            <p><strong>Phone: </strong><%=assistant.phone%></p>
+                            <p><strong>Email: </strong><%=assistant.email%></p>
+                            <p><strong>Provider ID: </strong><%=assistant.providerId%></p>
                         </div>
-                    <%})%>
+                    </div>
                 </div>
-                <!--ROW FINISH-->
             </div>
-        </div>
-        <!-- /.row -->
+        <%})%>
     </div>
-        <!-- /.container-fluid -->
+    <!--ROW FINISH-->
 </div>
-    <!-- /#page-wrapper -->
+
 
 
 <%include ../partials/footer%>

@@ -1,197 +1,182 @@
 <%include ../partials/header%>
 
-<div id="page-wrapper">
-    <div class="container-fluid">
-        <!-- Page Heading -->
-        <div class="row" id="main" >
-            <div class="col-sm-12 col-md-12 well" id="content">
-                <img id="superuserPhoto" src="<%=superuser.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
-                <h2 id="welcome">Welcome <%=superuser.firstName%></h2>
-                <h4 id="welcome"><%=superuser.company%></h4>
-                <h5 id="welcome">Clients</h5>
-                <a href="/superuser/<%=superuser._id%>/client/<%=client._id%>"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
-            </div>
-            <div class="container-fluid" style="padding-top: 60px;">
-                <div class="row">
-                    <div class="col-md-2 col-sm-2 col-xs-2">
-                        <img id="dashPhoto" src="<%=client.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                        <h2><%=client.firstName+" "+client.lastName%></h2>
-                         <div>
-                            <h6>Upload a different photo...</h6>
-                            <input type="file" class=" well-sm">
-                        </div>
-                    </div>
-                </div>
-                <!--Form to edit a client-->
-                <form  method="POST" action="/superuser/<%=superuser._id%>/client/<%=client._id%>?_method=PUT" class="form-horizontal">
-                    <!--Edit client info-->
-                    <div class="row">
-                        <div class="col-md-3 col-sm-3 col-xs-3">
-                            <h4 class="page-header">Info</h4> 
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 col-sm-6 col-xs-12 ">
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label">First name:</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control" value="<%=client.firstName%>" name="client[firstName]" type="text">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label">Last name:</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control" value="<%=client.lastName%>" name="client[lastName]" type="text">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label">Guardian name:</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control" value="<%=client.guardian%>" name="client[guardian]" type="text">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label">Phone:</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control" value="<%=client.phone%>" name="client[phone]" type="text">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label">Diagnosis:</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control" value="<%=client.diagnosis%>" name="client[diagnosis]" type="text">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label">Medicaid Number:</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control" value="<%=client.medicaidNumber%>" name="client[medicaidNumber]" type="text">
-                                </div>
-                            </div>
-                       </div>
-                   </div>
-                   <!--Edit client maladaptative behaviors-->
-                    <div class="row ">
-                        <div class="col-md-3 col-sm-12 col-xs-12">
-                            <h4 class="page-header">Maladaptative Behaviors <i class="fa fa-plus fa-plus-behavior" aria-hidden="true"></i></h4>
-                        </div>
-                    </div>
-                    <div class="row custom-table">
-                        <div class="col-md-8 col-sm-12 col-xs-12 personal-info">
-                            <div class="col-md-4 col-sm-4 col-xs-4">
-                               <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Behavior</th>
-                                            <th>Baseline</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="behavior-table">
-                                        <tr id="behavior-add">
-                                            <th scope="row"><input class="table-input behavior-name" placeholder="name" type="text"></th>
-                                            <td><input class="table-input behavior-baseline" placeholder="baseline" type="text"</td>
-                                        </tr>
-                                        <%client.maladaptativeBehaviors.forEach(function(maladaptativeBehavior,index){%>
-                                            <tr class="behavior-table-row table-row" >
-                                                <th scope="row"><input class="table-input" value="<%=maladaptativeBehavior.name%>" name="client[maladaptativeBehaviors][<%=index%>][name]" type="text"></th>
-                                                <td><span ><input class="table-input" value="<%=maladaptativeBehavior.baseline%>" name="client[maladaptativeBehaviors][<%=index%>][baseline]" type="text"></span><span class="trash"><i class="fa fa-trash" ></i></span></td>
-                                            </tr>
-                                        <%})%>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <!--Edit client replacements behaviors-->
-                    <div class="row">
-                        <div class="col-md-3 col-sm-12 col-xs-12">
-                            <h4 class="page-header">Replacement Behaviors <i class="fa fa-plus fa-plus-replacement" aria-hidden="true"></i></h4> 
-                        </div>
-                    </div>
-                    <div class="row custom-table">
-                        <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
-                            <div class="col-md-4 col-sm-4 col-xs-4">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                          <th>Replacement</th>
-                                          <th>Baseline (%)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="replacement-table">
-                                        <tr id="replacement-add">
-                                            <th scope="row"><input class="table-input replacement-name" placeholder="name" type="text"></th>
-                                            <td><input class="table-input replacement-baseline" placeholder="baseline" type="text"</td>
-                                        </tr>
-                                        <%client.replacementsBehaviors.forEach(function(replacementBehavior,index){%>
-                                            <tr class="replacement-table-row table-row" >
-                                                <th scope="row"><input class="table-input" value="<%=replacementBehavior.name%>" name="client[replacementsBehaviors][<%=index%>][name]"type="text"></th>
-                                                <td><span ><input class="table-input"value="<%=replacementBehavior.baseline%>" name="client[replacementsBehaviors][<%=index%>][baseline]" type="text"></span><span class="trash"><i class="fa fa-trash" ></i></span></td>
-                                            </tr>
-                                        <%})%>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                     <!--Edit client approvals--> 
-                    <div class="row">
-                        <div class="col-md-3 col-sm-12 col-xs-12">
-                            <h4 class="page-header">Approvals <i class="fa fa-plus fa-plus-approval" aria-hidden="true"></i></h4> 
-                        </div>
-                    </div>
-                    <div class="row custom-table">
-                        <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
-                            <div class="col-md-4 col-sm-4 col-xs-4">
-                               <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Number</th>
-                                            <th>Start Date</th>
-                                            <th>End Date</th>
-                                            <th>Units</th>
-                                            <th>Procedure</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="approval-table">
-                                        <tr id="approval-add">
-                                            <th scope="row"><input class="table-input approval-number" placeholder="number" type="text"></th>
-                                            <td><input class="table-input approval-start" placeholder="start date" type="date"</td>
-                                            <td><input class="table-input approval-end" placeholder="end date" type="date"</td>
-                                            <td><input class="table-input approval-units" placeholder="units" type="text"</td>
-                                            <td><input class="table-input approval-procedure" placeholder="procedure" type="text"</td>
-                                        </tr>
-                                        <%client.approvals.forEach(function(approval,index){%>
-                                            <tr class="approval-table-row table-row" >
-                                                <th scope="row"><input class="table-input" value="<%=approval.number%>" name="client[approvals][<%=index%>][number]"type="text"></th>
-                                                <td><input class="table-input" value="<%=approval.startDate.getFullYear()+"-"+(((approval.startDate.getMonth() + 1)< 10 ? '0' : '') + (approval.startDate.getMonth()+1))+"-"+(((approval.startDate.getDate())< 10 ? '0' : '') + approval.startDate.getDate())%>" name="client[approvals][<%=index%>][startDate]"type="date"></td>
-                                                <td><input class="table-input" value="<%=approval.endDate.getFullYear()+"-"+(((approval.endDate.getMonth() + 1)< 10 ? '0' : '') + (approval.endDate.getMonth()+1))+"-"+(((approval.endDate.getDate())< 10 ? '0' : '') + approval.endDate.getDate())%>" name="client[approvals][<%=index%>][endDate]"type="date"></td>
-                                                <td><input class="table-input" value="<%=approval.units%>" name="client[approvals][<%=index%>][units]"type="text"></td>
-                                                <td><span ><input class="table-input"value="<%=approval.procedure%>" name="client[approvals][<%=index%>][procedure]" type="text"></span><span class="trash"><i class="fa fa-trash" ></i></span></td>
-                                                <td style="display:none"><input class="table-input" value="<%=approval.availableUnits%>" name="client[approvals][<%=index%>][availableUnits]"type="text"></td>
-                                            </tr>
-                                        <%})%>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 col-sm-6 col-xs-6">
-                            <input class="btn btn-success" type="submit" value="Save">
-                            <a class="btn btn-danger"href="/superuser/<%=superuser._id%>/client/<%=client._id%>">Cancel</a>
-                        </div>
-                    </div>
-                </form>
+
+<div class="container-fluid" style="padding-top: 60px;">
+    <div class="row">
+        <div class="col-md-2 col-sm-2 col-xs-2">
+            <img id="dashPhoto" src="<%=client.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-6">
+            <h2><%=client.firstName+" "+client.lastName%></h2>
+             <div>
+                <h6>Upload a different photo...</h6>
+                <input type="file" class=" well-sm">
             </div>
         </div>
-      <!-- /.row -->   
     </div>
-    <!-- /.container-fluid -->
+    <!--Form to edit a client-->
+    <form  method="POST" action="/superuser/<%=superuser._id%>/client/<%=client._id%>?_method=PUT" class="form-horizontal">
+        <!--Edit client info-->
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-xs-3">
+                <h4 class="page-header">Info</h4> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12 ">
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">First name:</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" value="<%=client.firstName%>" name="client[firstName]" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Last name:</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" value="<%=client.lastName%>" name="client[lastName]" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Guardian name:</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" value="<%=client.guardian%>" name="client[guardian]" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Phone:</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" value="<%=client.phone%>" name="client[phone]" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Diagnosis:</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" value="<%=client.diagnosis%>" name="client[diagnosis]" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Medicaid Number:</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" value="<%=client.medicaidNumber%>" name="client[medicaidNumber]" type="text">
+                    </div>
+                </div>
+           </div>
+       </div>
+       <!--Edit client maladaptative behaviors-->
+        <div class="row ">
+            <div class="col-md-3 col-sm-12 col-xs-12">
+                <h4 class="page-header">Maladaptative Behaviors <i class="fa fa-plus fa-plus-behavior" aria-hidden="true"></i></h4>
+            </div>
+        </div>
+        <div class="row custom-table">
+            <div class="col-md-8 col-sm-12 col-xs-12 personal-info">
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                   <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Behavior</th>
+                                <th>Baseline</th>
+                            </tr>
+                        </thead>
+                        <tbody id="behavior-table">
+                            <tr id="behavior-add">
+                                <th scope="row"><input class="table-input behavior-name" placeholder="name" type="text"></th>
+                                <td><input class="table-input behavior-baseline" placeholder="baseline" type="text"</td>
+                            </tr>
+                            <%client.maladaptativeBehaviors.forEach(function(maladaptativeBehavior,index){%>
+                                <tr class="behavior-table-row table-row" >
+                                    <th scope="row"><input class="table-input" value="<%=maladaptativeBehavior.name%>" name="client[maladaptativeBehaviors][<%=index%>][name]" type="text"></th>
+                                    <td><span ><input class="table-input" value="<%=maladaptativeBehavior.baseline%>" name="client[maladaptativeBehaviors][<%=index%>][baseline]" type="text"></span><span class="trash"><i class="fa fa-trash" ></i></span></td>
+                                </tr>
+                            <%})%>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--Edit client replacements behaviors-->
+        <div class="row">
+            <div class="col-md-3 col-sm-12 col-xs-12">
+                <h4 class="page-header">Replacement Behaviors <i class="fa fa-plus fa-plus-replacement" aria-hidden="true"></i></h4> 
+            </div>
+        </div>
+        <div class="row custom-table">
+            <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                              <th>Replacement</th>
+                              <th>Baseline (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="replacement-table">
+                            <tr id="replacement-add">
+                                <th scope="row"><input class="table-input replacement-name" placeholder="name" type="text"></th>
+                                <td><input class="table-input replacement-baseline" placeholder="baseline" type="text"</td>
+                            </tr>
+                            <%client.replacementsBehaviors.forEach(function(replacementBehavior,index){%>
+                                <tr class="replacement-table-row table-row" >
+                                    <th scope="row"><input class="table-input" value="<%=replacementBehavior.name%>" name="client[replacementsBehaviors][<%=index%>][name]"type="text"></th>
+                                    <td><span ><input class="table-input"value="<%=replacementBehavior.baseline%>" name="client[replacementsBehaviors][<%=index%>][baseline]" type="text"></span><span class="trash"><i class="fa fa-trash" ></i></span></td>
+                                </tr>
+                            <%})%>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+         <!--Edit client approvals--> 
+        <div class="row">
+            <div class="col-md-3 col-sm-12 col-xs-12">
+                <h4 class="page-header">Approvals <i class="fa fa-plus fa-plus-approval" aria-hidden="true"></i></h4> 
+            </div>
+        </div>
+        <div class="row custom-table">
+            <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                   <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Number</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Units</th>
+                                <th>Procedure</th>
+                            </tr>
+                        </thead>
+                        <tbody id="approval-table">
+                            <tr id="approval-add">
+                                <th scope="row"><input class="table-input approval-number" placeholder="number" type="text"></th>
+                                <td><input class="table-input approval-start" placeholder="start date" type="date"</td>
+                                <td><input class="table-input approval-end" placeholder="end date" type="date"</td>
+                                <td><input class="table-input approval-units" placeholder="units" type="text"</td>
+                                <td><input class="table-input approval-procedure" placeholder="procedure" type="text"</td>
+                            </tr>
+                            <%client.approvals.forEach(function(approval,index){%>
+                                <tr class="approval-table-row table-row" >
+                                    <th scope="row"><input class="table-input" value="<%=approval.number%>" name="client[approvals][<%=index%>][number]"type="text"></th>
+                                    <td><input class="table-input" value="<%=approval.startDate.getFullYear()+"-"+(((approval.startDate.getMonth() + 1)< 10 ? '0' : '') + (approval.startDate.getMonth()+1))+"-"+(((approval.startDate.getDate())< 10 ? '0' : '') + approval.startDate.getDate())%>" name="client[approvals][<%=index%>][startDate]"type="date"></td>
+                                    <td><input class="table-input" value="<%=approval.endDate.getFullYear()+"-"+(((approval.endDate.getMonth() + 1)< 10 ? '0' : '') + (approval.endDate.getMonth()+1))+"-"+(((approval.endDate.getDate())< 10 ? '0' : '') + approval.endDate.getDate())%>" name="client[approvals][<%=index%>][endDate]"type="date"></td>
+                                    <td><input class="table-input" value="<%=approval.units%>" name="client[approvals][<%=index%>][units]"type="text"></td>
+                                    <td><span ><input class="table-input"value="<%=approval.procedure%>" name="client[approvals][<%=index%>][procedure]" type="text"></span><span class="trash"><i class="fa fa-trash" ></i></span></td>
+                                    <td style="display:none"><input class="table-input" value="<%=approval.availableUnits%>" name="client[approvals][<%=index%>][availableUnits]"type="text"></td>
+                                </tr>
+                            <%})%>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <input class="btn btn-success" type="submit" value="Save">
+                <a class="btn btn-danger"href="/superuser/<%=superuser._id%>/client/<%=client._id%>">Cancel</a>
+            </div>
+        </div>
+    </form>
 </div>
-    <!-- /#page-wrapper -->
+ 
 
 
 <%include ../partials/footer%>

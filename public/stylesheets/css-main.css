@@ -161,7 +161,9 @@ ul {
 .welcome{
     color:#2d88bc;
 }
-
+h5.welcome{
+    text-transform:capitalize;
+}
 
 /*HERE STARTS THE SPECIFIC PAGES FUNCTIONALITY */
 
@@ -171,7 +173,6 @@ ul {
 .fa.fa-arrow-left{
      font-size:2vw;
      color:#2d88bc;
-     margin-left:30px;
 }
 
 /*IMAGES IN THE INDEX PAGES, THIS IMAGES GO TO THE SHOW PAGE*/
@@ -190,13 +191,8 @@ ul {
 #searchForm{
 	float:right;
 }
-/*END SEARCH FUNCTIONALITY*/
 
-#superuserPhoto{
-    max-width:7.5%;
-    float:left;
-    margin-right:20px;
-}
+
 /*PHOTO OF THE CLIENT ASSISTANT OR SUPERUSER IN ITS SHOW PAGE*/
 #dashPhoto{
     max-width:100%;
@@ -249,4 +245,22 @@ td span{
 /*CHANGE THE CURRENT APPROVAL COLOR*/
 .current{
     color:#00C851;
+}
+.client-show.img-thumbnail {
+    max-width:35%;
+    cursor:pointer;
+   
+}
+.client-show-all{
+     padding-top:30px;
+}
+/*ADD CLIENTS TO ASSISTANTS AND ANALIST*/
+#add-client-dropdown{
+    border-style:none;
+    background-color:white;
+}
+.dropdown-menu li:hover{
+    cursor:pointer;
+    background-color:#2d88bc;
+    color:white;
 }

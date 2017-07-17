@@ -77,4 +77,27 @@
             </div>
             <!-- /.navbar-collapse -->
         </nav>
+        <div id="page-wrapper">
+            <div class="container-fluid">
+            <!-- Page Heading -->
+                <div class="row" id="main" >
+                    <%if(page!="superuser-show"){%>
+                        <div class="col-sm-12 col-md-12 well" id="content">
+                            <h2 class="welcome">Welcome <%=superuser.firstName%></h2>
+                            <h4 class="welcome"><%=superuser.company%></h4>
+                            <h5 class="welcome"><%=page.split("-")[0]%>s</h5>
+                            <a href="javascript:history.go(-1)"<i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+                            <%if(page.indexOf("index") > -1){%>
+                                <form id="searchForm" class="form-inline" action="/superuser/<%=superuser._id%>/<%=page.split("-")[0]%>" method="GET">
+                                    <label class="sr-only" for="inlineFormInputGroup">Search</label>
+                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                        <div class="input-group-addon">
+                                            <button id="searchButton" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                        </div>
+                                        <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Search" name="search">
+                                    </div>
+                                </form>
+                            <%}%>
+                        </div>
+                    <%}%>
    <%}%>

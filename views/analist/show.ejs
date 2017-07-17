@@ -1,67 +1,84 @@
 <%include ../partials/header%>
 
-<div id="page-wrapper">
-    <div class="container-fluid">
-    <!-- Page Heading -->
-        <div class="row" id="main" >
-            <div class="col-sm-12 col-md-12 well" id="content">
-                <img id="superuserPhoto" src="<%=superuser.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
-                <h2 id="welcome">Welcome <%=superuser.firstName%></h2>
-                <h4 id="welcome"><%=superuser.company%></h4>
-                <h5 id="welcome">Analists</h5>
-                <a href="/superuser/<%=superuser._id%>/analist/"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
-            </div>
-            <div class="container-fluid" style="padding-top: 60px;">
-                <!--Displaying analist, including delete deactivate and edit buttons-->
-                <div class="row">
-                    <div class="col-md-2 col-sm-2 col-xs-2">
-                        <img id="dashPhoto" src="<%=analist.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                        <h2><%=analist.firstName+" "+analist.lastName%></h2>
-                        <a class="btn btn-success"href="/superuser/<%=superuser._id%>/analist/<%=analist._id%>/edit">Edit</a>
-                        <form class="clientButton" method="post" action="/superuser/<%=superuser._id%>/analist/<%=analist._id%>?_method=DELETE">
-                            <input style="display:none" type="text" value="deactivate" name="deleteFlag">
-                            <button class="btn btn-warning ">Deactivate</button>
-                        </form>
-                        <form class="clientButton" method="post" action="/superuser/<%=superuser._id%>/analist/<%=analist._id%>?_method=DELETE">
-                            <button class="btn btn-danger ">Delete</button>
-                        </form>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 col-sm-12 col-xs-12">
-                        <h4 class="page-header">Info</h4> 
-                    </div>
-                </div>
-                <!--Showing analist attributes on a table-->
-                <div class="row custom-table">
-                    <div class="col-md-4 col-sm-12 col-xs-12">
-                        <table class="table table-bordered">
-                            <tbody>
-                                <tr>
-                                    <th scope="row"> Phone</th>
-                                    <td><%=analist.phone%></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"> Email</th>
-                                    <td><%=analist.email%></td>
-                                </tr>
-                                 <tr>
-                                    <th scope="row"> Provider ID</th>
-                                    <td><%=analist.providerId%></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>       
-            <!-- /.row -->
+
+<div class="container-fluid" style="padding-top: 60px;">
+    <!--Displaying analist, including delete deactivate and edit buttons-->
+    <div class="row">
+        <div class="col-md-2 col-sm-2 col-xs-2">
+            <img id="dashPhoto" src="<%=analist.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-6">
+            <h2><%=analist.firstName+" "+analist.lastName%></h2>
+            <a class="btn btn-success"href="/superuser/<%=superuser._id%>/analist/<%=analist._id%>/edit">Edit</a>
+            <form class="clientButton" method="post" action="/superuser/<%=superuser._id%>/analist/<%=analist._id%>?_method=DELETE">
+                <input style="display:none" type="text" value="deactivate" name="deleteFlag">
+                <button class="btn btn-warning ">Deactivate</button>
+            </form>
+            <form class="clientButton" method="post" action="/superuser/<%=superuser._id%>/analist/<%=analist._id%>?_method=DELETE">
+                <button class="btn btn-danger ">Delete</button>
+            </form>
+        </div>
     </div>
-        <!-- /.container-fluid -->
+    <div class="row">
+        <div class="col-md-3 col-sm-12 col-xs-12">
+            <h4 class="page-header">Info</h4> 
+        </div>
+    </div>
+    <!--Showing analist attributes on a table-->
+    <div class="row custom-table">
+        <div class="col-md-4 col-sm-12 col-xs-12">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th scope="row"> Phone</th>
+                        <td><%=analist.phone%></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"> Email</th>
+                        <td><%=analist.email%></td>
+                    </tr>
+                     <tr>
+                        <th scope="row"> Provider ID</th>
+                        <td><%=analist.providerId%></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--Displaying all the assistant clients-->
+    <div class="row">
+        <div class="col-md-3 col-sm-12 col-xs-12">
+            <h4 class="page-header">Clients</h4> 
+        </div>
+    </div>
+    <div class="row custom-table">
+        <div class="col-md-8 col-sm-8 col-xs-8">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Legal Guardian</th>
+                        <th>Phone</th>
+                        <th>Diagnosis</th>
+                        <th>Medicaid Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%analist.clients.forEach(function(client){%>
+                            <tr>
+                                <td><%=client.firstName+" "+client.lastName%></td>
+                                <td><%=client.guardian%></td>
+                                <td><%=client.phone%></td>
+                                <td><%=client.diagnosis%></td>
+                                <td><%=client.medicaidNumber%></td>
+                            </tr>
+                    <%})%>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-    <!-- /#page-wrapper -->
+  
 
 
 
