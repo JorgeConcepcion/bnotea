@@ -46,6 +46,19 @@ functionObj.arraycmp=function(modified,original,action){
             isThere=false;
         })
     }
+    else if(action=="unchanged"){
+         originalVar.forEach(function(elementOriginal){
+            modifiedVar.forEach(function(elementModified){
+                if(elementModified==elementOriginal){
+                    isThere=true;
+                }
+            })
+            if(isThere){
+                returnedElements.push(elementOriginal);
+            }
+            isThere=false;
+        })
+    }
     return returnedElements;
 }
 

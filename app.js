@@ -48,6 +48,8 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+//custom midleware
+app.use(Middleware.fixInputFormat);
 //routes
 app.use("/superuser",superuserRoutes);
 app.use(indexRoutes);
@@ -55,9 +57,8 @@ app.use(authenticationRoutes);
 app.use("/superuser/:superuserID/assistant",assistantRoutes);
 app.use("/superuser/:superuserID/analist",analistRoutes);
 app.use("/superuser/:superuserID/client",clientRoutes);
-//midleware
-app.use(Middleware.passCurrentUser);
 
+app.use(Middleware.passCurrentUser);
 
 //SEEDING THE DATABASE
 seedDB();

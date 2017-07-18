@@ -25,4 +25,30 @@ midlewareObj.isLoggedInLandingPage=function(req,res,next){
     next();
 };
 
+midlewareObj.fixInputFormat=function(req,res,next){
+    if(req.body.hasOwnProperty("analist")){
+        if(!req.body.analist.hasOwnProperty("clients")){
+        req.body.analist.clients=[];
+        } 
+    }
+    if(req.body.hasOwnProperty("assistant")){
+        if(!req.body.assistant.hasOwnProperty("clients")){
+        req.body.assistant.clients=[];
+        }
+    }
+    if(req.body.hasOwnProperty("client")){
+        if(!req.body.client.hasOwnProperty("maladaptativeBehaviors")){
+        req.body.client.maladaptativeBehaviors=[];
+        }
+        if(!req.body.client.hasOwnProperty("replacementsBehaviors")){
+        req.body.client.replacementsBehaviors=[];
+        }
+        if(!req.body.client.hasOwnProperty("approvals")){
+        req.body.client.approvals=[];
+        }
+    }
+    
+    next();
+}
+
 module.exports=midlewareObj;

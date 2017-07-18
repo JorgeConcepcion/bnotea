@@ -111,7 +111,7 @@ router.get("/:assistantID/edit",Middleware.isLoggedIn,function(req,res){
                     console.log(err);
                 }
                 else{
-                    Client.find({'assistant.firstName':""},function(err,clients){
+                    Client.find({'assistant.firstName':"",deactivationSuperuser:{ $exists:false}},function(err,clients){
                         if(err){
                             console.log(err);
                         }
@@ -137,10 +137,9 @@ router.put("/:assistantID",Middleware.isLoggedIn,function(req,res){
         else{
             var assistantFirstName=assistant.firstName; 
             var assistantLastName=assistant.lastName;
-            var assistantClients=assistant.clients;;
-            assistant.clients.splice();
-            assistant.clients=req.body.assistant.clients;
-            assistant.save(function(err){
+            var assistantClients=assistant.clients;
+            assistant.clients=[];
+            Assistant.findByIdAndUpdate(req.params.assistantID,req.body.assistant,function(err){
                 if(err){
                     console.log(err);
                 }
@@ -154,18 +153,29 @@ router.put("/:assistantID",Middleware.isLoggedIn,function(req,res){
                         })
                     })
                     var deletedClients=Functions.arraycmp(req.body.assistant.clients,assistantClients,"deleted");
-                    deletedClients.forEach(function(addedClient){
-                        Client.findByIdAndUpdate(addedClient,{$set:{'assistant.firstName':'','assistant.lastName':''}},function(err,client){
+                    deletedClients.forEach(function(deletedClient){
+                        Client.findByIdAndUpdate(deletedClient,{$set:{'assistant.firstName':'','assistant.lastName':''}},function(err,client){
                             if(err){
                                 console.log(err);
                             }
                         })
                     })
+                    var unchangedClients=Functions.arraycmp(req.body.assistant.clients,assistantClients,"unchanged");
+                    unchangedClients.forEach(function(unchangedClient){
+                        Client.findByIdAndUpdate(unchangedClient,{$set:{'assistant.firstName':req.body.assistant.firstName,'assistant.lastName':req.body.assistant.lastName}},function(err,client){
+                            if(err){
+                                console.log(err);
+                            }
+                        })
+                    })
+                }
+            })
+                   
                     res.redirect("/superuser/"+req.params.superuserID+"/assistant/"+req.params.assistantID);
                 }
             })
-        }
-    });
+        
+    
 });
 
 
@@ -175,25 +185,38 @@ router.delete("/:assistantID",Middleware.isLoggedIn,function(req,res){
         if(err){
             console.log(err);
         }
+    });
+    Assistant.findById(req.params.assistantID,function(err,assistant){
+        if(err){
+            console.log(err);
+        }
         else{
+            assistant.clients.forEach(function(client){
+                Client.findByIdAndUpdate(client,{$set:{'assistant.firstName':'','assistant.lastName':''}},function(err){
+                    if(err){
+                        console.log(err);
+                    }
+                });
+            });
             if(req.body.deleteFlag!="deactivate"){
-               Assistant.findByIdAndRemove(req.params.assistantID,function(err){
+                Assistant.findByIdAndRemove(req.params.assistantID,function(err){
                     if(err){
                         console.log(err);
                     }
                 }); 
             }
             else{
-                 Assistant.findByIdAndUpdate(req.params.assistantID,{$set:{deactivationSuperuser:req.params.superuserID}},function(err,assistant){
+                Assistant.findByIdAndUpdate(req.params.assistantID,{$set:{deactivationSuperuser:req.params.superuserID,clients:[]}},function(err){
                     if(err){
                         console.log(err);
                     }
-                
                 }); 
             }
-        res.redirect("/superuser/"+req.params.superuserID+"/assistant");
+            
         }
     });
+    
+        res.redirect("/superuser/"+req.params.superuserID+"/assistant");
 });
 
 

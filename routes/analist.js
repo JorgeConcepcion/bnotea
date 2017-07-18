@@ -110,7 +110,7 @@ router.get("/:analistID/edit",Middleware.isLoggedIn,function(req,res){
                             console.log(err);
                         }
                         else{
-                            Client.find({'analist.firstName':""},function(err,clients){
+                            Client.find({'analist.firstName':"",deactivationSuperuser:{ $exists:false}},function(err,clients){
                                 if(err){
                                     console.log(err);
                                 }
@@ -136,10 +136,8 @@ router.put("/:analistID",Middleware.isLoggedIn,function(req,res){
         else{
             var analistFirstName=analist.firstName; 
             var analistLastName=analist.lastName;
-            var analistClients=analist.clients;;
-            analist.clients.splice();
-            analist.clients=req.body.analist.clients;
-            analist.save(function(err){
+            var analistClients=analist.clients;
+            Analist.findByIdAndUpdate(req.params.analistID,{$set:req.body.analist},function(err){
                 if(err){
                     console.log(err);
                 }
@@ -153,52 +151,74 @@ router.put("/:analistID",Middleware.isLoggedIn,function(req,res){
                         })
                     })
                     var deletedClients=Functions.arraycmp(req.body.analist.clients,analistClients,"deleted");
-                    deletedClients.forEach(function(addedClient){
-                        Client.findByIdAndUpdate(addedClient,{$set:{'analist.firstName':'','analist.lastName':''}},function(err,client){
+                    deletedClients.forEach(function(deletedClient){
+                        Client.findByIdAndUpdate(deletedClient,{$set:{'analist.firstName':'','analist.lastName':''}},function(err,client){
                             if(err){
                                 console.log(err);
                             }
                         })
                     })
+                    var unchangedClients=Functions.arraycmp(req.body.analist.clients,analistClients,"unchanged");
+                    unchangedClients.forEach(function(unchangedClient){
+                        Client.findByIdAndUpdate(unchangedClient,{$set:{'analist.firstName':req.body.analist.firstName,'analist.lastName':req.body.analist.lastName}},function(err,client){
+                            if(err){
+                                console.log(err);
+                            }
+                        })
+                    })
+                    
+                }
+            })
                     res.redirect("/superuser/"+req.params.superuserID+"/analist/"+req.params.analistID);
                 }
                     
                 
             })
             
-        }
         
-    });
+        
+    
     
 });
 
 //DELETE ROUTE
 router.delete("/:analistID",Middleware.isLoggedIn,function(req,res){
-    
-    Superuser.findByIdAndUpdate(req.params.superuserID,{$pull:{analists:req.params.analistID}},function(err,superuser){
+     Superuser.findByIdAndUpdate(req.params.superuserID,{$pull:{analists:req.params.analistID}},function(err,superuser){
+        if(err){
+            console.log(err);
+        }
+    });
+    Analist.findById(req.params.analistID,function(err,analist){
         if(err){
             console.log(err);
         }
         else{
-            if(req.body.deleteFlag!="deactivate"){
-               Analist.findByIdAndRemove(req.params.analistID,function(err){
+            analist.clients.forEach(function(client){
+                Client.findByIdAndUpdate(client,{$set:{'analist.firstName':'','analist.lastName':''}},function(err){
                     if(err){
                         console.log(err);
                     }
-                
                 });
-            }
-            else{
-                 Analist.findByIdAndUpdate(req.params.analistID,{$set:{deactivationSuperuser:req.params.superuserID}},function(err,analist){
+            });
+            if(req.body.deleteFlag!="deactivate"){
+                Analist.findByIdAndRemove(req.params.analistID,function(err){
                     if(err){
                         console.log(err);
                     }
-                
                 }); 
             }
-        res.redirect("/superuser/"+req.params.superuserID+"/analist");
+            else{
+                Analist.findByIdAndUpdate(req.params.analistID,{$set:{deactivationSuperuser:req.params.superuserID,clients:[]}},function(err){
+                    if(err){
+                        console.log(err);
+                    }
+                }); 
+            }
+            
         }
     });
+    
+        res.redirect("/superuser/"+req.params.superuserID+"/analist");
 });
 
 
