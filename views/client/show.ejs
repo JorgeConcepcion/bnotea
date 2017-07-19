@@ -9,14 +9,16 @@
         </div>
         <div class="col-md-6 col-sm-6 col-xs-6">
             <h2><%=client.firstName+" "+client.lastName%></h2>
-            <a class="btn btn-success"href="/superuser/<%=superuser._id%>/client/<%=client._id%>/edit">Edit</a>
-            <form class="clientButton" method="post" action="/superuser/<%=superuser._id%>/client/<%=client._id%>?_method=DELETE">
+            <%if(currentUser.type=="superuser"){%>
+            <a class="btn btn-success"href="/superuser/<%=superuserID%>/client/<%=client._id%>/edit">Edit</a>
+            <form class="clientButton" method="post" action="/superuser/<%=superuserID%>/client/<%=client._id%>?_method=DELETE">
                 <input style="display:none" type="text" value="deactivate" name="deleteFlag">
                 <button class="btn btn-warning ">Deactivate</button>
             </form>
-            <form class="clientButton" method="post" action="/superuser/<%=superuser._id%>/client/<%=client._id%>?_method=DELETE">
+            <form class="clientButton" method="post" action="/superuser/<%=superuserID%>/client/<%=client._id%>?_method=DELETE">
                 <button class="btn btn-danger ">Delete</button>
             </form>
+            <%}%>
         </div>
     </div>
     <div class="row">

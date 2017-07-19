@@ -11,64 +11,64 @@ var express=require("express"),
     //functions
     Functions=require("../functions");
 //INDEX ROUTE  
-router.get("/",Middleware.isLoggedIn,function(req,res){
+router.get("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
     var regex;
     if(req.query.search){
         regex=new RegExp(Functions.escapeRegex(req.query.search),"gi");
-        Superuser.findById(req.params.superuserID).populate("assistants",null,{firstName:regex}).exec(function(err,superuser){
+        Superuser.findById(req.user.userRef).populate("assistants",null,{firstName:regex}).exec(function(err,superuser){
             if(err){
                 console.log(err);
             }
             else{
-                res.render("assistant/index",{page:"assistant-index",superuser:superuser});
+                res.render("assistant/index",{page:"assistant-index",assistants:superuser.assistants,superuserID:req.user.userRef});
             }
         });
     }
     else{
-        Superuser.findById(req.params.superuserID).populate("assistants").exec(function(err,superuser){
+        Superuser.findById(req.user.userRef).populate("assistants").exec(function(err,superuser){
             if(err){
                 console.log(err);
             }
             else{
-                res.render("assistant/index",{page:"assistant-index",superuser:superuser});
+                res.render("assistant/index",{page:"assistant-index",assistants:superuser.assistants,superuserID:req.user.userRef});
             }
         });
     }    
 });
 
 //NEW ROUTE
-router.get("/new",Middleware.isLoggedIn,function(req,res){
-    Superuser.findById(req.params.superuserID,function(err,superuser){
+router.get("/new",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
+    Superuser.findById(req.user.userRef,function(err,superuser){
             if(err){
                 console.log(err);
             }
             else{
-                res.render("assistant/new",{page:"assistant-new",superuser:superuser});
+                res.render("assistant/new",{page:"assistant-new",superuserID:req.user.userRef});
             }
         });
 });
 
 //CREATE ROUTE
-router.post("/",Middleware.isLoggedIn,function(req,res){
+router.post("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
     req.body.assistant.photo="/resources/Person-placeholder.jpg";
     Assistant.create(req.body.assistant,function(err,assistant){
         if(err){
             console.log(err);
         }
         else{
-             Superuser.findById(req.params.superuserID,function(err,superuser){
+             Superuser.findById(req.user.userRef,function(err,superuser){
                 if(err){
                     console.log(err);
                 }
                 else{
                     superuser.assistants.push(assistant);
                     superuser.save();
-                    User.register(new User({username:req.body.username,type:"assistant",userRef:assistant._id}),req.body.password,function(err,user){
+                    User.register(new User({username:req.body.username,type:"assistant",company:superuser.company,userRef:assistant._id}),req.body.password,function(err,user){
                        if(err){
                            console.log(err);
                        }
                        else{
-                           res.redirect("/superuser/"+superuser._id+"/assistant");
+                           res.redirect("/superuser/"+req.user.userRef+"/assistant");
                        }
                        
                     });
@@ -79,7 +79,7 @@ router.post("/",Middleware.isLoggedIn,function(req,res){
 });
 
 //SHOW ROUTE
-router.get("/:assistantID",function(req,res){
+router.get("/:assistantID",Middleware.isLoggedIn,Middleware.isAssistantSuperuser,Middleware.isAuthorizedSuperuser,Middleware.isAuthorizedAssistant,function(req,res){
          Superuser.findById(req.params.superuserID,function(err,superuser){
             if(err){
                 console.log(err);
@@ -90,7 +90,7 @@ router.get("/:assistantID",function(req,res){
                         console.log(err);
                     }
                     else{
-                         res.render("assistant/show",{page:"assistant-show",superuser:superuser,assistant:assistant});
+                         res.render("assistant/show",{page:"assistant-show",superuserID:req.params.superuserID,assistant:assistant});
                     }
                 });
                
@@ -100,7 +100,7 @@ router.get("/:assistantID",function(req,res){
 
 
 //EDIT ROUTES
-router.get("/:assistantID/edit",Middleware.isLoggedIn,function(req,res){
+router.get("/:assistantID/edit",Middleware.isLoggedIn,Middleware.isAssistantSuperuser,Middleware.isAuthorizedSuperuser,Middleware.isAuthorizedAssistant,function(req,res){
     Superuser.findById(req.params.superuserID,function(err,superuser){
         if(err){
             console.log(err);
@@ -116,7 +116,7 @@ router.get("/:assistantID/edit",Middleware.isLoggedIn,function(req,res){
                             console.log(err);
                         }
                         else{
-                            res.render("assistant/edit",{page:"assistant-edit",superuser:superuser,assistant:assistant,clients:clients});
+                            res.render("assistant/edit",{page:"assistant-edit",superuserID:req.params.superuserID,assistant:assistant,clients:clients});
                         }
                     });
                  }
@@ -126,7 +126,7 @@ router.get("/:assistantID/edit",Middleware.isLoggedIn,function(req,res){
 });
 
 //UPDATE ROUTE
-router.put("/:assistantID",Middleware.isLoggedIn,function(req,res){
+router.put("/:assistantID",Middleware.isLoggedIn,Middleware.isAssistantSuperuser,Middleware.isAuthorizedSuperuser,Middleware.isAuthorizedAssistant,function(req,res){
     var assistantFirstName;
     var assistantLastName;
     var assistantClients;
@@ -181,11 +181,16 @@ router.put("/:assistantID",Middleware.isLoggedIn,function(req,res){
 
 //DELETE ROUTE
 router.delete("/:assistantID",Middleware.isLoggedIn,function(req,res){
-    Superuser.findByIdAndUpdate(req.params.superuserID,{$pull:{assistants:req.params.assistantID}},function(err,superuser){
+    Superuser.findByIdAndUpdate(req.user.userRef,{$pull:{assistants:req.params.assistantID}},function(err,superuser){
         if(err){
             console.log(err);
         }
     });
+    User.findOneAndRemove({userRef:req.params.assistantID},function(err){
+        if(err){
+            console.log(err);
+        }
+    })
     Assistant.findById(req.params.assistantID,function(err,assistant){
         if(err){
             console.log(err);
@@ -206,7 +211,7 @@ router.delete("/:assistantID",Middleware.isLoggedIn,function(req,res){
                 }); 
             }
             else{
-                Assistant.findByIdAndUpdate(req.params.assistantID,{$set:{deactivationSuperuser:req.params.superuserID,clients:[]}},function(err){
+                Assistant.findByIdAndUpdate(req.params.assistantID,{$set:{deactivationSuperuser:req.user.userRef,clients:[]}},function(err){
                     if(err){
                         console.log(err);
                     }
@@ -216,7 +221,7 @@ router.delete("/:assistantID",Middleware.isLoggedIn,function(req,res){
         }
     });
     
-        res.redirect("/superuser/"+req.params.superuserID+"/assistant");
+        res.redirect("/superuser/"+req.user.userRef+"/assistant");
 });
 
 

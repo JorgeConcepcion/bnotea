@@ -10,65 +10,60 @@ var express=require("express"),
     Middleware=require("../middleware"),
     //functions
     Functions=require("../functions");
+
 //INDEX ROUTE 
-router.get("/",Middleware.isLoggedIn,function(req,res){
+router.get("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
     var regex;
     if(req.query.search){
         regex=new RegExp(Functions.escapeRegex(req.query.search),"gi");
-        Superuser.findById(req.params.superuserID).populate("analists",null,{firstName:regex}).exec(function(err,superuser){
+        Superuser.findById(req.user.userRef).populate("analists",null,{firstName:regex}).exec(function(err,superuser){
             if(err){
                 console.log(err);
             }
             else{
-                res.render("analist/index",{page:"analist-index",superuser:superuser});
+                res.render("analist/index",{page:"analist-index",analists:superuser.analists,superuserID:req.user.userRef});
             }
         });
     }
     else{
-        Superuser.findById(req.params.superuserID).populate("analists").exec(function(err,superuser){
+        Superuser.findById(req.user.userRef).populate("analists").exec(function(err,superuser){
             if(err){
                 console.log(err);
             }
             else{
-                res.render("analist/index",{page:"analist-index",superuser:superuser});
+                res.render("analist/index",{page:"analist-index",analists:superuser.analists,superuserID:req.user.userRef});
             }
         });
     }    
 });
 
 //NEW ROUTE
-router.get("/new",Middleware.isLoggedIn,function(req,res){
-    Superuser.findById(req.params.superuserID,function(err,superuser){
-            if(err){
-                console.log(err);
-            }
-            else{
-                res.render("analist/new",{page:"analist-new",superuser:superuser});
-            }
-        });
+router.get("/new",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
+  
+    res.render("analist/new",{page:"analist-new",superuserID:req.user.userRef});
 });
 
 //CREATE ROUTE
-router.post("/",Middleware.isLoggedIn,function(req,res){
+router.post("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
     req.body.analist.photo="/resources/Person-placeholder.jpg";
     Analist.create(req.body.analist,function(err,analist){
         if(err){
             console.log(err);
         }
         else{
-             Superuser.findById(req.params.superuserID,function(err,superuser){
+             Superuser.findById(req.user.userRef,function(err,superuser){
                 if(err){
                     console.log(err);
                 }
                 else{
                     superuser.analists.push(analist);
                     superuser.save();
-                    User.register(new User({username:req.body.username,type:"analist",userRef:analist._id}),req.body.password,function(err,user){
+                    User.register(new User({username:req.body.username,type:"analist",company:superuser.company,userRef:analist._id}),req.body.password,function(err,user){
                        if(err){
                            console.log(err);
                        }
                        else{
-                           res.redirect("/superuser/"+superuser._id+"/analist");
+                           res.redirect("/superuser/"+req.user.userRef+"/analist");
                        }
                        
                     });
@@ -79,7 +74,7 @@ router.post("/",Middleware.isLoggedIn,function(req,res){
 });
 
 //SHOW ROUTE
-router.get("/:analistID",function(req,res){
+router.get("/:analistID",Middleware.isLoggedIn,Middleware.isAnalistSuperuser,Middleware.isAuthorizedSuperuser,Middleware.isAuthorizedAnalist,function(req,res){
          Superuser.findById(req.params.superuserID,function(err,superuser){
             if(err){
                 console.log(err);
@@ -90,7 +85,7 @@ router.get("/:analistID",function(req,res){
                         console.log(err);
                     }
                     else{
-                         res.render("analist/show",{page:"analist-show",superuser:superuser,analist:analist});
+                         res.render("analist/show",{page:"analist-show",superuserID:req.params.superuserID,analist:analist});
                     }
                 });
                
@@ -99,36 +94,26 @@ router.get("/:analistID",function(req,res){
 });
 
 //EDIT ROUTE
-router.get("/:analistID/edit",Middleware.isLoggedIn,function(req,res){
-    Superuser.findById(req.params.superuserID,function(err,superuser){
+router.get("/:analistID/edit",Middleware.isLoggedIn,Middleware.isAnalistSuperuser,Middleware.isAuthorizedSuperuser,Middleware.isAuthorizedAnalist,function(req,res){
+   
+    Analist.findById(req.params.analistID).populate("clients").exec(function(err,analist){
+        if(err){
+            console.log(err);
+        }
+        else{
+            Client.find({'analist.firstName':"",deactivationSuperuser:{ $exists:false}},function(err,clients){
                 if(err){
                     console.log(err);
                 }
                 else{
-                    Analist.findById(req.params.analistID).populate("clients").exec(function(err,analist){
-                        if(err){
-                            console.log(err);
-                        }
-                        else{
-                            Client.find({'analist.firstName':"",deactivationSuperuser:{ $exists:false}},function(err,clients){
-                                if(err){
-                                    console.log(err);
-                                }
-                                else{
-                                    res.render("analist/edit",{page:"analist-edit",superuser:superuser,analist:analist,clients:clients});
-                                }
-                            });
-                         }
-                    });
+                    res.render("analist/edit",{page:"analist-edit",superuserID:req.params.superuserID,analist:analist,clients:clients});
                 }
+            });
+         }
     });
 });
-
 //UPDATE ROUTE
-router.put("/:analistID",Middleware.isLoggedIn,function(req,res){
-    var analistFirstName;
-    var analistLastName;
-    var analistClients;
+router.put("/:analistID",Middleware.isLoggedIn,Middleware.isAnalistSuperuser,Middleware.isAuthorizedSuperuser,Middleware.isAuthorizedAnalist,function(req,res){
     Analist.findById(req.params.analistID,function(err,analist){
         if(err){
             console.log(err);
@@ -170,24 +155,23 @@ router.put("/:analistID",Middleware.isLoggedIn,function(req,res){
                 }
             })
                     res.redirect("/superuser/"+req.params.superuserID+"/analist/"+req.params.analistID);
-                }
+        }
                     
-                
-            })
-            
-        
-        
-    
-    
+    })
 });
 
 //DELETE ROUTE
-router.delete("/:analistID",Middleware.isLoggedIn,function(req,res){
-     Superuser.findByIdAndUpdate(req.params.superuserID,{$pull:{analists:req.params.analistID}},function(err,superuser){
+router.delete("/:analistID",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
+     Superuser.findByIdAndUpdate(req.user.userRef,{$pull:{analists:req.params.analistID}},function(err,superuser){
         if(err){
             console.log(err);
         }
     });
+    User.findOneAndRemove({userRef:req.params.analistID},function(err){
+        if(err){
+            console.log(err);
+        }
+    })
     Analist.findById(req.params.analistID,function(err,analist){
         if(err){
             console.log(err);
@@ -208,7 +192,7 @@ router.delete("/:analistID",Middleware.isLoggedIn,function(req,res){
                 }); 
             }
             else{
-                Analist.findByIdAndUpdate(req.params.analistID,{$set:{deactivationSuperuser:req.params.superuserID,clients:[]}},function(err){
+                Analist.findByIdAndUpdate(req.params.analistID,{$set:{deactivationSuperuser:req.user.userRef,clients:[]}},function(err){
                     if(err){
                         console.log(err);
                     }
@@ -218,7 +202,7 @@ router.delete("/:analistID",Middleware.isLoggedIn,function(req,res){
         }
     });
     
-        res.redirect("/superuser/"+req.params.superuserID+"/analist");
+        res.redirect("/superuser/"+req.user.userRef+"/analist");
 });
 
 

@@ -4,7 +4,9 @@ var express=require("express"),
     router=express.Router({mergeParams:true}),
     passport=require("passport"),
     //midleware
-    Middleware=require("../middleware");
+    Middleware=require("../middleware"),
+    //models
+    Superuser=require("../models/superuser");
 
 //LOGIN ROUTE: SHOW LOGIN FORM 
 router.get("/login",function(req,res){
@@ -18,6 +20,26 @@ router.post("/login",passport.authenticate("local",{
 }),function(req,res){
     if(req.user.type=="superuser"){
         res.redirect("/superuser/"+req.user.userRef);   
+    }
+    if(req.user.type=="assistant"){
+        Superuser.findOne({assistants:req.user.userRef},function(err,superuser){
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.redirect("/superuser/"+superuser._id+"/assistant/"+req.user.userRef);
+            }
+        })
+    }
+    if(req.user.type=="analist"){
+        Superuser.findOne({analists:req.user.userRef},function(err,superuser){
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.redirect("/superuser/"+superuser._id+"/analist/"+req.user.userRef);
+            }
+        })
     }
 });
 

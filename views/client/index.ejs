@@ -5,11 +5,11 @@
 <div class="container" style="padding-top: 60px;">
     <!--ROW START-->
     <div class="row">
-        <%superuser.clients.forEach(function(client){%>
+        <%clients.forEach(function(client){%>
             <div class="col-md-4 col-sm-6 col-xs-12">
                 <div class="thumbnail">
                     <div class="text-center">
-                         <a id="image" href="/superuser/<%=superuser._id%>/client/<%=client._id%>"><img src="<%=client.photo%>" class="avatar img-circle img-thumbnail" alt="avatar"></a>
+                         <a id="image" href="/superuser/<%=superuserID%>/client/<%=client._id%>"><img src="<%=client.photo%>" class="avatar img-circle img-thumbnail" alt="avatar"></a>
                         <div class="caption">
                             <h3><%=client.firstName+" "+client.lastName%></h3>
                             <p><strong>Legal Guardian: </strong><%=client.guardian%></p>

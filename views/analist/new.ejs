@@ -13,7 +13,7 @@
   </div>
   <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
     <!--Form to create an analist-->
-    <form  method="POST" action="/superuser/<%=superuser._id%>/analist" class="form-horizontal" >
+    <form  method="POST" action="/superuser/<%=superuserID%>/analist" class="form-horizontal" >
       <div class="form-group">
         <label class="col-lg-3 control-label">First name:</label>
         <div class="col-lg-8">
@@ -61,7 +61,7 @@
         <div class="col-md-8">
           <button class="btn btn-primary">Add</button> 
           <span></span>
-          <a href="/superuser/<%=superuser._id%>" class="btn btn-default"> Cancel</a>
+          <a href="/superuser/<%=superuserID%>" class="btn btn-default"> Cancel</a>
         </div>
       </div>
     </form>

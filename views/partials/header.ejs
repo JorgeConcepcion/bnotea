@@ -11,9 +11,12 @@
 	<%if(page=="login" || page=="change"){%>
     <link rel="stylesheet" href="/stylesheets/authentication.css">
     <%}%>
+    <%if(page=="page404"){%>
+    <link rel="stylesheet" href="/stylesheets/page404.css">
+    <%}%>
 </head>
 <body>
-    <%if (page!="login" && page!="change" && page!="landing"){%>
+    <%if (page!="login" && page!="change" && page!="landing" && page!="page404"){%>
         <link rel="stylesheet" href="/stylesheets/css-main.css">
         <div id="throbber" style="display:none; min-height:120px;"></div>
         <div id="noty-holder"></div>
@@ -42,28 +45,40 @@
                     <li>
                         <a href="#" data-toggle="collapse" data-target="#submenu-1"><i class="fa fa-fw fa-star"></i> CLIENTS <i class="fa fa-fw fa-angle-down pull-right"></i></a>
                         <ul id="submenu-1" class="collapse">
-                            <li><a href="/superuser/<%=superuser._id%>/client"><i class="fa fa-search"></i> SHOW</a></li>
-                            <li><a href="/superuser/<%=superuser._id%>/client/new"><i class="fa fa-plus"></i> NEW</a></li>
+                            <li><a href="/superuser/<%=superuserID%>/client"><i class="fa fa-search"></i> SHOW</a></li>
+                            <%if(currentUser.type=="superuser"){%>
+                            <li><a href="/superuser/<%=superuserID%>/client/new"><i class="fa fa-plus"></i> NEW</a></li>
+                            <%}%>
                         </ul>
                     </li>
+                    <%if(currentUser.type=="superuser"){%>
                     <li>
                         <a href="#" data-toggle="collapse" data-target="#submenu-2"><i class="fa fa-fw fa-star"></i>  ASSISTANTS <i class="fa fa-fw fa-angle-down pull-right"></i></a>
                         <ul id="submenu-2" class="collapse">
-                            <li><a href="/superuser/<%=superuser._id%>/assistant"><i class="fa fa-search"></i> SHOW</a></li>
-                            <li><a href="/superuser/<%=superuser._id%>/assistant/new"><i class="fa fa-plus"></i> NEW</a></li>
+                            <li><a href="/superuser/<%=superuserID%>/assistant"><i class="fa fa-search"></i> SHOW</a></li>
+                            <li><a href="/superuser/<%=superuserID%>/assistant/new"><i class="fa fa-plus"></i> NEW</a></li>
                         </ul>
                     </li>
                      <li>
                         <a href="#" data-toggle="collapse" data-target="#submenu-3"><i class="fa fa-fw fa-star"></i>  ANALISTS <i class="fa fa-fw fa-angle-down pull-right"></i></a>
                         <ul id="submenu-3" class="collapse">
-                            <li><a href="/superuser/<%=superuser._id%>/analist"><i class="fa fa-search"></i> SHOW</a></li>
-                            <li><a href="/superuser/<%=superuser._id%>/analist/new"><i class="fa fa-plus"></i> NEW</a></li>
+                            <li><a href="/superuser/<%=superuserID%>/analist"><i class="fa fa-search"></i> SHOW</a></li>
+                            <li><a href="/superuser/<%=superuserID%>/analist/new"><i class="fa fa-plus"></i> NEW</a></li>
                         </ul>
                     </li>
+                     <%}%>
                      <li>
                         <a href="#" data-toggle="collapse" data-target="#submenu-4"><i class="fa fa-fw fa-star"></i>  PROFILE <i class="fa fa-fw fa-angle-down pull-right"></i></a>
                         <ul id="submenu-4" class="collapse">
-                            <li><a href="/superuser/<%=superuser._id%>/edit"><i class="fa fa-fw fa-user" aria-hidden="true"></i> EDIT</a></li>
+                            <%if(currentUser.type=="superuser"){%>
+                            <li><a href="/superuser/<%=superuserID%>/edit"><i class="fa fa-fw fa-user" aria-hidden="true"></i> EDIT</a></li>
+                            <%}%>
+                            <%if(currentUser.type=="assistant"){%>
+                            <li><a href="/superuser/<%=superuserID%>/assistant/<%=currentUser.userRef%>/edit"><i class="fa fa-fw fa-user" aria-hidden="true"></i> EDIT</a></li>
+                            <%}%>
+                            <%if(currentUser.type=="analist"){%>
+                             <li><a href="/superuser/<%=superuserID%>/analist/<%=currentUser.userRef%>/edit"><i class="fa fa-fw fa-user" aria-hidden="true"></i> EDIT</a></li>
+                            <%}%>
                             <li><a href="/change"><i class="fa fa-fw fa-cog"></i> CHANGE PASSWORD</a></li>
                         </ul>
                     </li>
@@ -81,14 +96,13 @@
             <div class="container-fluid">
             <!-- Page Heading -->
                 <div class="row" id="main" >
-                    <%if(page!="superuser-show"){%>
+                      <%if((page!="superuser-show") && !(page=="analist-show" && currentUser.type=="analist") && !(page=="assistant-show" && currentUser.type=="assistant")){%>
                         <div class="col-sm-12 col-md-12 well" id="content">
-                            <h2 class="welcome">Welcome <%=superuser.firstName%></h2>
-                            <h4 class="welcome"><%=superuser.company%></h4>
+                            <h2 class="welcome">Welcome <%=currentUser.username%></h2>
+                            <h4 class="welcome"><%=currentUser.company%></h4>
                             <h5 class="welcome"><%=page.split("-")[0]%>s</h5>
-                            <a href="javascript:history.go(-1)"<i class="fa fa-arrow-left" aria-hidden="true"></i></a>
                             <%if(page.indexOf("index") > -1){%>
-                                <form id="searchForm" class="form-inline" action="/superuser/<%=superuser._id%>/<%=page.split("-")[0]%>" method="GET">
+                                <form id="searchForm" class="form-inline" action="/superuser/<%=superuserID%>/<%=page.split("-")[0]%>" method="GET">
                                     <label class="sr-only" for="inlineFormInputGroup">Search</label>
                                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                         <div class="input-group-addon">

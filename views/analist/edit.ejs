@@ -8,15 +8,20 @@
             <img id="dashPhoto" src="<%=analist.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
         </div>
          <div class="col-md-6 col-sm-6 col-xs-6">
+            <%if(currentUser.type=="superuser"){%>
             <h2><%=analist.firstName+" "+analist.lastName%></h2>
-             <div >
-            <h6>Upload a different photo...</h6>
-            <input type="file" class=" well-sm">
-             </div>
+            <%}%>
+            <%if(currentUser.type=="analist"){%>
+            <h2 class="page-header">Edit Profile</h2>
+            <%}%>
+            <div>
+                <h6>Upload a different photo...</h6>
+                <input type="file" class=" well-sm">
+            </div>
         </div>
    </div>
    <!--Form to edit an analist-->
-   <form  method="POST" action="/superuser/<%=superuser._id%>/analist/<%=analist._id%>?_method=PUT" class="form-horizontal">
+   <form  method="POST" action="/superuser/<%=superuserID%>/analist/<%=analist._id%>?_method=PUT" class="form-horizontal">
        <div class="row">
            <div class="col-md-3 col-sm-3 col-xs-3">
                <h4 class="page-header">Info</h4> 
@@ -56,6 +61,7 @@
                 </div>
             </div>
         </div>
+        <%if(currentUser.type=="superuser"){%>
        <!--Assign and remove clients-->
         <div class="row">
             <div class="col-md-3 col-sm-12 col-xs-12">
@@ -116,10 +122,11 @@
                 </table>
             </div>
         </div>
+        <%}%>
         <div class="row">
            <div class="col-md-8 col-sm-6 col-xs-6">
                <input class="btn btn-success" type="submit" value="Save">
-               <a class="btn btn-danger"href="/superuser/<%=superuser._id%>/analist/<%=analist._id%>">Cancel</a>
+               <a class="btn btn-danger"href="/superuser/<%=superuserID%>/analist/<%=analist._id%>">Cancel</a>
            </div>
        </div>
     </form>

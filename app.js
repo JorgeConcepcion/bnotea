@@ -22,6 +22,7 @@ var express =require("express"),
     authenticationRoutes=require("./routes/authentication"),
     analistRoutes=require("./routes/analist"),
     clientRoutes=require("./routes/client"),
+    defaultRoute=require("./routes/default"),
     //private
     mongooseConnect=require("./private/mongooseConnect");
     
@@ -50,6 +51,8 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 //custom midleware
 app.use(Middleware.fixInputFormat);
+app.use(Middleware.passCurrentUser);
+
 //routes
 app.use("/superuser",superuserRoutes);
 app.use(indexRoutes);
@@ -57,8 +60,7 @@ app.use(authenticationRoutes);
 app.use("/superuser/:superuserID/assistant",assistantRoutes);
 app.use("/superuser/:superuserID/analist",analistRoutes);
 app.use("/superuser/:superuserID/client",clientRoutes);
-
-app.use(Middleware.passCurrentUser);
+app.use(defaultRoute);
 
 //SEEDING THE DATABASE
 seedDB();

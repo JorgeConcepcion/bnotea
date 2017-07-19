@@ -1,24 +1,51 @@
 <%include ../partials/header%>
 
-
-<div class="container-fluid" style="padding-top: 60px;">
     <!--Displaying analist, including delete deactivate and edit buttons-->
+    <%if(currentUser.type=="superuser"){%>
+    <div class="container-fluid" style="padding-top: 60px;">
     <div class="row">
         <div class="col-md-2 col-sm-2 col-xs-2">
             <img id="dashPhoto" src="<%=analist.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
         </div>
         <div class="col-md-6 col-sm-6 col-xs-6">
             <h2><%=analist.firstName+" "+analist.lastName%></h2>
-            <a class="btn btn-success"href="/superuser/<%=superuser._id%>/analist/<%=analist._id%>/edit">Edit</a>
-            <form class="clientButton" method="post" action="/superuser/<%=superuser._id%>/analist/<%=analist._id%>?_method=DELETE">
+            <a class="btn btn-success"href="/superuser/<%=superuserID%>/analist/<%=analist._id%>/edit">Edit</a>
+            <form class="clientButton" method="post" action="/superuser/<%=superuserID%>/analist/<%=analist._id%>?_method=DELETE">
                 <input style="display:none" type="text" value="deactivate" name="deleteFlag">
                 <button class="btn btn-warning ">Deactivate</button>
             </form>
-            <form class="clientButton" method="post" action="/superuser/<%=superuser._id%>/analist/<%=analist._id%>?_method=DELETE">
+            <form class="clientButton" method="post" action="/superuser/<%=superuserID%>/analist/<%=analist._id%>?_method=DELETE">
                 <button class="btn btn-danger ">Delete</button>
             </form>
         </div>
     </div>
+    <%}%>
+    <%if(currentUser.type=="analist"){%>
+     <div class="row" id="main" >
+        <div class="col-sm-12 col-md-12 well" id="content">
+            <h1 id="welcome">Welcome <%=analist.firstName%></h1>
+        </div>
+        <div class="container" style="padding-top: 60px;">
+            <div class="row">
+                <!--Showing superuser atrributes including the picture-->
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="thumbnail">
+                        <div class="text-center">
+                            <img src="<%=analist.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
+                            <div class="caption">
+                                    <h2><%=currentUser.company%></h2>
+                                    <h4><strong>Phone: </strong><%=analist.phone%></h4>
+                                    <h4><strong>Email: </strong><%=analist.email%></h4>
+                                    <h4><strong>Provider ID: </strong><%=analist.providerId%></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <%}%>
+     <%if(currentUser.type!="analist"){%>
     <div class="row">
         <div class="col-md-3 col-sm-12 col-xs-12">
             <h4 class="page-header">Info</h4> 
@@ -77,8 +104,10 @@
             </table>
         </div>
     </div>
+    <%}%>
+ <%if(currentUser.type=="superuser"){%>
 </div>
-  
+<%}%>
 
 
 

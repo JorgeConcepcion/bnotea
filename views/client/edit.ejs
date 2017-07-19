@@ -15,7 +15,7 @@
         </div>
     </div>
     <!--Form to edit a client-->
-    <form  method="POST" action="/superuser/<%=superuser._id%>/client/<%=client._id%>?_method=PUT" class="form-horizontal">
+    <form  method="POST" action="/superuser/<%=superuserID%>/client/<%=client._id%>?_method=PUT" class="form-horizontal">
         <!--Edit client info-->
         <div class="row">
             <div class="col-md-3 col-sm-3 col-xs-3">
@@ -171,7 +171,7 @@
         <div class="row">
             <div class="col-md-6 col-sm-6 col-xs-6">
                 <input class="btn btn-success" type="submit" value="Save">
-                <a class="btn btn-danger"href="/superuser/<%=superuser._id%>/client/<%=client._id%>">Cancel</a>
+                <a class="btn btn-danger"href="/superuser/<%=superuserID%>/client/<%=client._id%>">Cancel</a>
             </div>
         </div>
     </form>

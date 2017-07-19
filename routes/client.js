@@ -11,45 +11,94 @@ var express=require("express"),
     //functions
     Functions=require("../functions");
 //INDEX ROUTE
-router.get("/",Middleware.isLoggedIn,function(req,res){
+router.get("/",Middleware.isLoggedIn,Middleware.isAuthorizedAssistant,Middleware.isAuthorizedAnalist,Middleware.isAuthorizedSuperuser,function(req,res){
     var regex;
-    if(req.query.search){
-        regex=new RegExp(Functions.escapeRegex(req.query.search),"gi");
-        Superuser.findById(req.params.superuserID).populate("clients",null,{firstName:regex}).exec(function(err,superuser){
-            if(err){
-                console.log(err);
-            }
-            else{
-                res.render("client/index",{page:"client-index",superuser:superuser});
-            }
-        });
+    if(req.user.type=="superuser"){
+        if(req.query.search){
+            regex=new RegExp(Functions.escapeRegex(req.query.search),"gi");
+            Superuser.findById(req.user.userRef).populate("clients",null,{firstName:regex}).exec(function(err,superuser){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    res.render("client/index",{page:"client-index",clients:superuser.clients,superuserID:req.params.superuserID});
+                }
+            });
+        }
+        else{
+            Superuser.findById(req.user.userRef).populate("clients").exec(function(err,superuser){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    res.render("client/index",{page:"client-index",clients:superuser.clients,superuserID:req.params.superuserID});
+                }
+            });
+        }  
     }
-    else{
-        Superuser.findById(req.params.superuserID).populate("clients").exec(function(err,superuser){
-            if(err){
-                console.log(err);
-            }
-            else{
-                res.render("client/index",{page:"client-index",superuser:superuser});
-            }
-        });
-    }    
+    if(req.user.type=="analist"){
+        if(req.query.search){
+            regex=new RegExp(Functions.escapeRegex(req.query.search),"gi");
+            Analist.findById(req.user.userRef).populate("clients",null,{firstName:regex}).exec(function(err,analist){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    res.render("client/index",{page:"client-index",clients:analist.clients,superuserID:req.params.superuserID});
+                }
+            });
+        }
+        else{
+            Analist.findById(req.user.userRef).populate("clients").exec(function(err,analist){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    res.render("client/index",{page:"client-index",clients:analist.clients,superuserID:req.params.superuserID});
+                }
+            });
+        }  
+    }
+     if(req.user.type=="assistant"){
+        if(req.query.search){
+            regex=new RegExp(Functions.escapeRegex(req.query.search),"gi");
+            Assistant.findById(req.user.userRef).populate("clients",null,{firstName:regex}).exec(function(err,assistant){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    res.render("client/index",{page:"client-index",clients:assistant.clients,superuserID:req.params.superuserID});
+                }
+            });
+        }
+        else{
+            Assistant.findById(req.user.userRef).populate("clients").exec(function(err,assistant){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    res.render("client/index",{page:"client-index",clients:assistant.clients,superuserID:req.params.superuserID});
+                }
+            });
+        }  
+    }
+       
 });
 
 //NEW ROUTE
-router.get("/new",Middleware.isLoggedIn,function(req,res){
+router.get("/new",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
     Superuser.findById(req.params.superuserID,function(err,superuser){
             if(err){
                 console.log(err);
             }
             else{
-                res.render("client/new",{page:"client-new",superuser:superuser});
+                res.render("client/new",{page:"client-new",superuserID:req.params.superuserID});
             }
         });
 });
 
 //CREATE ROUTE
-router.post("/",Middleware.isLoggedIn,function(req,res){
+router.post("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
     req.body.client.photo="/resources/Person-placeholder.jpg";
     Client.create(req.body.client,function(err,client){
         if(err){
@@ -71,7 +120,7 @@ router.post("/",Middleware.isLoggedIn,function(req,res){
 });
 
 //SHOW ROUTE
-router.get("/:clientID",Middleware.isLoggedIn,function(req,res){
+router.get("/:clientID",Middleware.isLoggedIn,Middleware.isAuthorizedAssistant,Middleware.isAuthorizedAnalist,Middleware.isAuthorizedSuperuser,function(req,res){
     Superuser.findById(req.params.superuserID,function(err,superuser){
                 if(err){
                     console.log(err);
@@ -82,7 +131,7 @@ router.get("/:clientID",Middleware.isLoggedIn,function(req,res){
                             console.log(err);
                         }
                         else{
-                            res.render("client/show",{page:"client-show",superuser:superuser,client:client});
+                            res.render("client/show",{page:"client-show",superuserID:req.params.superuserID,client:client});
                          }
                     });
                 }
@@ -90,7 +139,7 @@ router.get("/:clientID",Middleware.isLoggedIn,function(req,res){
 });
 
 //EDIT ROUTE
-router.get("/:clientID/edit",Middleware.isLoggedIn,function(req,res){
+router.get("/:clientID/edit",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
     Superuser.findById(req.params.superuserID,function(err,superuser){
                 if(err){
                     console.log(err);
@@ -101,7 +150,7 @@ router.get("/:clientID/edit",Middleware.isLoggedIn,function(req,res){
                             console.log(err);
                         }
                         else{
-                            res.render("client/edit",{page:"client-edit",superuser:superuser,client:client});
+                            res.render("client/edit",{page:"client-edit",superuserID:req.params.superuserID,client:client});
                         }
                     });
                 }
@@ -109,7 +158,7 @@ router.get("/:clientID/edit",Middleware.isLoggedIn,function(req,res){
 });
 
 //UPDATE
-router.put("/:clientID",Middleware.isLoggedIn,function(req,res){
+router.put("/:clientID",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
     Client.findByIdAndUpdate(req.params.clientID,{$set:req.body.client},function(err,client){
         if(err){
             console.log(err);
@@ -123,7 +172,7 @@ router.put("/:clientID",Middleware.isLoggedIn,function(req,res){
 });
 
 //DELETE ROUTE
-router.delete("/:clientID",Middleware.isLoggedIn,function(req,res){
+router.delete("/:clientID",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
     Assistant.findOneAndUpdate({clients:req.params.clientID},{$pull:{clients:req.params.clientID}},function(err,assistant){
         if(err){
             console.log(err);

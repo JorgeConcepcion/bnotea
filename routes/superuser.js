@@ -7,13 +7,13 @@ var express=require("express"),
     Middleware=require("../middleware");
 
 //SHOW ROUTE    
-router.get("/:superuserID",Middleware.isLoggedIn,function(req,res){
+router.get("/:superuserID",function(req,res){
     Superuser.findById(req.params.superuserID,function(err,superuser){
         if(err){
             console.log(err);
         }
         else{
-            res.render("superuser/show",{page:"superuser-show",superuser:superuser});
+            res.render("superuser/show",{page:"superuser-show",superuser:superuser,superuserID:req.params.superuserID});
         }
     });
 });
@@ -25,7 +25,7 @@ router.get("/:superuserID/edit",Middleware.isLoggedIn,function(req,res){
             console.log(err);
         }
         else{
-            res.render("superuser/edit",{page:"superuser-edit",superuser:superuser});
+            res.render("superuser/edit",{page:"superuser-edit",superuser:superuser,superuserID:req.params.superuserID});
         }
     });
 });
