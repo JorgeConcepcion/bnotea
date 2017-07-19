@@ -10,13 +10,47 @@
         <div class="col-md-6 col-sm-6 col-xs-6">
             <h2><%=analist.firstName+" "+analist.lastName%></h2>
             <a class="btn btn-success"href="/superuser/<%=superuserID%>/analist/<%=analist._id%>/edit">Edit</a>
-            <form class="clientButton" method="post" action="/superuser/<%=superuserID%>/analist/<%=analist._id%>?_method=DELETE">
-                <input style="display:none" type="text" value="deactivate" name="deleteFlag">
-                <button class="btn btn-warning ">Deactivate</button>
-            </form>
-            <form class="clientButton" method="post" action="/superuser/<%=superuserID%>/analist/<%=analist._id%>?_method=DELETE">
-                <button class="btn btn-danger ">Delete</button>
-            </form>
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#deactivateModal">Deactivate</button>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
+            <div id="deactivateModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Attention</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class=" btn btn-default" data-dismiss="modal">No</button>
+                            <form class="clientButton" method="post" action="/superuser/<%=superuserID%>/analist/<%=analist._id%>?_method=DELETE">
+                                <input style="display:none" type="text" value="deactivate" name="deleteFlag">
+                                <button class="btn btn-default ">Yes</button>
+                            </form>
+                        </div>
+                    </div>
+              </div>
+            </div>
+            <div id="deleteModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Atention</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class=" btn btn-default" data-dismiss="modal">No</button>
+                            <form class="clientButton" method="post" action="/superuser/<%=superuserID%>/analist/<%=analist._id%>?_method=DELETE">
+                                <button class="btn btn-default ">Yes</button>
+                            </form>
+                        </div>
+                    </div>
+              </div>
+            </div>
         </div>
     </div>
     <%}%>
