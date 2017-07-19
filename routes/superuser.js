@@ -10,7 +10,9 @@ var express=require("express"),
 router.get("/:superuserID",function(req,res){
     Superuser.findById(req.params.superuserID,function(err,superuser){
         if(err){
-            console.log(err);
+            req.flash("error",err.message+", please login again to continue");
+            req.logout();
+            return res.redirect("/login");
         }
         else{
             res.render("superuser/show",{page:"superuser-show",superuser:superuser,superuserID:req.params.superuserID});
@@ -22,7 +24,9 @@ router.get("/:superuserID",function(req,res){
 router.get("/:superuserID/edit",Middleware.isLoggedIn,function(req,res){
     Superuser.findById(req.params.superuserID,function(err,superuser){
         if(err){
-            console.log(err);
+            req.flash("error",err.message+", please login again to continue");
+            req.logout();
+            return res.redirect("/login");
         }
         else{
             res.render("superuser/edit",{page:"superuser-edit",superuser:superuser,superuserID:req.params.superuserID});
@@ -34,9 +38,12 @@ router.get("/:superuserID/edit",Middleware.isLoggedIn,function(req,res){
 router.put("/:superuserID",Middleware.isLoggedIn,function(req,res){
     Superuser.findByIdAndUpdate(req.params.superuserID,{$set:req.body.superuser},function(err,superuser){
         if(err){
-            console.log(err);
+            req.flash("error",err.message+", please login again to continue");
+            req.logout();
+            return res.redirect("/login");
         }
         else{
+            req.flash("success","Profile successfully updated");
             res.redirect("/superuser/"+superuser._id);
         }
     });

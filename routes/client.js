@@ -10,6 +10,7 @@ var express=require("express"),
     Middleware=require("../middleware"),
     //functions
     Functions=require("../functions");
+    
 //INDEX ROUTE
 router.get("/",Middleware.isLoggedIn,Middleware.isAuthorizedAssistant,Middleware.isAuthorizedAnalist,Middleware.isAuthorizedSuperuser,function(req,res){
     var regex;
@@ -18,7 +19,9 @@ router.get("/",Middleware.isLoggedIn,Middleware.isAuthorizedAssistant,Middleware
             regex=new RegExp(Functions.escapeRegex(req.query.search),"gi");
             Superuser.findById(req.user.userRef).populate("clients",null,{firstName:regex}).exec(function(err,superuser){
                 if(err){
-                    console.log(err);
+                    req.flash("error",err.message+", please login again to continue");
+                    req.logout();
+                    return res.redirect("/login");
                 }
                 else{
                     res.render("client/index",{page:"client-index",clients:superuser.clients,superuserID:req.params.superuserID});
@@ -28,7 +31,9 @@ router.get("/",Middleware.isLoggedIn,Middleware.isAuthorizedAssistant,Middleware
         else{
             Superuser.findById(req.user.userRef).populate("clients").exec(function(err,superuser){
                 if(err){
-                    console.log(err);
+                    req.flash("error",err.message+", please login again to continue");
+                    req.logout();
+                    return res.redirect("/login");
                 }
                 else{
                     res.render("client/index",{page:"client-index",clients:superuser.clients,superuserID:req.params.superuserID});
@@ -41,7 +46,9 @@ router.get("/",Middleware.isLoggedIn,Middleware.isAuthorizedAssistant,Middleware
             regex=new RegExp(Functions.escapeRegex(req.query.search),"gi");
             Analist.findById(req.user.userRef).populate("clients",null,{firstName:regex}).exec(function(err,analist){
                 if(err){
-                    console.log(err);
+                    req.flash("error",err.message+", please login again to continue");
+                    req.logout();
+                    return res.redirect("/login");
                 }
                 else{
                     res.render("client/index",{page:"client-index",clients:analist.clients,superuserID:req.params.superuserID});
@@ -51,7 +58,9 @@ router.get("/",Middleware.isLoggedIn,Middleware.isAuthorizedAssistant,Middleware
         else{
             Analist.findById(req.user.userRef).populate("clients").exec(function(err,analist){
                 if(err){
-                    console.log(err);
+                    req.flash("error",err.message+", please login again to continue");
+                    req.logout();
+                    return res.redirect("/login");
                 }
                 else{
                     res.render("client/index",{page:"client-index",clients:analist.clients,superuserID:req.params.superuserID});
@@ -64,7 +73,9 @@ router.get("/",Middleware.isLoggedIn,Middleware.isAuthorizedAssistant,Middleware
             regex=new RegExp(Functions.escapeRegex(req.query.search),"gi");
             Assistant.findById(req.user.userRef).populate("clients",null,{firstName:regex}).exec(function(err,assistant){
                 if(err){
-                    console.log(err);
+                    req.flash("error",err.message+", please login again to continue");
+                    req.logout();
+                    return res.redirect("/login");
                 }
                 else{
                     res.render("client/index",{page:"client-index",clients:assistant.clients,superuserID:req.params.superuserID});
@@ -74,7 +85,9 @@ router.get("/",Middleware.isLoggedIn,Middleware.isAuthorizedAssistant,Middleware
         else{
             Assistant.findById(req.user.userRef).populate("clients").exec(function(err,assistant){
                 if(err){
-                    console.log(err);
+                    req.flash("error",err.message+", please login again to continue");
+                    req.logout();
+                    return res.redirect("/login");
                 }
                 else{
                     res.render("client/index",{page:"client-index",clients:assistant.clients,superuserID:req.params.superuserID});
@@ -89,7 +102,9 @@ router.get("/",Middleware.isLoggedIn,Middleware.isAuthorizedAssistant,Middleware
 router.get("/new",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
     Superuser.findById(req.params.superuserID,function(err,superuser){
             if(err){
-                console.log(err);
+                req.flash("error",err.message+", please login again to continue");
+                req.logout();
+                return res.redirect("/login");
             }
             else{
                 res.render("client/new",{page:"client-new",superuserID:req.params.superuserID});
@@ -102,16 +117,21 @@ router.post("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthor
     req.body.client.photo="/resources/Person-placeholder.jpg";
     Client.create(req.body.client,function(err,client){
         if(err){
-            console.log(err);
+            req.flash("error",err.message+", please login again to continue");
+            req.logout();
+            return res.redirect("/login");
         }
         else{
              Superuser.findById(req.params.superuserID,function(err,superuser){
                 if(err){
-                    console.log(err);
+                    req.flash("error",err.message+", please login again to continue");
+                    req.logout();
+                    return res.redirect("/login");
                 }
                 else{
                     superuser.clients.push(client);
                     superuser.save();
+                    req.flash("success","Client successfully created");
                     res.redirect("/superuser/"+superuser._id+"/client");
                 }
             });
@@ -123,12 +143,16 @@ router.post("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthor
 router.get("/:clientID",Middleware.isLoggedIn,Middleware.isAuthorizedAssistant,Middleware.isAuthorizedAnalist,Middleware.isAuthorizedSuperuser,function(req,res){
     Superuser.findById(req.params.superuserID,function(err,superuser){
                 if(err){
-                    console.log(err);
+                    req.flash("error",err.message+", please login again to continue");
+                    req.logout();
+                    return res.redirect("/login");
                 }
                 else{
                     Client.findById(req.params.clientID,function(err,client){
                         if(err){
-                            console.log(err);
+                            req.flash("error",err.message+", please login again to continue");
+                            req.logout();
+                            return res.redirect("/login");
                         }
                         else{
                             res.render("client/show",{page:"client-show",superuserID:req.params.superuserID,client:client});
@@ -142,12 +166,16 @@ router.get("/:clientID",Middleware.isLoggedIn,Middleware.isAuthorizedAssistant,M
 router.get("/:clientID/edit",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
     Superuser.findById(req.params.superuserID,function(err,superuser){
                 if(err){
-                    console.log(err);
+                    req.flash("error",err.message+", please login again to continue");
+                    req.logout();
+                    return res.redirect("/login");
                 }
                 else{
                     Client.findById(req.params.clientID,function(err,client){
                         if(err){
-                            console.log(err);
+                            req.flash("error",err.message+", please login again to continue");
+                            req.logout();
+                            return res.redirect("/login");
                         }
                         else{
                             res.render("client/edit",{page:"client-edit",superuserID:req.params.superuserID,client:client});
@@ -161,10 +189,12 @@ router.get("/:clientID/edit",Middleware.isLoggedIn,Middleware.isSuperuser,Middle
 router.put("/:clientID",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
     Client.findByIdAndUpdate(req.params.clientID,{$set:req.body.client},function(err,client){
         if(err){
-            console.log(err);
+            req.flash("error",err.message+", please login again to continue");
+            req.logout();
+            return res.redirect("/login");
         }
         else{
-            
+            req.flash("success","Client successfully updated");
             res.redirect("/superuser/"+req.params.superuserID+"/client/"+req.params.clientID);
         }
         
@@ -175,23 +205,35 @@ router.put("/:clientID",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.
 router.delete("/:clientID",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
     Assistant.findOneAndUpdate({clients:req.params.clientID},{$pull:{clients:req.params.clientID}},function(err,assistant){
         if(err){
-            console.log(err);
+            req.flash("error",err.message+", please login again to continue");
+            req.logout();
+            return res.redirect("/login");
         }
         else{
             Analist.findOneAndUpdate({clients:req.params.clientID},{$pull:{clients:req.params.clientID}},function(err,analist){
                 if(err){
-                    console.log(err);
+                    req.flash("error",err.message+", please login again to continue");
+                    req.logout();
+                    return res.redirect("/login");
                 }
                 else{
                      Superuser.findByIdAndUpdate(req.params.superuserID,{$pull:{clients:req.params.clientID}},function(err,superuser){
                         if(err){
-                            console.log(err);
+                            req.flash("error",err.message+", please login again to continue");
+                            req.logout();
+                            return res.redirect("/login");
                         }
                         else{
                             if(req.body.deleteFlag!="deactivate"){
                                 Client.findByIdAndRemove(req.params.clientID,function(err){
                                     if(err){
-                                        console.log(err);
+                                        req.flash("error",err.message+", please login again to continue");
+                                        req.logout();
+                                        return res.redirect("/login");
+                                    }
+                                    else{
+                                        req.flash("success","Client successfully deleted");
+                                        return res.redirect("/superuser/"+req.params.superuserID+"/client");
                                     }
                 
                                 }); 
@@ -199,7 +241,13 @@ router.delete("/:clientID",Middleware.isLoggedIn,Middleware.isSuperuser,Middlewa
                             else{
                                 Client.findByIdAndUpdate(req.params.clientID,{$set:{deactivationSuperuser:req.params.superuserID}},function(err,client){
                                     if(err){
-                                        console.log(err);
+                                        req.flash("error",err.message+", please login again to continue");
+                                        req.logout();
+                                        return res.redirect("/login");
+                                    }
+                                    else{
+                                        req.flash("success","Client successfully deactivated" );
+                                        return res.redirect("/superuser/"+req.params.superuserID+"/client");
                                     }
                 
                                 }); 
@@ -211,7 +259,7 @@ router.delete("/:clientID",Middleware.isLoggedIn,Middleware.isSuperuser,Middlewa
             });
         }
     });
-   res.redirect("/superuser/"+req.params.superuserID+"/client");
+    
 });
 
 

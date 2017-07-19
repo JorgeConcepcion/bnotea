@@ -9,8 +9,9 @@ var express =require("express"),
     expressSession=require("express-session"),
     bodyParser=require("body-parser"),
     methodOverride=require("method-override"),
+    flash=require("connect-flash"),
     //models
-     User=require("./models/user"),
+    User=require("./models/user"),
     //middleware
     Middleware=require("./middleware"),
     //database seed
@@ -38,6 +39,7 @@ app.set("view engine","ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
+app.use(flash());
 app.use(expressSession({
     secret:"kjhjbjhdbsksldfjlsdkfjhkurgfdskjbbf",
     resave:false,
@@ -52,7 +54,7 @@ passport.deserializeUser(User.deserializeUser());
 //custom midleware
 app.use(Middleware.fixInputFormat);
 app.use(Middleware.passCurrentUser);
-
+app.use(Middleware.passFlashVariables);
 //routes
 app.use("/superuser",superuserRoutes);
 app.use(indexRoutes);

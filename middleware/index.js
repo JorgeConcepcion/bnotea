@@ -8,7 +8,8 @@ midlewareObj.isLoggedIn= function(req,res,next){
     if(req.isAuthenticated()){
         return next();
     }
-    res.redirect("/login");
+    req.flash("error","You need to be logged in to do that");
+    return res.redirect("/login");
 };
 
 
@@ -17,7 +18,8 @@ midlewareObj.isSuperuser=function(req,res,next){
     if(req.user.type=="superuser"){
         return next();
     }
-    res.redirect("back");
+    req.flash("error","You don't have authorization to do that");
+    return res.redirect("back");
 }
 
 //Check if an user is an assistant or a superuser
@@ -25,7 +27,8 @@ midlewareObj.isAssistantSuperuser=function(req,res,next){
     if(req.user.type=="assistant" ||req.user.type=="superuser"){
         return next();
     }
-    res.redirect("back");
+    req.flash("error","You don't have authorization to do that");
+    return res.redirect("back");
 }
 
 //Check if an user is an analist or a superuser
@@ -33,7 +36,8 @@ midlewareObj.isAnalistSuperuser=function(req,res,next){
     if(req.user.type=="analist" ||req.user.type=="superuser"){
         return next();
     }
-    res.redirect("back");
+    req.flash("error","You don't have authorization to do that");
+    return res.redirect("back");
 }
 
 //Assuming that the user is a superuser, check if is an authorized superuser
@@ -43,7 +47,8 @@ midlewareObj.isAuthorizedSuperuser=function(req,res,next){
             return next();
         }
         else{
-            res.redirect("back")
+            req.flash("error","You don't have authorization to do that");
+            return res.redirect("back")
         }
     }
     else{
@@ -59,21 +64,25 @@ midlewareObj.isAuthorizedAssistant=function(req,res,next){
                 return next();
             }
             else{
-                res.redirect("back")
+                req.flash("error","You don't have authorization to do that");
+                return res.redirect("back")
             }
         }
         else{
             if(req.params.hasOwnProperty("clientID")){
                 Assistant.findOne({_id:req.user.userRef,clients:req.params.clientID},function(err,assistant){
                    if(err){
-                       console.log(err);
+                        req.flash("error",err.message+", please login again to continue");
+                        req.logout();
+                        return res.redirect("/login");
                    }
                    else{
                        if(assistant!=null){
                             return next();
                        }
                        else{
-                           res.redirect("back");
+                          req.flash("error","You don't have authorization to do that");
+                          return res.redirect("back");
                        }
                    }
                 })
@@ -81,20 +90,24 @@ midlewareObj.isAuthorizedAssistant=function(req,res,next){
             else if(req.params.hasOwnProperty("superuserID")){
                 Superuser.findOne({_id:req.params.superuserID,assistants:req.user.userRef},function(err,superuser){
                     if(err){
-                       console.log(err);
+                        req.flash("error",err.message+", please login again to continue");
+                        req.logout();
+                        return res.redirect("/login");
                     }
                     else{
                        if(superuser!=null){
                             return next();
                        }
                        else{
-                           res.redirect("back");
+                           req.flash("error","You don't have authorization to do that");
+                           return res.redirect("back");
                        }
                    }
                 })
             }
             else{
-               res.redirect("back"); 
+                req.flash("error","You don't have authorization to do that");
+                return res.redirect("back"); 
             }
         }
     }
@@ -111,21 +124,25 @@ midlewareObj.isAuthorizedAnalist=function(req,res,next){
                 return next();
             }
             else{
-                res.redirect("back")
+                req.flash("error","You don't have authorization to do that");
+                return res.redirect("back")
             }
         }
         else{
             if(req.params.hasOwnProperty("clientID")){
                 Analist.findOne({_id:req.user.userRef,clients:req.params.clientID},function(err,analist){
                    if(err){
-                       console.log(err);
+                        req.flash("error",err.message+", please login again to continue");
+                        req.logout();
+                        return res.redirect("/login");
                    }
                    else{
                        if(analist!=null){
                             return next();
                        }
                        else{
-                           res.redirect("back");
+                           req.flash("error","You don't have authorization to do that");
+                           return res.redirect("back");
                        }
                    }
                 })
@@ -133,20 +150,24 @@ midlewareObj.isAuthorizedAnalist=function(req,res,next){
             else if(req.params.hasOwnProperty("superuserID")){
                 Superuser.findOne({_id:req.params.superuserID,analists:req.user.userRef},function(err,superuser){
                     if(err){
-                       console.log(err);
+                        req.flash("error",err.message+", please login again to continue");
+                        req.logout();
+                        return res.redirect("/login");
                     }
                     else{
                        if(superuser!=null){
                             return next();
                        }
                        else{
-                           res.redirect("back");
+                           req.flash("error","You don't have authorization to do that");
+                           return res.redirect("back");
                        }
                    }
                 })
             }
             else{
-               res.redirect("back"); 
+                req.flash("error","You don't have authorization to do that");
+                return res.redirect("back"); 
             }
         }
     }
@@ -158,7 +179,7 @@ midlewareObj.isAuthorizedAnalist=function(req,res,next){
 //PASS THE CURRENT USER VARIABLE TO ALL THE EJS TEMPLATES
 midlewareObj.passCurrentUser=function(req,res,next){
     res.locals.currentUser=req.user;
-    next();
+    return next();
 };
 
 
@@ -171,7 +192,9 @@ midlewareObj.isLoggedInLandingPage=function(req,res,next){
         else if(req.user.type=="assistant"){
             Superuser.findOne({assistants:req.user.userRef},function(err,superuser){
                 if(err){
-                    console.log(err);
+                    req.flash("error",err.message+", please login again to continue");
+                    req.logout();
+                    return res.redirect("/login");
                 }
                 else{
                     return res.redirect("/superuser/"+superuser._id+"/assistant/"+req.user.userRef); 
@@ -182,7 +205,9 @@ midlewareObj.isLoggedInLandingPage=function(req,res,next){
         else if(req.user.type=="analist"){
              Superuser.findOne({analists:req.user.userRef},function(err,superuser){
                 if(err){
-                    console.log(err);
+                    req.flash("error",err.message+", please login again to continue");
+                    req.logout();
+                    return res.redirect("/login");
                 }
                 else{
                     return res.redirect("/superuser/"+superuser._id+"/analist/"+req.user.userRef); 
@@ -222,8 +247,15 @@ midlewareObj.fixInputFormat=function(req,res,next){
         }
     }
     
-    next();
+    return next();
 }
-
+//PASS THE FLASH VARIABLES TO EVERY EJS TEMPLATE
+midlewareObj.passFlashVariables=function(req,res,next){
+   if(req.url!="/"){
+       res.locals.success=req.flash("success");
+       res.locals.error=req.flash("error");
+    }
+   return next();
+}
 
 module.exports=midlewareObj;
