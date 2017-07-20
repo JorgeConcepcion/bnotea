@@ -3,7 +3,13 @@ var midlewareObj={};
 var Superuser=require("../models/superuser");
 var Assistant=require("../models/assistant");
 var Analist=require("../models/analist");
-//CHECK IF AN USER IS LOGGED IN
+var Functions=require("../functions");
+
+
+
+//AUTHORIZATION
+
+//Check if an user is logged in
 midlewareObj.isLoggedIn= function(req,res,next){
     if(req.isAuthenticated()){
         return next();
@@ -12,7 +18,6 @@ midlewareObj.isLoggedIn= function(req,res,next){
     return res.redirect("/login");
 };
 
-
 //Check if an user is a superuser
 midlewareObj.isSuperuser=function(req,res,next){
     if(req.user.type=="superuser"){
@@ -20,7 +25,7 @@ midlewareObj.isSuperuser=function(req,res,next){
     }
     req.flash("error","You don't have authorization to do that");
     return res.redirect("back");
-}
+};
 
 //Check if an user is an assistant or a superuser
 midlewareObj.isAssistantSuperuser=function(req,res,next){
@@ -29,7 +34,7 @@ midlewareObj.isAssistantSuperuser=function(req,res,next){
     }
     req.flash("error","You don't have authorization to do that");
     return res.redirect("back");
-}
+};
 
 //Check if an user is an analist or a superuser
 midlewareObj.isAnalistSuperuser=function(req,res,next){
@@ -38,7 +43,7 @@ midlewareObj.isAnalistSuperuser=function(req,res,next){
     }
     req.flash("error","You don't have authorization to do that");
     return res.redirect("back");
-}
+};
 
 //Assuming that the user is a superuser, check if is an authorized superuser
 midlewareObj.isAuthorizedSuperuser=function(req,res,next){
@@ -48,13 +53,13 @@ midlewareObj.isAuthorizedSuperuser=function(req,res,next){
         }
         else{
             req.flash("error","You don't have authorization to do that");
-            return res.redirect("back")
+            return res.redirect("back");
         }
     }
     else{
         return next();
     }
-}
+};
 
 //Assuming that the user is an assistant, checks if is authorized to access the requested resource
 midlewareObj.isAuthorizedAssistant=function(req,res,next){
@@ -65,7 +70,7 @@ midlewareObj.isAuthorizedAssistant=function(req,res,next){
             }
             else{
                 req.flash("error","You don't have authorization to do that");
-                return res.redirect("back")
+                return res.redirect("back");
             }
         }
         else{
@@ -85,7 +90,7 @@ midlewareObj.isAuthorizedAssistant=function(req,res,next){
                           return res.redirect("back");
                        }
                    }
-                })
+                });
             }
             else if(req.params.hasOwnProperty("superuserID")){
                 Superuser.findOne({_id:req.params.superuserID,assistants:req.user.userRef},function(err,superuser){
@@ -103,7 +108,7 @@ midlewareObj.isAuthorizedAssistant=function(req,res,next){
                            return res.redirect("back");
                        }
                    }
-                })
+                });
             }
             else{
                 req.flash("error","You don't have authorization to do that");
@@ -114,7 +119,7 @@ midlewareObj.isAuthorizedAssistant=function(req,res,next){
     else{
         return next();   
     }
-}
+};
 
 //Assuming that the user is an analist, checks if is authorized to access the requested resource
 midlewareObj.isAuthorizedAnalist=function(req,res,next){
@@ -125,7 +130,7 @@ midlewareObj.isAuthorizedAnalist=function(req,res,next){
             }
             else{
                 req.flash("error","You don't have authorization to do that");
-                return res.redirect("back")
+                return res.redirect("back");
             }
         }
         else{
@@ -145,7 +150,7 @@ midlewareObj.isAuthorizedAnalist=function(req,res,next){
                            return res.redirect("back");
                        }
                    }
-                })
+                });
             }
             else if(req.params.hasOwnProperty("superuserID")){
                 Superuser.findOne({_id:req.params.superuserID,analists:req.user.userRef},function(err,superuser){
@@ -163,7 +168,7 @@ midlewareObj.isAuthorizedAnalist=function(req,res,next){
                            return res.redirect("back");
                        }
                    }
-                })
+                });
             }
             else{
                 req.flash("error","You don't have authorization to do that");
@@ -174,7 +179,7 @@ midlewareObj.isAuthorizedAnalist=function(req,res,next){
     else{
         return next();   
     }
-}
+};
 
 //PASS THE CURRENT USER VARIABLE TO ALL THE EJS TEMPLATES
 midlewareObj.passCurrentUser=function(req,res,next){
@@ -199,7 +204,7 @@ midlewareObj.isLoggedInLandingPage=function(req,res,next){
                 else{
                     return res.redirect("/superuser/"+superuser._id+"/assistant/"+req.user.userRef); 
                 }
-            })
+            });
             
         }
         else if(req.user.type=="analist"){
@@ -212,7 +217,7 @@ midlewareObj.isLoggedInLandingPage=function(req,res,next){
                 else{
                     return res.redirect("/superuser/"+superuser._id+"/analist/"+req.user.userRef); 
                 }
-            })
+            });
         }
         else{
             return next();
@@ -223,7 +228,8 @@ midlewareObj.isLoggedInLandingPage=function(req,res,next){
     }
     
 };
-//SET THE INPUT IN A STANDARD FORMAT
+
+//SET THE BODY OF ALL REQUESTS IN A STANDARD FORMAT
 midlewareObj.fixInputFormat=function(req,res,next){
     if(req.body.hasOwnProperty("analist")){
         if(!req.body.analist.hasOwnProperty("clients")){
@@ -249,6 +255,7 @@ midlewareObj.fixInputFormat=function(req,res,next){
     
     return next();
 }
+
 //PASS THE FLASH VARIABLES TO EVERY EJS TEMPLATE
 midlewareObj.passFlashVariables=function(req,res,next){
    if(req.url!="/"){

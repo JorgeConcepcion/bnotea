@@ -1,16 +1,15 @@
 
-<script
-  src="https://code.jquery.com/jquery-3.2.1.min.js"
-  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-  crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script
- <script src="/scripts/main-script.js"></script>
- <%if(page=="client-edit"){%>
-    <script src="/scripts/table-edit.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"> </script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+<script src="/scripts/main-script.js"></script>
+<%if(page=="client-edit"){%>
+    <script src="/scripts/client-edit.js"></script>
 <%}%>
  <%if(page=="assistant-edit" || page=="analist-edit"){%>
-     <script src="/scripts/add-remove-client.js"></script>
+    <script src="/scripts/add-remove-client.js"></script>
 <%}%>
+
       </div>       
             <!-- /.row -->
     </div>

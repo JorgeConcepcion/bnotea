@@ -264,3 +264,8 @@ td span{
     background-color:#2d88bc;
     color:white;
 }
+
+/*Overwriting the valid class of the jquery validator to no show the green thing*/
+input.valid{
+    background-image:none;
+}

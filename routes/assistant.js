@@ -176,8 +176,8 @@ router.put("/:assistantID",Middleware.isLoggedIn,Middleware.isAssistantSuperuser
                                 req.logout();
                                 return res.redirect("/login");
                             }
-                        })
-                    })
+                        });
+                    });
                     var deletedClients=Functions.arraycmp(req.body.assistant.clients,assistantClients,"deleted");
                     deletedClients.forEach(function(deletedClient){
                         Client.findByIdAndUpdate(deletedClient,{$set:{'assistant.firstName':'','assistant.lastName':''}},function(err,client){
@@ -186,8 +186,8 @@ router.put("/:assistantID",Middleware.isLoggedIn,Middleware.isAssistantSuperuser
                                 req.logout();
                                 return res.redirect("/login");
                             }
-                        })
-                    })
+                        });
+                    });
                     var unchangedClients=Functions.arraycmp(req.body.assistant.clients,assistantClients,"unchanged");
                     unchangedClients.forEach(function(unchangedClient){
                         Client.findByIdAndUpdate(unchangedClient,{$set:{'assistant.firstName':req.body.assistant.firstName,'assistant.lastName':req.body.assistant.lastName}},function(err,client){
@@ -196,10 +196,10 @@ router.put("/:assistantID",Middleware.isLoggedIn,Middleware.isAssistantSuperuser
                                 req.logout();
                                 return res.redirect("/login");
                             }
-                        })
-                    })
+                        });
+                    });
                 }
-            })
+            });
                     if(req.user.type=="assistant"){
                        req.flash("success","Profile successfully updated"); 
                     }
@@ -208,7 +208,7 @@ router.put("/:assistantID",Middleware.isLoggedIn,Middleware.isAssistantSuperuser
                     }
                     res.redirect("/superuser/"+req.params.superuserID+"/assistant/"+req.params.assistantID);
         }
-    })
+    });
         
     
 });
@@ -216,7 +216,6 @@ router.put("/:assistantID",Middleware.isLoggedIn,Middleware.isAssistantSuperuser
 
 //DELETE ROUTE
 router.delete("/:assistantID",Middleware.isLoggedIn,function(req,res){
-    var action;
     Superuser.findByIdAndUpdate(req.user.userRef,{$pull:{assistants:req.params.assistantID}},function(err,superuser){
         if(err){
             req.flash("error",err.message+", please login again to continue");
@@ -230,7 +229,7 @@ router.delete("/:assistantID",Middleware.isLoggedIn,function(req,res){
             req.logout();
             return res.redirect("/login");
         }
-    })
+    });
     Assistant.findById(req.params.assistantID,function(err,assistant){
         if(err){
             req.flash("error",err.message+", please login again to continue");

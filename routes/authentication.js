@@ -3,8 +3,6 @@
 var express=require("express"),
     router=express.Router({mergeParams:true}),
     passport=require("passport"),
-    //midleware
-    Middleware=require("../middleware"),
     //models
     Superuser=require("../models/superuser");
 
@@ -32,7 +30,7 @@ router.post("/login",passport.authenticate("local",{
             else{
                 res.redirect("/superuser/"+superuser._id+"/assistant/"+req.user.userRef);
             }
-        })
+        });
     }
     if(req.user.type=="analist"){
         Superuser.findOne({analists:req.user.userRef},function(err,superuser){
@@ -44,7 +42,7 @@ router.post("/login",passport.authenticate("local",{
             else{
                 res.redirect("/superuser/"+superuser._id+"/analist/"+req.user.userRef);
             }
-        })
+        });
     }
 });
 

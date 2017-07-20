@@ -20,31 +20,31 @@
           <div class="form-group">
             <label class="col-lg-3 control-label">First name:</label>
               <div class="col-lg-8">
-                <input class="form-control" value="<%=superuser.firstName%>" name="superuser[firstName]" type="text">
+                <input class="form-control" value="<%=superuser.firstName%>" name="superuser[firstName]" type="text" data-validation="required" data-validation-error-msg="The first name is required">
               </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">Last name:</label>
             <div class="col-lg-8">
-              <input class="form-control" value="<%=superuser.lastName%>" name="superuser[lastName]" type="text">
+              <input class="form-control" value="<%=superuser.lastName%>" name="superuser[lastName]" type="text" data-validation="required" data-validation-error-msg="The last name is required">
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">Phone:</label>
             <div class="col-lg-8">
-              <input class="form-control" value="<%=superuser.phone%>" name="superuser[phone]" type="text">
+              <input class="form-control" value="<%=superuser.phone%>" name="superuser[phone]" type="text" data-validation="number" data-validation-allowing="range[1000000000;9999999999]" data-validation-optional="true"  data-validation-error-msg="Wrong phone format">
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">Email:</label>
             <div class="col-lg-8">
-              <input class="form-control" value="<%=superuser.email%>" name="superuser[email]" type="text">
+              <input class="form-control" value="<%=superuser.email%>" name="superuser[email]" type="text" data-validation="email">
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">Provider ID:</label>
             <div class="col-lg-8">
-              <input class="form-control" value="<%=superuser.providerId%>" name="superuser[providerId]" type="text">
+              <input class="form-control" value="<%=superuser.providerId%>" name="superuser[providerId]" type="text" data-validation="number" data-validation-allowing="range[1000000000;9999999999]" data-validation-optional="true" data-validation-error-msg="The provider Id must be 10 digits">
             </div>
           </div>
           <div class="form-group">

@@ -2,3 +2,7 @@
     width:400px;
     margin:100px auto;
 }
+/*Overwriting the valid class of the jquery validator to no show the green thing*/
+input.valid{
+    background-image:none;
+}

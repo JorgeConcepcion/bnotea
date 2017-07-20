@@ -27,13 +27,13 @@
                 <div class="form-group">
                     <label class="col-lg-3 control-label">First name:</label>
                     <div class="col-lg-8">
-                        <input class="form-control" value="<%=client.firstName%>" name="client[firstName]" type="text">
+                        <input class="form-control" value="<%=client.firstName%>" name="client[firstName]" type="text" data-validation="required" data-validation-error-msg="The first name is required">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Last name:</label>
                     <div class="col-lg-8">
-                        <input class="form-control" value="<%=client.lastName%>" name="client[lastName]" type="text">
+                        <input class="form-control" value="<%=client.lastName%>" name="client[lastName]" type="text" data-validation="required" data-validation-error-msg="The last name is required">
                     </div>
                 </div>
                 <div class="form-group">
@@ -45,7 +45,7 @@
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Phone:</label>
                     <div class="col-lg-8">
-                        <input class="form-control" value="<%=client.phone%>" name="client[phone]" type="text">
+                        <input class="form-control" value="<%=client.phone%>" name="client[phone]" type="text" data-validation="number" data-validation-allowing="range[1000000000;9999999999]" data-validation-optional="true"  data-validation-error-msg="Wrong phone format">
                     </div>
                 </div>
                 <div class="form-group">
@@ -57,7 +57,7 @@
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Medicaid Number:</label>
                     <div class="col-lg-8">
-                        <input class="form-control" value="<%=client.medicaidNumber%>" name="client[medicaidNumber]" type="text">
+                        <input class="form-control" value="<%=client.medicaidNumber%>" name="client[medicaidNumber]" type="text" data-validation="number" data-validation-allowing="range[1000000000;9999999999]"  data-validation-optional="true" data-validation-error-msg="The medicaid number must be 10 digits">
                     </div>
                 </div>
            </div>
@@ -85,8 +85,8 @@
                             </tr>
                             <%client.maladaptativeBehaviors.forEach(function(maladaptativeBehavior,index){%>
                                 <tr class="behavior-table-row table-row" >
-                                    <th scope="row"><input class="table-input" value="<%=maladaptativeBehavior.name%>" name="client[maladaptativeBehaviors][<%=index%>][name]" type="text"></th>
-                                    <td><span ><input class="table-input" value="<%=maladaptativeBehavior.baseline%>" name="client[maladaptativeBehaviors][<%=index%>][baseline]" type="text"></span><span class="trash"><i class="fa fa-trash" ></i></span></td>
+                                    <th scope="row"><input class="table-input" value="<%=maladaptativeBehavior.name%>" name="client[maladaptativeBehaviors][<%=index%>][name]" type="text" data-validation="required" data-validation-error-msg="The maladaptative behavior name is required"></th>
+                                    <td><span ><input class="table-input" value="<%=maladaptativeBehavior.baseline%>" name="client[maladaptativeBehaviors][<%=index%>][baseline]" type="text" data-validation="number" data-validation-allowing="range[0;150]"   data-validation-error-msg="The baseline is required"></span><span class="trash"><i class="fa fa-trash" ></i></span></td>
                                 </tr>
                             <%})%>
                         </tbody>
@@ -117,8 +117,8 @@
                             </tr>
                             <%client.replacementsBehaviors.forEach(function(replacementBehavior,index){%>
                                 <tr class="replacement-table-row table-row" >
-                                    <th scope="row"><input class="table-input" value="<%=replacementBehavior.name%>" name="client[replacementsBehaviors][<%=index%>][name]"type="text"></th>
-                                    <td><span ><input class="table-input"value="<%=replacementBehavior.baseline%>" name="client[replacementsBehaviors][<%=index%>][baseline]" type="text"></span><span class="trash"><i class="fa fa-trash" ></i></span></td>
+                                    <th scope="row"><input class="table-input" value="<%=replacementBehavior.name%>" name="client[replacementsBehaviors][<%=index%>][name]"type="text" data-validation="required" data-validation-error-msg="The replacement behavior name is required"></th>
+                                    <td><span ><input class="table-input"value="<%=replacementBehavior.baseline%>" name="client[replacementsBehaviors][<%=index%>][baseline]" type="text" data-validation="number" data-validation-allowing="range[0;100]"   data-validation-error-msg="The baseline is required"></span><span class="trash"><i class="fa fa-trash" ></i></span></td>
                                 </tr>
                             <%})%>
                         </tbody>
@@ -155,11 +155,11 @@
                             </tr>
                             <%client.approvals.forEach(function(approval,index){%>
                                 <tr class="approval-table-row table-row" >
-                                    <th scope="row"><input class="table-input" value="<%=approval.number%>" name="client[approvals][<%=index%>][number]"type="text"></th>
-                                    <td><input class="table-input" value="<%=approval.startDate.getFullYear()+"-"+(((approval.startDate.getMonth() + 1)< 10 ? '0' : '') + (approval.startDate.getMonth()+1))+"-"+(((approval.startDate.getDate())< 10 ? '0' : '') + approval.startDate.getDate())%>" name="client[approvals][<%=index%>][startDate]"type="date"></td>
-                                    <td><input class="table-input" value="<%=approval.endDate.getFullYear()+"-"+(((approval.endDate.getMonth() + 1)< 10 ? '0' : '') + (approval.endDate.getMonth()+1))+"-"+(((approval.endDate.getDate())< 10 ? '0' : '') + approval.endDate.getDate())%>" name="client[approvals][<%=index%>][endDate]"type="date"></td>
-                                    <td><input class="table-input" value="<%=approval.units%>" name="client[approvals][<%=index%>][units]"type="text"></td>
-                                    <td><span ><input class="table-input"value="<%=approval.procedure%>" name="client[approvals][<%=index%>][procedure]" type="text"></span><span class="trash"><i class="fa fa-trash" ></i></span></td>
+                                    <th scope="row"><input class="table-input" value="<%=approval.number%>" name="client[approvals][<%=index%>][number]"type="text" data-validation="number" data-validation-allowing="range[1000000000;9999999999]"  data-validation-optional="true" data-validation-error-msg="The approval number must be 10 digits"></th>
+                                    <td><input class="table-input" value="<%=approval.startDate.getFullYear()+"-"+(((approval.startDate.getMonth() + 1)< 10 ? '0' : '') + (approval.startDate.getMonth()+1))+"-"+(((approval.startDate.getDate())< 10 ? '0' : '') + approval.startDate.getDate())%>" name="client[approvals][<%=index%>][startDate]"type="date" data-validation="required" data-validation-error-msg="The start date is required"></td>
+                                    <td><input class="table-input" value="<%=approval.endDate.getFullYear()+"-"+(((approval.endDate.getMonth() + 1)< 10 ? '0' : '') + (approval.endDate.getMonth()+1))+"-"+(((approval.endDate.getDate())< 10 ? '0' : '') + approval.endDate.getDate())%>" name="client[approvals][<%=index%>][endDate]"type="date" data-validation="required" data-validation-error-msg="The end date is required"></td>
+                                    <td><input class="table-input" value="<%=approval.units%>" name="client[approvals][<%=index%>][units]"type="text" data-validation="number" data-validation-allowing="range[0;9999]"   data-validation-error-msg="The number of units is required"></td>
+                                    <td><span ><input class="table-input"value="<%=approval.procedure%>" name="client[approvals][<%=index%>][procedure]" type="text" data-validation="required" data-validation-error-msg="The procedure is required"></span><span class="trash"><i class="fa fa-trash" ></i></span></td>
                                     <td style="display:none"><input class="table-input" value="<%=approval.availableUnits%>" name="client[approvals][<%=index%>][availableUnits]"type="text"></td>
                                 </tr>
                             <%})%>

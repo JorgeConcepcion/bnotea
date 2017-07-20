@@ -13,22 +13,22 @@
             <form id="loginForm" method="POST" action="/change" >
               <div class="form-group">
                 <label for="username" class="control-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username"  required="" title="Please enter you username" placeholder="username">
+                <input type="text" class="form-control" id="username" name="username"   title="Please enter you username" placeholder="username" data-validation="required" data-validation-error-msg="The username is required">
                 <span class="help-block"></span>
               </div>
               <div class="form-group">
                 <label for="password" class="control-label">Current Password</label>
-                <input type="password" class="form-control" id="password" name="password"  required="" title="Please enter your password" placeholder="current password">
+                <input type="password" class="form-control" id="password" name="password"   title="Please enter your password" placeholder="current password" data-validation="required" data-validation-error-msg="The current password is required">
                 <span class="help-block"></span>
               </div>
               <div class="form-group">
                 <label for="newPassword" class="control-label">New Password</label>
-                <input type="password" class="form-control" id="newPassword" name="newPassword"  required="" title="Please enter your password" placeholder="new password">
+                <input type="password" class="form-control" id="newPassword" name="newPassword"   title="Please enter your password" placeholder="new password" data-validation="strength" data-validation-strength="3" data-validation-error-msg="The password must have at least one number and one special character">
                 <span class="help-block"></span>
               </div>
               <div class="form-group">
                 <label for="repeatNewPassword" class="control-label">Repeat New Password</label>
-                <input type="password" class="form-control" id="repeatNewPassword" name="repeatNewPassword"  required="" title="Please enter your password" placeholder="repeat new password">
+                <input type="password" class="form-control" id="repeatNewPassword" name="repeatNewPassword"   title="Please enter your password" placeholder="repeat new password" data-validation="confirmation" data-validation-confirm="newPassword" data-validation-error-msg="Must be the same as new password">
                 <span class="help-block"></span>
               </div>
               <button class="btn btn-success btn-block">Change Password</button>
