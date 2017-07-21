@@ -9,7 +9,9 @@ var express=require("express"),
     //midleware
     Middleware=require("../middleware"),
     //functions
-    Functions=require("../functions");
+    Functions=require("../functions"),
+    //aws private info
+    AWSPrivate=require("../private/awsPrivate");
 //INDEX ROUTE  
 router.get("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
     var regex;
@@ -56,7 +58,6 @@ router.get("/new",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuth
 
 //CREATE ROUTE
 router.post("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
-    req.body.assistant.photo="/resources/Person-placeholder.jpg";
     Assistant.create(req.body.assistant,function(err,assistant){
         if(err){
             req.flash("error",err.message+", please login again to continue");
@@ -64,6 +65,15 @@ router.post("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthor
             return res.redirect("/login");
         }
         else{
+            Functions.AWSS3Upload(AWSPrivate.bucket(),AWSPrivate.key(assistant._id),AWSPrivate.filePath(),AWSPrivate.acl());
+            assistant.photo=AWSPrivate.uploadedPhotoLocation(assistant._id);
+            assistant.save(function(err){
+                if(err){
+                    req.flash("error",err.message+", please login again to continue");
+                    req.logout();
+                    return res.redirect("/login");
+                }
+            });
              Superuser.findById(req.user.userRef,function(err,superuser){
                 if(err){
                     req.flash("error",err.message+", please login again to continue");
@@ -149,7 +159,7 @@ router.get("/:assistantID/edit",Middleware.isLoggedIn,Middleware.isAssistantSupe
 });
 
 //UPDATE ROUTE
-router.put("/:assistantID",Middleware.isLoggedIn,Middleware.isAssistantSuperuser,Middleware.isAuthorizedSuperuser,Middleware.isAuthorizedAssistant,function(req,res){
+router.put("/:assistantID",Middleware.isLoggedIn,Middleware.isAssistantSuperuser,Middleware.isAuthorizedSuperuser,Middleware.isAuthorizedAssistant,Middleware.uploadPhoto.array('photo'),function(req,res){
     Assistant.findById(req.params.assistantID,function(err,assistant){
         if(err){
             req.flash("error",err.message+", please login again to continue");

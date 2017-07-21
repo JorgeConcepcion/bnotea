@@ -9,7 +9,9 @@ var express=require("express"),
     //midleware
     Middleware=require("../middleware"),
     //functions
-    Functions=require("../functions");
+    Functions=require("../functions"),
+    //aws private info
+    AWSPrivate=require("../private/awsPrivate");
 
 //INDEX ROUTE 
 router.get("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
@@ -48,7 +50,6 @@ router.get("/new",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuth
 
 //CREATE ROUTE
 router.post("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
-    req.body.analist.photo="/resources/Person-placeholder.jpg";
     Analist.create(req.body.analist,function(err,analist){
         if(err){
             req.flash("error",err.message+", please login again to continue");
@@ -56,7 +57,17 @@ router.post("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthor
             return res.redirect("/login");
         }
         else{
-             Superuser.findById(req.user.userRef,function(err,superuser){
+            
+            Functions.AWSS3Upload(AWSPrivate.bucket(),AWSPrivate.key(analist._id),AWSPrivate.filePath(),AWSPrivate.acl());
+            analist.photo=AWSPrivate.uploadedPhotoLocation(analist._id);
+            analist.save(function(err){
+                if(err){
+                    req.flash("error",err.message+", please login again to continue");
+                    req.logout();
+                    return res.redirect("/login");
+                }
+            });
+            Superuser.findById(req.user.userRef,function(err,superuser){
                 if(err){
                     req.flash("error",err.message+", please login again to continue");
                     req.logout();
@@ -131,7 +142,7 @@ router.get("/:analistID/edit",Middleware.isLoggedIn,Middleware.isAnalistSuperuse
     });
 });
 //UPDATE ROUTE
-router.put("/:analistID",Middleware.isLoggedIn,Middleware.isAnalistSuperuser,Middleware.isAuthorizedSuperuser,Middleware.isAuthorizedAnalist,function(req,res){
+router.put("/:analistID",Middleware.isLoggedIn,Middleware.isAnalistSuperuser,Middleware.isAuthorizedSuperuser,Middleware.isAuthorizedAnalist,Middleware.uploadPhoto.array('photo'),function(req,res){
     Analist.findById(req.params.analistID,function(err,analist){
         if(err){
             req.flash("error",err.message+", please login again to continue");

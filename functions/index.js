@@ -1,4 +1,8 @@
+var  aws = require('aws-sdk'),
+     fs=require("fs");
+     
 
+    
 var functionObj={};
 
 functionObj.arraycmp=function(modified,original,action){
@@ -67,6 +71,24 @@ functionObj.escapeRegex=function(text){
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g,"\\$&");
 }
 
-
+//AWS S3 file uploader
+functionObj.AWSS3Upload=function(bucket,key,filePath,acl){
+    var s3 = new aws.S3;
+    aws.config.loadFromPath('./private/aws-keys.json');
+    var uploadParams = {Bucket:bucket, Key:key, Body: '',ACL:acl};
+    var fileStream = fs.createReadStream(filePath);
+    fileStream.on('error', function(err) {
+        if(err){
+            return err;
+        }
+    });
+    uploadParams.Body = fileStream;
+    s3.upload (uploadParams, function (err, data) {
+        if (err) {
+            return err;
+        } 
+    });
+    return "good";
+}
 
 module.exports=functionObj;

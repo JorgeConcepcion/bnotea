@@ -9,7 +9,9 @@ var express=require("express"),
     //middleware
     Middleware=require("../middleware"),
     //functions
-    Functions=require("../functions");
+    Functions=require("../functions"),
+    //aws private info
+    AWSPrivate=require("../private/awsPrivate");
     
 //INDEX ROUTE
 router.get("/",Middleware.isLoggedIn,Middleware.isAuthorizedAssistant,Middleware.isAuthorizedAnalist,Middleware.isAuthorizedSuperuser,function(req,res){
@@ -114,7 +116,6 @@ router.get("/new",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuth
 
 //CREATE ROUTE
 router.post("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
-    req.body.client.photo="/resources/Person-placeholder.jpg";
     Client.create(req.body.client,function(err,client){
         if(err){
             req.flash("error",err.message+", please login again to continue");
@@ -122,6 +123,15 @@ router.post("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthor
             return res.redirect("/login");
         }
         else{
+            Functions.AWSS3Upload(AWSPrivate.bucket(),AWSPrivate.key(client._id),AWSPrivate.filePath(),AWSPrivate.acl());
+            client.photo=AWSPrivate.uploadedPhotoLocation(client._id);
+            client.save(function(err){
+                if(err){
+                    req.flash("error",err.message+", please login again to continue");
+                    req.logout();
+                    return res.redirect("/login");
+                }
+            });
              Superuser.findById(req.params.superuserID,function(err,superuser){
                 if(err){
                     req.flash("error",err.message+", please login again to continue");
@@ -185,8 +195,8 @@ router.get("/:clientID/edit",Middleware.isLoggedIn,Middleware.isSuperuser,Middle
     });
 });
 
-//UPDATE
-router.put("/:clientID",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
+//UPDATE ROUTE
+router.put("/:clientID",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,Middleware.uploadPhoto.array('photo'),function(req,res){
     Client.findByIdAndUpdate(req.params.clientID,{$set:req.body.client},function(err,client){
         if(err){
             req.flash("error",err.message+", please login again to continue");

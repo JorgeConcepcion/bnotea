@@ -4,16 +4,9 @@
 <div class="container" style="padding-top: 60px;">
   <h1 class="page-header">New Client</h1>
   <!--Displaying a placeholder picture-->
-  <div class="col-md-4 col-sm-6 col-xs-12">
-    <div class="text-center">
-      <img src="/resources/Person-placeholder.jpg" class="avatar img-circle img-thumbnail" alt="avatar">
-      <h6>Upload a different photo...</h6>
-      <input type="file" class="text-center center-block well well-sm">
-    </div>
-  </div>
-  <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
-  <!--Form to create a client-->
-    <form  method="POST" action="/superuser/<%=superuserID%>/client" class="form-horizontal" >
+  <form  method="POST" action="/superuser/<%=superuserID%>/client" class="form-horizontal" >
+    <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
+    <!--Form to create a client-->
       <div class="form-group">
         <label class="col-lg-3 control-label">First name:</label>
         <div class="col-lg-8">
@@ -58,8 +51,8 @@
           <a href="/superuser/<%=superuserID%>" class="btn btn-default"> Cancel</a>
         </div>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
 </div>
     
 

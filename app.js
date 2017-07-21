@@ -31,6 +31,7 @@ var express =require("express"),
 mongooseConnect.connect();
 
 
+
 //APP SETS
 app.set("view engine","ejs");
 
@@ -45,6 +46,7 @@ app.use(expressSession({
     resave:false,
     saveUninitialized:false
 }));
+
 //authentication with passport
 app.use(passport.initialize());
 app.use(passport.session());

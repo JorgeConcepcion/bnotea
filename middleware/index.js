@@ -3,8 +3,13 @@ var midlewareObj={};
 var Superuser=require("../models/superuser");
 var Assistant=require("../models/assistant");
 var Analist=require("../models/analist");
-var Functions=require("../functions");
-
+var multer = require('multer');
+var multerS3 = require('multer-s3');
+var aws = require('aws-sdk');
+aws.config.loadFromPath('./private/aws-keys.json');
+var s3 = new aws.S3();
+//aws private info
+var AWSPrivate=require("../private/awsPrivate");
 
 
 //AUTHORIZATION
@@ -263,6 +268,31 @@ midlewareObj.passFlashVariables=function(req,res,next){
        res.locals.error=req.flash("error");
     }
    return next();
-}
+};
+//S3 PHOTO UPLOADER
+
+midlewareObj.uploadPhoto = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: AWSPrivate.bucket(),
+    acl: AWSPrivate.acl(),
+    metadata: function (req, file, cb) {
+      cb(null, Object.assign({}, req.body));
+    },
+    key: function (req, file, cb) {
+        var id="";
+        if(req.params.hasOwnProperty("clientID")){
+            id=req.params.clientID;
+        }
+         if(req.params.hasOwnProperty("analistID")){
+            id=req.params.analistID;
+        }
+         if(req.params.hasOwnProperty("assistantID")){
+            id=req.params.assistantID;
+        }
+        cb(null, AWSPrivate.key(id));
+    }
+  })
+});
 
 module.exports=midlewareObj;

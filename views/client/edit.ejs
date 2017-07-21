@@ -2,20 +2,20 @@
 
 
 <div class="container-fluid" style="padding-top: 60px;">
-    <div class="row">
-        <div class="col-md-2 col-sm-2 col-xs-2">
-            <img id="dashPhoto" src="<%=client.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
-        </div>
-        <div class="col-md-6 col-sm-6 col-xs-6">
-            <h2><%=client.firstName+" "+client.lastName%></h2>
-             <div>
-                <h6>Upload a different photo...</h6>
-                <input type="file" class=" well-sm">
+    <form  method="POST" action="/superuser/<%=superuserID%>/client/<%=client._id%>?_method=PUT" class="form-horizontal" enctype="multipart/form-data" size="chars">
+        <div class="row">
+            <div class="col-md-2 col-sm-2 col-xs-2">
+                <img id="dashPhoto" src="<%=client.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <h2><%=client.firstName+" "+client.lastName%></h2>
+                 <div>
+                    <h6>Upload a different photo...</h6>
+                     <input type="file" class="well well-sm" accept="image/*" capture="camera" name="photo"> 
+                </div>
             </div>
         </div>
-    </div>
     <!--Form to edit a client-->
-    <form  method="POST" action="/superuser/<%=superuserID%>/client/<%=client._id%>?_method=PUT" class="form-horizontal">
         <!--Edit client info-->
         <div class="row">
             <div class="col-md-3 col-sm-3 col-xs-3">
