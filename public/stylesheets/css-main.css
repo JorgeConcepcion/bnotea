@@ -1,4 +1,6 @@
 
+
+
 @media(min-width:768px) {
     body {
         margin-top: 50px;
@@ -7,11 +9,11 @@
 }
 
 #wrapper {
-    padding-left: 0;    
+    padding-left: 0;
 }
 
 #page-wrapper {
-    width: 100%;        
+    width: 100%;
     padding: 0;
     background-color: #fff;
 }
@@ -20,13 +22,13 @@
     #wrapper {
         padding-left: 225px;
     }
-
     #page-wrapper {
         padding: 22px 10px;
     }
 }
 
-/* Top Navigation */
+
+/* TOP NAVIGATION */
 
 .top-nav {
     padding: 0 15px;
@@ -61,15 +63,16 @@
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     background-color: #fff;
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
 }
 
 .top-nav>.open>.dropdown-menu>li>a {
     white-space: normal;
 }
 
-/* Side Navigation */
+
+/* SIDE NAVIGATION */
 
 @media(min-width:768px) {
     .side-nav {
@@ -80,7 +83,7 @@
         margin-left: -225px;
         border: none;
         border-radius: 0;
-        border-top: 1px rgba(0,0,0,.5) solid;
+        border-top: 1px rgba(0, 0, 0, .5) solid;
         overflow-y: auto;
         background-color: #222;
         /*background-color: #5A6B7D;*/
@@ -88,12 +91,10 @@
         overflow-x: hidden;
         padding-bottom: 40px;
     }
-
     .side-nav>li>a {
         width: 225px;
-        border-bottom: 1px rgba(0,0,0,.3) solid;
+        border-bottom: 1px rgba(0, 0, 0, .3) solid;
     }
-
     .side-nav li a:hover,
     .side-nav li a:focus {
         outline: none;
@@ -103,7 +104,7 @@
 
 .side-nav>li>ul {
     padding: 0;
-    border-bottom: 1px rgba(0,0,0,.3) solid;
+    border-bottom: 1px rgba(0, 0, 0, .3) solid;
 }
 
 .side-nav>li>ul>li>a {
@@ -111,31 +112,31 @@
     padding: 10px 15px 10px 38px;
     text-decoration: none;
     /*color: #999;*/
-    color: #fff;    
+    color: #fff;
 }
 
 .side-nav>li>ul>li>a:hover {
     color: #fff;
 }
 
-.navbar .nav > li > a > .label {
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  border-radius: 50%;
-  position: absolute;
-  top: 14px;
-  right: 6px;
-  font-size: 10px;
-  font-weight: normal;
-  min-width: 15px;
-  min-height: 15px;
-  line-height: 1.0em;
-  text-align: center;
-  padding: 2px;
+.navbar .nav>li>a>.label {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    position: absolute;
+    top: 14px;
+    right: 6px;
+    font-size: 10px;
+    font-weight: normal;
+    min-width: 15px;
+    min-height: 15px;
+    line-height: 1.0em;
+    text-align: center;
+    padding: 2px;
 }
 
-.navbar .nav > li > a:hover > .label {
-  top: 10px;
+.navbar .nav>li>a:hover>.label {
+    top: 10px;
 }
 
 .navbar-brand {
@@ -143,129 +144,257 @@
 }
 
 ul {
-  list-style-type: none;
+    list-style-type: none;
 }
 
-.thumbnail{
-    margin:0 auto;
-    width:25vw;
-    border:0;
-    text-align: center;
-    margin-bottom:30px;
+
+
+/*STYLING THE WELCOME TEXT*/
+.welcome {
+    color: #2d88bc;
 }
 
-.img-thumbnail{
-    max-width:50%;
+h5.welcome {
+    text-transform: capitalize;
 }
 
-.welcome{
-    color:#2d88bc;
-}
-h5.welcome{
-    text-transform:capitalize;
-}
 
-/*HERE STARTS THE SPECIFIC PAGES FUNCTIONALITY */
-
-
-
-/*COME BACK ARROW*/
-.fa.fa-arrow-left{
-     font-size:2vw;
-     color:#2d88bc;
-}
 
 /*IMAGES IN THE INDEX PAGES, THIS IMAGES GO TO THE SHOW PAGE*/
-.thumbnail a>img{
-    max-width:35%;
-    cursor:pointer;
+
+.thumbnail a>img {
+    max-width: 35%;
+    cursor: pointer;
 }
+
 
 /*SEARCH FUNCTIONALITY*/
-#searchButton{
-	outline: none;
-	border:0px;
-	background: none;
-	color:#2d88bc;	
+
+#searchButton {
+    outline: none;
+    border: 0px;
+    background: none;
+    color: #2d88bc;
 }
-#searchForm{
-	float:right;
+
+#searchForm {
+    float: right;
 }
 
 
-/*PHOTO OF THE CLIENT ASSISTANT OR SUPERUSER IN ITS SHOW PAGE*/
-#dashPhoto{
-    max-width:100%;
+/* DISPLAY THE EDIT DELETE DEACTIVATE...BUTTONS ON THE SAME LINE*/
+
+.clientButton {
+    display: inline;
 }
 
-/*THIS IT TO DISPLAY THE EDIT DELETE DEACTIVATE...BUTTONS ON THE SAME LINE*/
-.clientButton{
-    display:inline;
+
+/* CLIENT EDIT */
+
+h4 .fa-plus {
+    float: right;
+    color: #2d88bc;
 }
 
-/*HERE STARTS THE CLIENT EDIT PART*/
-h4 .fa-plus{
-	float: right;
-	color: #2d88bc;
+h4 .fa-plus:hover {
+    cursor: pointer;
 }
-h4 .fa-plus:hover{
-    cursor:pointer;
-}
-.table-input{
 
-	border: 0px solid rgba(0,0,0, 0);
+.table-input {
+    border: 0px solid rgba(0, 0, 0, 0);
 }
-.table-input:focus{
+
+.table-input:focus {
     outline: none;
 }
-#behavior-add,#replacement-add,#approval-add{
-    display:none;
+
+#behavior-add,
+#replacement-add,
+#approval-add {
+    display: none;
 }
-.fa.fa-trash{
-    float:right;
+
+.fa.fa-trash {
+    float: right;
 }
-td span{
-	display:inline-block;
-	width:50%;
+
+td span {
+    display: inline-block;
+    width: 50%;
 }
-.trash{
-  	
-	height: 100%;
-	cursor: pointer;
-	text-align: center;
-	transition: 0.2s linear;
-	width:0;
-	opacity:0;
+
+.trash {
+    height: 100%;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.2s linear;
+    width: 0;
+    opacity: 0;
 }
-.table-row:hover .trash{
-	width: 50%;
-	opacity:1;
+
+.table-row:hover .trash {
+    width: 50%;
+    opacity: 1;
 }
+
 
 /*CHANGE THE CURRENT APPROVAL COLOR*/
-.current{
-    color:#00C851;
-}
-.client-show.img-thumbnail {
-    max-width:35%;
-    cursor:pointer;
-   
-}
-.client-show-all{
-     padding-top:30px;
-}
-/*ADD CLIENTS TO ASSISTANTS AND ANALIST*/
-#add-client-dropdown{
-    border-style:none;
-    background-color:white;
-}
-.dropdown-menu li:hover{
-    cursor:pointer;
-    background-color:#2d88bc;
-    color:white;
+
+.current {
+    color: #00C851;
 }
 
-/*Overwriting the valid class of the jquery validator to no show the green thing*/
-input.valid{
-    background-image:none;
+.client-show.img-thumbnail {
+    max-width: 35%;
+    cursor: pointer;
 }
+
+.client-show-all {
+    padding-top: 30px;
+}
+
+
+/*ADD CLIENTS TO ASSISTANTS AND ANALIST*/
+
+#add-client-dropdown {
+    border-style: none;
+    background-color: white;
+}
+
+.dropdown-menu li:hover {
+    cursor: pointer;
+    background-color: #2d88bc;
+    color: white;
+}
+
+
+/*OVERWRITING THE VALID CLASS OF THE JQUERY VALIDATOR TO NO SHOW THR GREEN THING*/
+
+input.valid {
+    background-image: none;
+}
+
+
+/*CENTERING ALL THE PHOTO UPLOAD FILES INPUT*/
+
+input[type=file] {
+    margin: 0 auto;
+}
+
+
+/*SIZING THE HOME ICON*/
+.fa.fa-home{
+    margin-top:12px;
+    font-size:30px;
+}
+
+
+/*CONTENT BAR MARGIN*/
+
+/*for mobile */
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 640px)  {
+
+#content {
+   margin-top:110px;
+}  
+
+
+}
+
+/* for tablet */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1280px) 
+ {
+
+#content {
+   margin-top:43px;
+}  
+
+
+}
+
+/*IMAGE SIZE AND MARGIN */
+
+.main-image{
+    margin-top:50px;
+    max-width: 16%;
+}
+.index-image{
+    margin-top:40px;
+    max-width: 45%;
+}
+
+/*for mobile */
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 640px) 
+and (orientation:portrait) {
+
+.main-image{
+    margin-top:0;
+    max-width: 48%;
+}
+.index-image{
+    margin-top:15px;
+    max-width: 40%;
+}
+
+}
+
+/*for mobile */
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 640px) 
+and (orientation:landscape) {
+
+.main-image{
+    margin-top:0;
+    max-width: 27%;
+}
+.index-image{
+    margin-top:15px;
+    max-width: 60%;
+}
+
+}
+
+/*for tablet */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1280px) 
+and (orientation:landscape) {
+
+.main-image{
+    max-width: 22%;
+}
+.index-image{
+    max-width: 50%;
+}
+
+}
+/*for tablet */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1280px) 
+and (orientation:portrait) {
+
+.main-image{
+    margin-top:120px;
+    max-width: 40%;
+}
+.index-image{
+    max-width: 65%;
+}
+
+}
+
+
+
+
+
+
+
+

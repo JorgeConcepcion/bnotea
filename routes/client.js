@@ -196,7 +196,7 @@ router.get("/:clientID/edit",Middleware.isLoggedIn,Middleware.isSuperuser,Middle
 });
 
 //UPDATE ROUTE
-router.put("/:clientID",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,Middleware.uploadPhoto.array('photo'),function(req,res){
+router.put("/:clientID",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,Middleware.uploadPhoto.array('photo'),Middleware.fixInputFormat,function(req,res){
     Client.findByIdAndUpdate(req.params.clientID,{$set:req.body.client},function(err,client){
         if(err){
             req.flash("error",err.message+", please login again to continue");

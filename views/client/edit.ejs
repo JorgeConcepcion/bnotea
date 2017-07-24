@@ -3,15 +3,17 @@
 
 <div class="container-fluid" style="padding-top: 60px;">
     <form  method="POST" action="/superuser/<%=superuserID%>/client/<%=client._id%>?_method=PUT" class="form-horizontal" enctype="multipart/form-data" size="chars">
-        <div class="row">
-            <div class="col-md-2 col-sm-2 col-xs-2">
-                <img id="dashPhoto" src="<%=client.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
+        <div class="row text-center">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <img   src="<%=client.photo%>" class="avatar img-circle img-thumbnail main-image" alt="avatar">
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-6">
+        </div>
+        <div class="row text-center">
+            <div class="col-md-12 col-sm-12 col-xs-12">
                 <h2><%=client.firstName+" "+client.lastName%></h2>
                  <div>
                     <h6>Upload a different photo...</h6>
-                     <input type="file" class="well well-sm" accept="image/*" capture="camera" name="photo"> 
+                    <input type="file" class="well well-sm" accept="image/*" capture="camera" name="photo"> 
                 </div>
             </div>
         </div>
@@ -69,8 +71,7 @@
             </div>
         </div>
         <div class="row custom-table">
-            <div class="col-md-8 col-sm-12 col-xs-12 personal-info">
-                <div class="col-md-4 col-sm-4 col-xs-4">
+                <div class="table-responsive">
                    <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -92,7 +93,6 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
         </div>
         <!--Edit client replacements behaviors-->
         <div class="row">
@@ -101,8 +101,7 @@
             </div>
         </div>
         <div class="row custom-table">
-            <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
-                <div class="col-md-4 col-sm-4 col-xs-4">
+                <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -124,7 +123,6 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
         </div>
          <!--Edit client approvals--> 
         <div class="row">
@@ -133,8 +131,7 @@
             </div>
         </div>
         <div class="row custom-table">
-            <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
-                <div class="col-md-4 col-sm-4 col-xs-4">
+                <div class="table-responsive">
                    <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -166,19 +163,17 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
         </div>
-        <div class="row">
+        <div class="row form-group">
             <div class="col-md-6 col-sm-6 col-xs-6">
                 <input class="btn btn-success" type="submit" value="Save">
-                <a class="btn btn-danger"href="/superuser/<%=superuserID%>/client/<%=client._id%>">Cancel</a>
+                <a class="btn btn-default"href="/superuser/<%=superuserID%>/client/<%=client._id%>">Cancel</a>
             </div>
         </div>
     </form>
 </div>
  
-
-
+      
 <%include ../partials/footer%>
 
 

@@ -5,11 +5,13 @@
 
     <%if(currentUser.type=="superuser"){%>
     <div class="container-fluid" style="padding-top: 60px;">
-    <div class="row">
-        <div class="col-md-2 col-sm-2 col-xs-2">
-            <img id="dashPhoto" src="<%=assistant.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
+    <div class="row text-center">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <img src="<%=assistant.photo%>" class="avatar img-circle img-thumbnail main-image" alt="avatar">
         </div>
-        <div class="col-md-6 col-sm-6 col-xs-6">
+    </div>
+    <div class="row text-center">
+        <div class="col-md-12 col-sm-12 col-xs-12">
             <h2><%=assistant.firstName+" "+assistant.lastName%></h2>
             <a class="btn btn-success"href="/superuser/<%=superuserID%>/assistant/<%=assistant._id%>/edit">Edit</a>
             <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#deactivateModal">Deactivate</button>
@@ -57,17 +59,25 @@
     </div>
     <%}%>
     <%if(currentUser.type=="assistant"){%>
-     <div class="row" id="main" >
-        <div class="col-sm-12 col-md-12 well" id="content">
-            <h1 id="welcome">Welcome <%=assistant.firstName%></h1>
+        <div id="content">
+            <div>
+                <%if(error && error.length>0){%>
+                <div class="alert alert-danger text-center" role="alert"><%=error%></div>
+                <%}%>
+                <%if(success && success.length>0){%>
+                <div class="alert alert-success text-center" role="alert"><%=success%></div>
+                <%}%>
+            </div>
+            <div class="col-sm-12 col-md-12 well">
+                <h1 id="welcome">Welcome <%=assistant.firstName%></h1>
+            </div>
         </div>
-        <div class="container" style="padding-top: 60px;">
+        <div class="container-fluid" style="padding-top: 60px;">
             <div class="row">
                 <!--Showing superuser atrributes including the picture-->
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="thumbnail">
                         <div class="text-center">
-                            <img src="<%=assistant.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
+                            <img src="<%=assistant.photo%>" class="avatar img-circle img-thumbnail main-image" alt="avatar">
                             <div class="caption">
                                     <h2><%=currentUser.company%></h2>
                                     <h4><strong>Phone: </strong><%=assistant.phone%></h4>
@@ -75,11 +85,9 @@
                                     <h4><strong>Provider ID: </strong><%=assistant.providerId%></h4>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
-    </div>
      <%}%>
      <%if(currentUser.type!="assistant"){%>
     <div class="row">
@@ -89,7 +97,7 @@
     </div>
     <!--Showing assistant attributes on a table-->
     <div class="row custom-table">
-        <div class="col-md-4 col-sm-12 col-xs-12">
+        <div class="table-responsive">
             <table class="table table-bordered">
                 <tbody>
                     <tr>
@@ -115,8 +123,8 @@
         </div>
     </div>
     <div class="row custom-table">
-        <div class="col-md-8 col-sm-8 col-xs-8">
-            <table class="table table-bordered">
+        <div class="table-responsive">
+            <table class="table table-bordered ">
                 <thead>
                     <tr>
                         <th>Name</th>

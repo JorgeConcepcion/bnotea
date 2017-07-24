@@ -159,7 +159,8 @@ router.get("/:assistantID/edit",Middleware.isLoggedIn,Middleware.isAssistantSupe
 });
 
 //UPDATE ROUTE
-router.put("/:assistantID",Middleware.isLoggedIn,Middleware.isAssistantSuperuser,Middleware.isAuthorizedSuperuser,Middleware.isAuthorizedAssistant,Middleware.uploadPhoto.array('photo'),function(req,res){
+router.put("/:assistantID",Middleware.isLoggedIn,Middleware.isAssistantSuperuser,Middleware.isAuthorizedSuperuser,Middleware.isAuthorizedAssistant,Middleware.uploadPhoto.array('photo'),Middleware.fixInputFormat,function(req,res){
+    
     Assistant.findById(req.params.assistantID,function(err,assistant){
         if(err){
             req.flash("error",err.message+", please login again to continue");

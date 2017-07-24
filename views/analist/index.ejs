@@ -3,20 +3,18 @@
 
 
 <!--Displaying all the analists-->
-<div class="container" style="padding-top: 60px;">
+<div class="container-fluid" style="padding-top: 60px;">
     <!--ROW START-->
     <div class="row">
         <%analists.forEach(function(analist){%>
             <div class="col-md-4 col-sm-6 col-xs-12">
-                <div class="thumbnail">
-                    <div class="text-center">
-                       <a id="image" href="/superuser/<%=superuserID%>/analist/<%=analist._id%>"><img src="<%=analist.photo%>" class="avatar img-circle img-thumbnail" alt="avatar"></a>
-                        <div class="caption">
-                            <h3><%=analist.firstName+" "+analist.lastName%></h3>
-                            <p><strong>Phone: </strong><%=analist.phone%></p>
-                            <p><strong>Email: </strong><%=analist.email%></p>
-                            <p><strong>Provider ID: </strong><%=analist.providerId%></p>
-                        </div>
+                <div class="text-center">
+                   <a href="/superuser/<%=superuserID%>/analist/<%=analist._id%>"><img src="<%=analist.photo%>" class="avatar img-circle img-thumbnail index-image" alt="avatar"></a>
+                    <div class="caption">
+                        <h3><%=analist.firstName+" "+analist.lastName%></h3>
+                        <p><strong>Phone: </strong><%=analist.phone%></p>
+                        <p><strong>Email: </strong><%=analist.email%></p>
+                        <p><strong>Provider ID: </strong><%=analist.providerId%></p>
                     </div>
                 </div>
             </div>

@@ -1,14 +1,16 @@
 <%include ../partials/header%>
 
 
-<div class="container-fluid" style="padding-top: 60px;">
+<div class="container-fluid centerBlock" style="padding-top: 60px;">
     <!--Displaying the assistant picture-->
     <form  method="POST" action="/superuser/<%=superuserID%>/assistant/<%=assistant._id%>?_method=PUT" class="form-horizontal" enctype="multipart/form-data" size="chars">
-        <div class="row">
-            <div class="col-md-2 col-sm-2 col-xs-2">
-                <img id="dashPhoto" src="<%=assistant.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
+        <div class="row text-center">
+            <div class="col-md-12 col-sm-4 col-xs-12">
+                <img  src="<%=assistant.photo%>" class="avatar img-circle img-thumbnail main-image" alt="avatar">
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-6">
+        </div>
+        <div class="row text-center">
+            <div class="col-md-12 col-sm-12 col-xs-12">
                 <%if(currentUser.type=="superuser"){%>
                 <h2><%=assistant.firstName+" "+assistant.lastName%></h2>
                 <%}%>
@@ -64,7 +66,7 @@
         <%if(currentUser.type=="superuser"){%>
     <!--Assign and remove clients-->
         <div class="row">
-            <div class="col-md-3 col-sm-12 col-xs-12">
+            <div class="col-md-8 col-sm-8 col-xs-8">
                 <div class="dropdown">
                     <h4 class="page-header">
                         Clients 
@@ -94,7 +96,7 @@
             </div>
         </div>
         <div class="row custom-table">
-            <div class="col-md-8 col-sm-8 col-xs-8">
+            <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -123,10 +125,10 @@
             </div>
         </div>
         <%}%>
-        <div class="row">
+        <div class="row form-group">
             <div class="col-md-8 col-sm-6 col-xs-6">
                 <input class="btn btn-success" type="submit" value="Save">
-                <a class="btn btn-danger"href="/superuser/<%=superuserID%>/assistant/<%=assistant._id%>">Cancel</a>
+                <a class="btn btn-default"href="/superuser/<%=superuserID%>/assistant/<%=assistant._id%>">Cancel</a>
             </div>
         </div>
     </form>

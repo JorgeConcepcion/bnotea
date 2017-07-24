@@ -3,11 +3,13 @@
 
 <div class="container-fluid" style="padding-top: 60px;">
     <!--Displaying client, including delete deactivate and edit buttons-->
-    <div class="row">
-        <div class="col-md-2 col-sm-2 col-xs-2">
-            <img id="dashPhoto" src="<%=client.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
+    <div class="row text-center">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <img   src="<%=client.photo%>" class="avatar img-circle img-thumbnail main-image" alt="avatar">
         </div>
-        <div class="col-md-6 col-sm-6 col-xs-6">
+    </div>
+    <div class="row text-center">
+        <div class="col-md-12 col-sm-12 col-xs-12">
             <h2><%=client.firstName+" "+client.lastName%></h2>
             <%if(currentUser.type=="superuser"){%>
             <a class="btn btn-success"href="/superuser/<%=superuserID%>/client/<%=client._id%>/edit">Edit</a>
@@ -62,7 +64,7 @@
     </div>
      <!--Show client info-->
     <div class="row custom-table">
-        <div class="col-md-4 col-sm-12 col-xs-12">
+        <div class="table-responsive">
             <table class="table table-bordered">
                 <tbody>
                     <tr>
@@ -100,7 +102,7 @@
         </div>
     </div>
     <div class="row custom-table">
-        <div class="col-md-4 col-sm-12 col-xs-12">
+        <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -126,7 +128,7 @@
         </div>
     </div>
     <div class="row custom-table">
-        <div class="col-md-4 col-sm-12 col-xs-12">
+        <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -152,7 +154,7 @@
         </div>
     </div>
     <div class="row custom-table">
-        <div class="col-md-8 col-sm-8 col-xs-8">
+        <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
                     <tr>

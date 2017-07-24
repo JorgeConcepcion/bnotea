@@ -142,7 +142,7 @@ router.get("/:analistID/edit",Middleware.isLoggedIn,Middleware.isAnalistSuperuse
     });
 });
 //UPDATE ROUTE
-router.put("/:analistID",Middleware.isLoggedIn,Middleware.isAnalistSuperuser,Middleware.isAuthorizedSuperuser,Middleware.isAuthorizedAnalist,Middleware.uploadPhoto.array('photo'),function(req,res){
+router.put("/:analistID",Middleware.isLoggedIn,Middleware.isAnalistSuperuser,Middleware.isAuthorizedSuperuser,Middleware.isAuthorizedAnalist,Middleware.uploadPhoto.array('photo'),Middleware.fixInputFormat,function(req,res){
     Analist.findById(req.params.analistID,function(err,analist){
         if(err){
             req.flash("error",err.message+", please login again to continue");

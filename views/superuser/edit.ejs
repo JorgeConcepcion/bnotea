@@ -1,7 +1,7 @@
 <%include ../partials/header%>
 
 <div id="page-wrapper">
-  <div class="container" style="padding-top: 60px;">
+  <div class="container-fluid" style="padding-top: 60px;">
     <h1 class="page-header">Edit Profile</h1>
     <div class="row">
       <!--Left column-->
@@ -14,7 +14,7 @@
         </div>
       </div>
       <!--Right column-->
-      <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
+      <div class="col-sm-8 col-xs-12">
         <!--Form to edit a superuser-->
         <form  method="POST" action="/superuser/<%=superuser._id%>?_method=PUT" class="form-horizontal" >
           <div class="form-group">

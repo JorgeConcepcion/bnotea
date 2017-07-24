@@ -1,8 +1,17 @@
-.modal-content{
-    width:400px;
-    margin:100px auto;
+.modal-content {
+    width: 400px;
+    margin: 100px auto;
 }
+
+
 /*Overwriting the valid class of the jquery validator to no show the green thing*/
-input.valid{
-    background-image:none;
+
+input.valid {
+    background-image: none;
+}
+
+@media only screen and (max-width: 768px) {
+    .modal-content {
+        width: 300px;
+    }
 }

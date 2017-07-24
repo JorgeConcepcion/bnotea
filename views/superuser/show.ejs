@@ -1,16 +1,23 @@
 <%include ../partials/header%>
-
-
-<div class="col-sm-12 col-md-12 well" id="content">
-    <h1 id="welcome">Welcome <%=superuser.firstName%></h1>
+<div id="content">
+    <div>
+    <%if(error && error.length>0){%>
+    <div class="alert alert-danger text-center" role="alert"><%=error%></div>
+    <%}%>
+    <%if(success && success.length>0){%>
+    <div class="alert alert-success text-center" role="alert"><%=success%></div>
+    <%}%>
+    </div>
+    <div class="col-sm-12 col-md-12 well">
+        <h1 id="welcome">Welcome <%=superuser.firstName%></h1>
+    </div>
 </div>
-<div class="container" style="padding-top: 60px;">
+<div class="container-fluid" style="padding-top: 60px;">
     <div class="row">
         <!--Showing superuser atrributes including the picture-->
         <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="thumbnail">
                 <div class="text-center">
-                    <img src="<%=superuser.photo%>" class="avatar img-circle img-thumbnail" alt="avatar">
+                    <img src="<%=superuser.photo%>" class="avatar img-circle img-thumbnail main-image" alt="avatar">
                     <div class="caption">
                         <h2><%=currentUser.company%></h2>
                         <h4><strong>Phone: </strong><%=superuser.phone%></h4>
@@ -18,7 +25,6 @@
                         <h4><strong>Provider ID: </strong><%=superuser.providerId%></h4>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 </div>
