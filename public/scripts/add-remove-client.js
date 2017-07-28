@@ -1,4 +1,5 @@
-$('.list-group-item').on("click", function (event) {
+/* global $ */
+$('.list-group-item').on("click", function () {
 
 
     $("#client-table").append($(this).next("table").children("tbody").html());

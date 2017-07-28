@@ -1,3 +1,4 @@
+/* global $ */
 //This function controls the behavior of the nav-bar
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();
@@ -7,7 +8,7 @@ $(function () {
     $('.side-nav .collapse').on("show.bs.collapse", function () {
         $(this).prev().find(".fa").eq(1).removeClass("fa-angle-down").addClass("fa-angle-right");
     });
-})
+});
 
 
 //Activating validation on all forms

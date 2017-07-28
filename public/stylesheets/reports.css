@@ -1,0 +1,205 @@
+/*GLOBAL*/
+
+
+/*OVERWRITING THE VALID CLASS OF THE JQUERY VALIDATOR TO NO SHOW THR GREEN THING*/
+
+input.valid {
+    background-image: none;
+}
+
+body,
+textarea {
+    font-family: 'El Messiri', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+}
+
+header {
+    font-family: 'El Messiri', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+}
+
+h4 {
+    font-family: 'El Messiri', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+h5 {
+    font-family: 'El Messiri', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+h6 {
+    font-family: 'El Messiri', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+header {
+    margin-top: 10px;
+}
+
+.doc-header {
+    margin-top: 40px;
+    margin-bottom: 30px;
+}
+
+
+/*DAILY LOG STYLES*/
+
+.table>tbody>tr>.col-center-daily {
+    padding-top: 2%;
+}
+
+.daily td:nth-child(1) div:nth-child(1) {
+    margin-top: 330px;
+}
+
+.daily td:nth-child(1) .form-group {
+    margin-top: 40px;
+}
+
+.daily td:nth-child(2) div:nth-child(1) {
+    margin-top: 250px;
+}
+
+.daily td:nth-child(2) div {
+    margin-top: 50px;
+}
+
+.daily td:nth-child(3) textarea {
+    margin-top: 330px;
+}
+
+.daily td:nth-child(4) .form-group,
+.daily td:nth-child(4) .form-inline {
+    margin-top: 70px;
+}
+
+.daily td:nth-child(4) .form-inline {
+    margin-top: 20px;
+}
+
+.daily td:nth-child(4) textarea {
+    height: 170px;
+}
+
+.active-signature {
+    border-bottom: 1.5px solid green;
+}
+
+canvas {
+    border-bottom: 1px solid black;
+}
+
+.canvas-area {
+    margin-top: 50px;
+}
+
+.save-buttons {
+    margin-top: 80px;
+}
+
+.confidentiality-area {
+    margin-top: 220px;
+}
+
+
+/*Supervision Styles*/
+
+.supervision {
+    margin-top: 50px;
+}
+
+.table>tbody>tr>.col-center-supervision {
+    padding-top: 3%;
+}
+
+.supervision-date {
+    width: 80%;
+    display: inline;
+    margin-left: 8px;
+}
+
+
+/*Medical Styles*/
+
+.form-inline .form-control.wide {
+    width: 80%;
+}
+
+.page-header.header-wide {
+    width: 150px;
+}
+
+.row.medical-visit-row,
+.row.medication-row {
+    margin-top: 30px;
+}
+
+h4 .fa-plus {
+    float: right;
+    color: #2d88bc;
+}
+
+
+/*Behavior Collection*/
+
+.table-bordered.behavior-collection tbody tr td {
+    width: 10%;
+    padding: 0;
+}
+
+.cell {
+    font-family: 'Alegreya Sans', sans-serif;
+    ;
+    font-size: 20px;
+    font-weight: 100;
+    text-align: center;
+}
+
+.behavior-collection-header {
+    margin-right: 50px;
+    display: inline;
+}
+
+.behavior-collection-header-container {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.erase-cell {
+    width: 50px
+}
+
+
+/*Replacement Collection*/
+
+.Yes {
+    color: green;
+}
+
+
+/*Replacement Collection*/
+
+.No {
+    color: red;
+}
+
+
+/*Analist daily log*/
+
+.hours {
+    margin-top: 25px;
+}
+
+.date {
+    margin-top: 100px;
+}
+
+#analist-progress {
+    height: 235px;
+}

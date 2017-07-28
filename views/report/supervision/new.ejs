@@ -1,0 +1,88 @@
+<%include ../../partials/header%>
+<form id="form" method="POST" action="/supervision">
+	<div class="doc-name text-center">
+        <h4>MONITORING AND SUPERVISION CONDUCTED BY LEAD ANALYST</h4>
+    </div>
+    <div class="table-responsive">
+       <table class="table table-bordered doc-header">
+            <tbody>
+                <tr>
+                    <td><h4>Name of Recipient/Medicaid ID: @Juan Perez/@9543678543</h4></td>
+                    <td><h4>PA #:@98765093</h4></td>
+                    <td class="col-center-supervision" rowspan="2"><h4>Month/Year: @May/@2017</h4></td>
+                    
+                </tr>
+                 <tr>
+                    <td><h4>Name of Behavior Technician/Provider ID:@Juan Perez/090987657</h4></td>
+                    <td><h4>Name of Behavior Analyst/Provider ID:@Raul Gonzalez/089765675:</h4></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="table-responsive supervision">
+       <table class="table table-bordered">
+            <tbody>
+                <thead>
+	                <tr>
+	                    <th><h4>Date</h4></th>
+	                    <th><h4>Duration (min)</h4></th>
+	                    <th><h4>Characteristics of supervision conducted</h4></th>
+	                    <th><h4>Overall evaluation of supervisee performance</h4></th>
+	                    <th><h4>Behavior assistant signature</h4></th>
+	                    <th><h4>Behavior analist signature</h4></th>
+	                </tr>
+                </thead>
+                 <tr>
+                    <td><input class="form-control" type="date" name="date" data-validation="required"></td>
+                    <td><input class="form-control" type="number"  step="1" name="duration"  data-validation="number" data-validation-allowing="range[0;120]" data-validation-error-msg="The supervision time should not exceeded the 120 minutes"></td>
+                    <td>
+                        <div class="form-group">
+				            <select class="selectpicker" multiple data-width="100%" name="characteristics" title="Characteristics of supervision" data-header="Select all that apply" data-validation="required">
+  					            <option data-subtext="Observation of supervisee working with the individual">A</option>
+  					            <option data-subtext="Specific recipient discussed">B</option>
+  					            <option data-subtext="Observation of supervisee working with caregiver/other provider">C</option>
+  					            <option data-subtext="Recipient privacy discussed">D</option>
+  					            <option data-subtext="Required documentation reviewed">E</option>
+  					            <option data-subtext="Supervisory discussion and feedback">F</option>
+  					            <option data-subtext="BACB task list skills covered">G</option>
+				            </select>
+				            <input style="display:none" name="characteristics" value="">
+			            </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+				            <select class="selectpicker" data-width="100%" name="performance" title="Supervisee performance" data-validation="required">
+  					            <option data-subtext="Satisfactory">S</option>
+  					            <option data-subtext="Needs improvment">NI</option>
+  					            <option data-subtext="Unsatisfactory">U</option>
+				            </select>
+			            </div>
+                    </td>
+                    <td>
+	                     <canvas class="assistant-canvas" width="290" height="70" ></canvas>
+	                     <input type="text" class="assistant-input" name="signatures[assistant]" style="display:none" value="">
+		                 <button type="button" class="btn btn-default activate-assistant">Activate</button>
+	                     <button type="button" class="btn btn-default clear-assistant" >Clear</button>
+  	                     <button type="button" class="btn btn-default save-assitant"  >Save</button>
+                    </td>
+                    <td>
+    		    		 <canvas class="analist-canvas" width="290" height="70"></canvas>
+    		    		 <input type="text" class="analist-input" name="signatures[analist]" style="display:none" value="">
+    		    		 <button type="button" class="btn btn-default activate-analist"  >Activate</button>
+    		    		 <button type="button" class="btn btn-default clear-analist" >Clear</button>
+          				 <button type="button" class="btn btn-default save-analist"  >Save</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+     <div class="save-buttons text-center">
+    	<button class="btn btn-success btn-lg save">Save</button>
+    	<button class="btn btn-success btn-lg submit">Submit</button>
+    	<input id="button" type="text" name="button" value="submit" style="display:none">
+    </div>
+</form>
+
+
+
+<%include ../../partials/footer%>

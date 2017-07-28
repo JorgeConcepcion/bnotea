@@ -23,6 +23,7 @@ var express = require("express"),
     analistRoutes = require("./routes/analist"),
     clientRoutes = require("./routes/client"),
     defaultRoute = require("./routes/default"),
+    testRoute=require("./routes/test"),
     //private
     mongooseConnect = require("./private/mongooseConnect");
 
@@ -65,7 +66,9 @@ app.use(authenticationRoutes);
 app.use("/superuser/:superuserID/assistant", assistantRoutes);
 app.use("/superuser/:superuserID/analist", analistRoutes);
 app.use("/superuser/:superuserID/client", clientRoutes);
+app.use(testRoute);
 app.use(defaultRoute);
+
 
 //SEEDING THE DATABASE
 seedDB();
@@ -73,5 +76,4 @@ seedDB();
 //STARTING THE SERVER
 app.listen(process.env.PORT, process.env.IP, function() {
     console.log("Server started at " + Date.now());
-    console.log()
 });

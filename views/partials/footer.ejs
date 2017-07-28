@@ -1,20 +1,61 @@
-
-<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"> </script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
-<script src="/scripts/main-script.js"></script>
-<%if(page=="client-edit"){%>
-    <script src="/scripts/client-edit.js"></script>
-<%}%>
- <%if(page=="assistant-edit" || page=="analist-edit"){%>
-    <script src="/scripts/add-remove-client.js"></script>
-<%}%>
-
-      </div>       
-            <!-- /.row -->
-    </div>
-        <!-- /.container-fluid -->
-</div>
-    <!-- /#page-wrapper -->
-</body>
+        
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"> </script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+        <script src="/scripts/main-script.js"></script>
+        
+        
+        <%if(page=="client-edit"){%>
+            <script src="/scripts/client-edit.js"></script>
+        <%}%>
+        
+         <%if(page=="assistant-edit" || page=="analist-edit"){%>
+            <script src="/scripts/add-remove-client.js"></script>
+        <%}%>
+        
+         <%if (page!="login" && page!="change" && page!="landing" && page!="page404" && page.indexOf("report") > -1){%>
+                  </div>       
+                        <!-- /.row -->
+                </div>
+                    <!-- /.container-fluid -->
+            </div>
+                <!-- /#page-wrapper -->
+        
+        <%}%>
+        
+        <%if(page.indexOf("report") > -1){%>
+            <div class="confidentiality-area text-center">
+        		<p>
+        			Confidentiality Notice: This information is for the sole use of ACHA, Beacon Health Options, and @Friendly Hands Health, INC. This form may contain confidential and priviliged information that is exempt from public disclosure
+        		</p>
+        	</div>
+         </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
+        <script src="/scripts/report/signature.js"></script>
+        <script src="/scripts/external/bootstrap-flash-alert.js"></script>
+        <%}%>
+        
+        
+        <%if(page!="behavior-report" && page!="replacement-report"){%>
+            <script src="/scripts/report/validation.js"></script>
+        <%}%>
+        
+        <%if(page=="caregiver-report"){%>
+            <script src="/scripts/report/caregiver.js"></script>
+        <%}%>
+        
+        <%if(page=="behavior-report"){%>
+            <script src="/scripts/report/behavior.js"></script>
+        <%}%>
+        
+        <%if(page=="replacement-report"){%>
+            <script src="/scripts/report/replacement.js"></script>
+        <%}%>
+        
+        <%if(page=="medical-report"){%>
+            <script src="/scripts/report/medical.js"></script>
+        <%}%>
+    
+    </body>
 </html>

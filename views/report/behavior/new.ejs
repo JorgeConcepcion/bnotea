@@ -1,0 +1,163 @@
+<%include ../../partials/header%>
+		
+<form id="form" method="POST" action="/behavior">
+	<div class="doc-name text-center">
+        <h4>MALADAPTATIVE BEHAVIOR DATA COLLECTION</h4>
+    </div>
+   <div class="table-responsive">
+       <table class="table table-bordered doc-header">
+            <tbody>
+                <tr>
+                    <td><h4>Name of Recipient/Medicaid ID: @Juan Perez/@9543678543</h4></td>
+                    <td><h4>Name of Behavior Technician/Provider ID:@Juan Perez/090987657</h4></td>
+                </tr>
+                 <tr>
+                    <td><h4>PA #:@98765093</h4></td>
+                    <td><h4>Month/Year: @May/@2017</h4></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+	<div class="container">
+		<div class="text-center">
+			<h4 class="page-header">@Tantrum</h4>
+		</div>
+	    <div class="text-center behavior-collection-header-container">
+		    <h5  class="behavior-collection-header">Frequency:<span id="frequency">0</span></h5>
+		    <h5 class="behavior-collection-header">Baseline:@<span id="baseline">30</span></h5>
+	    </div>
+	    <%if(0){%>   <!--No Intensity-->
+	     <div class="table-responsive">
+	       <table class="table table-bordered table-condensed behavior-collection text-center">
+	            <tbody>
+	                <tr>
+                        <td><h5></h5></td>
+	                    <td><h5>F</h5></td>
+	                    <td><h5>F</h5></td>
+	                    <td><h5>F</h5></td>
+	                    <td><h5>F</h5></td>
+	                    <td><h5>F</h5></td>
+	                    <td><h5>F</h5></td>
+	                    <td><h5>F</h5></td>
+                    </tr>
+	                <%for(i=20;i>0;i--){%>
+		                <tr>
+		                    <td><h5><%=i%></h5></td>
+		                    <td id="1A<%=i%>" class="cellNonintensity"></td>
+		                    <td id="2A<%=i%>" class="cellNonintensity"></td>
+		                    <td id="3A<%=i%>" class="cellNonintensity"></td>
+		                    <td id="4A<%=i%>" class="cellNonintensity"></td>
+		                    <td id="5A<%=i%>" class="cellNonintensity"></td>
+		                    <td id="6A<%=i%>" class="cellNonintensity"></td>
+		                    <td id="7A<%=i%>" class="cellNonintensity"></td>
+		                </tr>
+	                 <%}%>
+	                 <%for(i=1;i<8;i++){%>
+	                 <input id="<%=i%>" style="display:none" type="number" name="frequency" value="0">
+	                 <%}%>
+	                    <tr>
+	                        <td><h5>Days</h5></td>
+		                    <td><h5>1</h5></td>
+		                    <td><h5>2</h5></td>
+		                    <td><h5>3</h5></td>
+		                    <td><h5>4</h5></td>
+		                    <td><h5>5</h5></td>
+		                    <td><h5>6</h5></td>
+		                    <td><h5>7</h5></td>
+	                    </tr>
+	            </tbody>
+	        </table>
+	    </div>
+	    <%}%>
+	    <%if(1){%>  <!--Intensity-->
+	     <div class="table-responsive">
+	       <table class="table table-bordered table-condensed text-center">
+	            <tbody>
+	                <tr>
+                        <td><h5></h5></td>
+	                    <td><h5>F</h5></td>
+	                    <td><h5>I</h5></td>
+	                    <td><h5>F</h5></td>
+	                    <td><h5>I</h5></td>
+	                    <td><h5>F</h5></td>
+	                    <td><h5>I</h5></td>
+	                    <td><h5>F</h5></td>
+	                    <td><h5>I</h5></td>
+	                    <td><h5>F</h5></td>
+	                    <td><h5>I</h5></td>
+	                    <td><h5>F</h5></td>
+	                    <td><h5>I</h5></td>
+	                    <td><h5>F</h5></td>
+	                    <td><h5>I</h5></td>
+                    </tr>
+	                <%for(i=20;i>0;i--){%>
+		                <tr>
+		                    <td><h5><%=i%></h5></td>
+		                    <td id="1F<%=i%>" class="cellIntensityFrequency"></td>
+		                    <td id="1I<%=i%>" class="cellIntensity"></td>
+		                    <input id="1N<%=i%>" style="display:none" type="number" name="intensity[1][<%=i%>]" value="">
+		                    <td id="2F<%=i%>" class="cellIntensityFrequency"></td>
+		                    <td id="2I<%=i%>" class="cellIntensity"></td>
+		                    <input id="2N<%=i%>" style="display:none" type="number" name="intensity[2][<%=i%>]" value="">
+		                    <td id="3F<%=i%>" class="cellIntensityFrequency"></td>
+		                    <td id="3I<%=i%>" class="cellIntensity"></td>
+		                    <input id="3N<%=i%>" style="display:none" type="number" name="intensity[3][<%=i%>]" value="">
+		                    <td id="4F<%=i%>" class="cellIntensityFrequency"></td>
+		                    <td id="4I<%=i%>" class="cellIntensity"></td>
+		                    <input id="4N<%=i%>" style="display:none" type="number" name="intensity[4][<%=i%>]" value="">
+		                    <td id="5F<%=i%>" class="cellIntensityFrequency"></td>
+		                    <td id="5I<%=i%>" class="cellIntensity"></td>
+		                    <input id="5N<%=i%>" style="display:none" type="number" name="intensity[5][<%=i%>]" value="">
+		                    <td id="6F<%=i%>" class="cellIntensityFrequency"></td>
+		                    <td id="6I<%=i%>" class="cellIntensity"></td>
+		                    <input id="6N<%=i%>" style="display:none" type="number" name="intensity[6][<%=i%>]" value="">
+		                    <td id="7F<%=i%>" class="cellIntensityFrequency"></td>
+		                    <td id="7I<%=i%>" class="cellIntensity"></td>
+		                    <input id="7N<%=i%>" style="display:none" type="number" name="intensity[7][<%=i%>]" value="">
+		                </tr>
+	                 <%}%>
+	                 <%for(i=1;i<8;i++){%>
+	                 <input id="<%=i%>" style="display:none" type="number" name="frequency" value="0">
+	                 <%}%>
+	                    <tr>
+	                        <td><h5>Days</h5></td>
+		                    <td colspan="2"><h5>1</h5></td>
+		                    <td colspan="2"><h5>2</h5></td>
+		                    <td colspan="2"><h5>3</h5></td>
+		                    <td colspan="2"><h5>4</h5></td>
+		                    <td colspan="2"><h5>5</h5></td>
+		                    <td colspan="2"><h5>6</h5></td>
+		                    <td colspan="2"><h5>7</h5></td>
+	                    </tr>
+	            </tbody>
+	        </table>
+	    </div>
+	    <%}%>
+	</div>
+    <div class="row canvas-area">
+    	<div class="col-sm-6 col-xs-12 text-center">
+    		 <canvas class="assistant-canvas" width="290" height="150" ></canvas>
+    		 <h4>Assistant Signature</h4>
+    		 <input type="text" class="assistant-input" name="signatures[assistant]" style="display:none" value="">
+    		 <button type="button" class="btn btn-default activate-assistant">Activate</button>
+    		 <button type="button" class="btn btn-default clear-assistant" >Clear</button>
+  			 <button type="button" class="btn btn-default save-assitant"  >Save</button>
+    	</div>
+    	<div class="col-sm-6 col-xs-12 text-center">
+    		 <canvas class="analist-canvas" width="290" height="150"></canvas>
+    		 <h4>Analist Signature</h4>
+    		 <input type="text" class="analist-input" name="signatures[analist]" style="display:none" value="">
+    		 <button type="button" class="btn btn-default activate-analist"  >Activate</button>
+    		 <button type="button" class="btn btn-default clear-analist" >Clear</button>
+  			 <button type="button" class="btn btn-default save-analist"  >Save</button>
+    	</div>
+    </div>
+     <div class="save-buttons text-center">
+    	<button class="btn btn-success btn-lg save">Save</button>
+    	<button class="btn btn-success btn-lg submit">Submit</button>
+    	<input id="button" type="text" name="button" value="submit" style="display:none">
+    </div>
+</form>
+
+
+<%include ../../partials/footer%>
