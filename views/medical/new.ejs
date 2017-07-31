@@ -1,0 +1,108 @@
+<%include ../../partials/header%>
+	
+<form id="form" method="POST" action="/medical">
+	<div class="doc-name text-center">
+        <h4>MEDICAL VISIT LOG</h4>
+    </div>
+    <div class="table-responsive">
+       <table class="table table-bordered doc-header">
+            <tbody>
+                <tr>
+                    <td><h4>Name of Recipient/Medicaid ID: @Juan Perez/@9543678543</h4></td>
+                    <td><h4>Name of Behavior Technician/Provider ID:@Juan Perez/090987657</h4></td>
+                </tr>
+                 <tr>
+                    <td><h4>PA #:@98765093</h4></td>
+                    <td><h4>Month/Year: @May/@2017</h4></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="medical-visit">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="page-header header-wide">Medical Visit<i class="fa fa-plus fa-plus-medical" aria-hidden="true"></i></h4>  
+            </div>
+	    </div>
+	    <div class="row medical-visit-row">
+            <div class="col-md-3 col-sm-12">
+                <div class="form-inline">
+                    <label>Doctor: </label>
+		            <select class="selectpicker index-medical" data-width="50%" name="medicalVisit[0][doctor]" title="Doctor" data-validation="required">
+  			            <option>Pediatrician</option>
+  			            <option>Neurologist</option>
+  			            <option>Psychiatrist</option>
+  			            <option>Other</option>
+		            </select>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="form-inline">
+                    <label>Reason: </label>
+                    <input type="text"class="form-control wide" placeholder="Reason" name="medicalVisit[0][reason]" data-validation="required">
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <div class="form-inline">
+                    <label>Date: </label>
+                    <input type="date"class="form-control" name="medicalVisit[0][date]" data-validation="required">
+                    <span class="trash"><i class="fa fa-trash" ></i></span>
+                </div>
+            </div>
+    	</div>
+    </div>
+    <div class="medication-change">
+       <div class="row ">
+	      <div class="col-md-12">
+	          <h4 class="page-header header-wide">Medication <i class="fa fa-plus fa-plus-medication" aria-hidden="true"></i></h4>  
+	      </div>
+	   </div>
+        <div class="row medication-row">
+            <div class="col-md-6">
+                <div class="form-inline">
+                    <label>Medication: </label>
+                    <input type="text"class="form-control wide" placeholder="medication" name="medication[0][name]" data-validation="required">
+                </div>
+            
+            </div>
+            <div class="col-md-6">
+                <div class="form-inline">
+                    <label>Action: </label>
+		            <select class="selectpicker index-medication" data-width="20%" name="medication[0][action]" title="Action" data-validation="required">
+  			            <option>Add</option>
+  			            <option>Increase dosage</option>
+  			            <option>Decrease dosage</option>
+		            </select>
+		            <span class="trash"><i class="fa fa-trash" ></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row canvas-area">
+    	<div class="col-sm-6 col-xs-12 text-center">
+    		 <canvas class="assistant-canvas" width="290" height="150" ></canvas>
+    		 <h4>Assistant Signature</h4>
+    		 <input type="text" class="assistant-input" name="signatures[assistant]" style="display:none" value="">
+    		 <button type="button" class="btn btn-default activate-assistant">Activate</button>
+    		 <button type="button" class="btn btn-default clear-assistant" >Clear</button>
+  			 <button type="button" class="btn btn-default save-assistant"  >Save</button>
+    	</div>
+    	<div class="col-sm-6 col-xs-12 text-center">
+    		 <canvas class="caregiver-canvas" width="290" height="150"></canvas>
+    		 <h4>Caregiver Signature</h4>
+    		 <input type="text" class="caregiver-input" name="signatures[caregiver] " style="display:none" value="">
+    		 <button type="button" class="btn btn-default activate-caregiver"  >Activate</button>
+    		 <button type="button" class="btn btn-default clear-caregiver" >Clear</button>
+  			 <button type="button" class="btn btn-default save-caregiver"  >Save</button>
+    	</div>
+    </div>
+    <div class="save-buttons text-center">
+    	<button class="btn btn-success btn-lg save">Save</button>
+    	<button class="btn btn-success btn-lg submit">Submit</button>
+    	<input id="button" type="text" name="button" value="submit" style="display:none">
+    </div>
+</form>
+
+
+
+<%include ../../partials/footer%>	

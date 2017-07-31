@@ -1,0 +1,174 @@
+<%include ../../partials/header%>
+
+<form id="form" method="POST" action="/dailyLog">
+	<div class="doc-name text-center">
+        <h4>BEHAVIOR ASSISTANT DAILY LOG</h4>
+    </div>
+   <div class="table-responsive">
+        <table class="table table-bordered doc-header">
+            <tbody>
+                <tr>
+                    <td><h4>Name of Recipient/Medicaid ID: @Juan Perez/@9543678543</h4></td>
+                    <td><h4>Name of Behavior Technician/Provider ID:@Juan Perez/090987657</h4></td>
+                    <td class="col-center-daily"rowspan="2">
+                    	<h4>Week's Hours/Units:</h4>
+                    	<h4>@30/@120</h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td><h4>PA #:@98765093</h4></td>
+                    <td><h4>Month/Year: @May/@2017</h4></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+	<div>
+		<h6>Week of: @04/30/2017 to @05/06/2017</h6>
+	</div>
+	<%for(i=0;i<2;i++){%>
+    	<div class="table-responsive">
+		   <table class="table table-bordered">
+		        <tbody>
+		             <thead>
+		                <tr>
+		                    <th></th>
+		                    <th><h4>Duration of Meeting</h4></th>
+		                    <th><h4>Environmental Changes</h4></th>
+		                    <th><h4>Brief Description of Performance/Observation</h4></th>
+		             
+		                </tr>
+		            </thead>
+		             <tr class="text-center daily">
+		                <td>
+		                	<div>
+								<h4>Date:</h4>
+								<h5>@12/12/2017</h5>
+							</div>
+							<div class="form-group">
+								<h4>Setting:</h4>
+								<select  class="selectpicker" data-width="auto" title="setting" name="log[<%=i%>][setting]" data-validation="required">
+		  							<option>Home</option>
+		  							<option>Day care</option>
+		  							<option>Park</option>
+								</select>
+							</div>
+		                </td>
+		                <td>
+		                	<div>
+								<h4>Time in:</h4>
+								<h5>@9:30am</h5>
+							</div>
+							<div>
+								<h4>Time out:</h4>
+								<h5>@12:30am</h5>
+							</div>
+							<div>
+								<h4>Units:</h4>
+								<h5>@20</h5>
+							</div>
+		                </td>
+		                <td>
+		                	<div class="form-group">
+								<textarea  class="form-control input-lg" name="log[<%=i%>][environmentalChange]" placeholder="Environmental changes" data-validation="required"></textarea>
+							</div>
+		                </td>
+		                <td>
+		                	<div class="form-inline ">
+								<p>
+									The client has a <span><select data-validation="required" data-width="20%" name="log[<%=i%>][participation]" class="form-control selectpicker" title="participation"><option>poor</option><option>fair</option><option>good</option></select></span> participation during session. 
+								</p>
+								<p>
+									The physical, behavioral and emotional health status of the client has been <span><input placeholder="status" name="log[<%=i%>][status]"type="text"class="form-control" data-validation="required" ></span>.
+								</p>
+			    			</div>
+			    			<div class="form-group">
+								<h4>Target Behaviors Observed:</h4>
+								<select class="selectpicker" multiple data-width="100%" name="log[<%=i%>][behaviors]"  data-validation="required" title="Target Behaviors Observed">
+		  							<option>Mustard</option>
+		  							<option>Ketchup</option>
+		  							<option>Relish</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<h4>Implemented interventions:</h4>
+								<p>Client showed 
+								<select  class="selectpicker" data-width="auto" name="log[<%=i%>][intervention][behavior]" title="behavior" data-validation="required">
+		  							<option>Mustarda</option>
+		  							<option>Ketchup</option>
+		  							<option>Relish</option>
+								</select>
+								,the applied intervention was:
+								<select  class="selectpicker" data-width="auto" name="log[<%=i%>][intervention][name]" title="intervention" data-validation="required">
+		  							<option>Mustard</option>
+		  							<option>Ketchup</option>
+		  							<option>Relish</option>
+								</select>
+								It
+								<select  class="selectpicker" name="log[<%=i%>][intervention][result]" data-width="auto" title="result" data-validation="required">
+		  							<option>works</option>
+		  							<option>does not work</option>
+								</select>
+								at this time
+								</p>
+							</div>
+							<div class="form-group">
+								<h4>Implemented Replacements:</h4>
+								<select class="selectpicker" multiple data-width="100%" name="log[<%=i%>][replacements]" title="Implemented replacements" data-validation="required">
+		  							<option>Mustard</option>
+		  							<option>Ketchup</option>
+		  							<option>Relish</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<h4> Reinforces used today:<h4> 
+								<select  class="selectpicker" data-width="auto" name="log[<%=i%>][reinforces]" title="Reinforces" data-validation="required">
+		  							<option>Edibles</option>
+		  							<option>Non-Edibles</option>
+		  							<option>Other</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<h4>Today's Progress:<h4> 
+								<textarea class="form-control input-lg" name="log[<%=i%>][progress]" data-validation="required"></textarea>
+							</div>
+		                </td>
+		            </tr>
+		        </tbody>
+		    </table>
+		</div>
+    <%}%>
+    <div class="row canvas-area text-center">
+    	<div class="col-md-4 col-sm-12 col-xs-12">
+    		 <canvas class="assistant-canvas" width="290" height="150" ></canvas>
+    		 <h4>Assistant Signature</h4>
+    		 <input type="text" class="assistant-input" name="signatures[assistant]" style="display:none" value="">
+    		 <button type="button" class="btn btn-default activate-assistant">Activate</button>
+    		 <button type="button" class="btn btn-default clear-assistant" >Clear</button>
+  			 <button type="button" class="btn btn-default save-assistant"  >Save</button>
+    	</div>
+    	<div class="col-md-4 col-sm-12 col-xs-12">
+    		 <canvas class="analist-canvas" width="290" height="150"></canvas>
+    		 <h4>Analist Signature</h4>
+    		 <input type="text" class="analist-input" name="signatures[analist]" style="display:none" value="">
+    		 <button type="button" class="btn btn-default activate-analist"  >Activate</button>
+    		 <button type="button" class="btn btn-default clear-analist" >Clear</button>
+  			 <button type="button" class="btn btn-default save-analist"  >Save</button>
+    	</div>
+    	<div  class="col-md-4 col-sm-12 col-xs-12">
+    		 <canvas class="caregiver-canvas" width="290" height="150"></canvas>
+    		 <h4>Caregiver Signature</h4>
+    		 <input type="text" class="caregiver-input" name="signatures[caregiver]" style="display:none" value="">
+    		 <button type="button" class="btn btn-default activate-caregiver"  >Activate</button>
+    		 <button type="button" class="btn btn-default clear-caregiver" >Clear</button>
+  			 <button type="button" class="btn btn-default save-caregiver"  >Save</button>
+    	</div>
+    </div>
+     <div class="save-buttons text-center">
+    	<button class="btn btn-success btn-lg save">Save</button>
+    	<button class="btn btn-success btn-lg submit">Submit</button>
+    	<input id="button" type="text" name="button" value="submit" style="display:none">
+    </div>
+</form>
+
+
+<%include ../../partials/footer%>

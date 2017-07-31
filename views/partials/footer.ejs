@@ -13,7 +13,7 @@
             <script src="/scripts/add-remove-client.js"></script>
         <%}%>
         
-         <%if (page!="login" && page!="change" && page!="landing" && page!="page404" && page.indexOf("report") > -1){%>
+         <%if (page!="login" && page!="change" && page!="landing" && page!="page404" && page.indexOf("section") > -1){%>
                   </div>       
                         <!-- /.row -->
                 </div>
@@ -23,7 +23,7 @@
         
         <%}%>
         
-        <%if(page.indexOf("report") > -1){%>
+        <%if(page.indexOf("section") > -1){%>
             <div class="confidentiality-area text-center">
         		<p>
         			Confidentiality Notice: This information is for the sole use of ACHA, Beacon Health Options, and @Friendly Hands Health, INC. This form may contain confidential and priviliged information that is exempt from public disclosure
@@ -37,23 +37,23 @@
         <%}%>
         
         
-        <%if(page!="behavior-report" && page!="replacement-report"){%>
+        <%if(page!="behavior-section" && page!="replacement-section"){%>
             <script src="/scripts/report/validation.js"></script>
         <%}%>
         
-        <%if(page=="caregiver-report"){%>
+        <%if(page=="caregiver-section"){%>
             <script src="/scripts/report/caregiver.js"></script>
         <%}%>
         
-        <%if(page=="behavior-report"){%>
+        <%if(page=="behavior-section"){%>
             <script src="/scripts/report/behavior.js"></script>
         <%}%>
         
-        <%if(page=="replacement-report"){%>
+        <%if(page=="replacement-section"){%>
             <script src="/scripts/report/replacement.js"></script>
         <%}%>
         
-        <%if(page=="medical-report"){%>
+        <%if(page=="medical-section"){%>
             <script src="/scripts/report/medical.js"></script>
         <%}%>
     
