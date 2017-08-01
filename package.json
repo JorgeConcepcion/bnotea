@@ -20,6 +20,7 @@
     "fs": "0.0.1-security",
     "jquery": "^3.2.1",
     "method-override": "^2.3.9",
+    "moment": "^2.18.1",
     "mongoose": "^4.6.0",
     "multer": "^1.3.0",
     "multer-s3": "^2.7.0",

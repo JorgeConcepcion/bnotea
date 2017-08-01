@@ -11,6 +11,14 @@ var mongoose=require("mongoose"),
 var assistantReportSchema=new mongoose.Schema({
 	startDate:String,
 	endDate:String,
+	shedule:
+		[
+			{
+				date:String,
+				timeIn:String,
+				timeOut:String
+			}
+		],
 	assistantLog:assistantLog,
 	behavior:behavior,
 	replacement:replacement,

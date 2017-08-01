@@ -1,4 +1,73 @@
 <%include ../partials/header%>
 
 
+<div class="container-fluid" style="padding-top: 60px;">
+  <h1 class="page-header">New Report</h1>
+  <form  method="POST" action="/superuser/<%=superuserID%>/client/<%=clientID%>/report" class="form-horizontal" >
+    <div class="container-fluid" style="width:60%">
+        <div class="row text-center">
+            <!--Form to create a client-->
+                <div class="form-group col-xs-6">
+                    <label class="control-label">Start Date:</label>
+                    <input type="text" id="startDate" value="" name="startDate" style="display:none">
+                    <input type="text" id="endDate" value="" name="endDate" style="display:none">
+                    <select  id="start-date" class="selectpicker" data-width="auto" title="Start Date" name="" data-validation="required">
+                        <%times.forEach(function(time,index){%>
+                            <option><%=time%></option>
+                        <%})%>
+                    </select>
+                </div>
+                <div class="form-group col-xs-6 ">
+                    <label class="control-label">End Date:</label>
+                    <span id="end-date" class="form-control-static"></span>
+                </div>
+                 
+        </div>
+        <div class="table-responsive text-center">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th>
+                            Date
+                        </th>
+                         <th>
+                            Worked?
+                        </th>
+                        <th>
+                            Time-in:
+                        </th>
+                        <th>
+                            Time-out:
+                        </th>
+                    </tr>
+                    <%for(i=0;i<7;i++){%>
+                    <tr>
+                        <td class="day col-md-4">
+                            MM/DD/YYYY
+                        </td>
+                        <td class="col-md-2">
+                            <input type="checkbox" disabled>
+                            <input type="text" class="date-hidden" value="" name="schedule[<%=i%>][date]" style="display:none">
+                        </td>
+                        <td class="col-md-2 time">
+                        <input class='timepickerIn form-control timeIn' type='text'name='schedule[<%=i%>][timeIn]' data-validation="required" disabled/>  
+                        </td>
+                        <td class="col-md-2 time">
+                            <input class='timepickerOut form-control timeOut' type='text'name='schedule[<%=i%>][timeOut]' data-validation="required" disabled/>
+                        </td>
+                    </tr>
+                    <%}%>
+                </tbody>
+            </table>
+        </div>
+        <div class="text-right">
+        <button class="btn btn-success">Create</button>
+        <button class="btn btn-danger">Cancel</button>
+        </div>
+    </div>
+    
+  </form>
+</div>
+    
+
 <%include ../partials/footer%>
