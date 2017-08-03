@@ -9,8 +9,8 @@
             <!--Form to create a client-->
                 <div class="form-group col-xs-6">
                     <label class="control-label">Start Date:</label>
-                    <input type="text" id="startDate" value="" name="startDate" style="display:none">
-                    <input type="text" id="endDate" value="" name="endDate" style="display:none">
+                    <input type="text" id="startDate" value="" name="report[startDate]" style="display:none">
+                    <input type="text" id="endDate" value="" name="report[endDate]" style="display:none">
                     <select  id="start-date" class="selectpicker" data-width="auto" title="Start Date" name="" data-validation="required">
                         <%times.forEach(function(time,index){%>
                             <option><%=time%></option>
@@ -47,13 +47,13 @@
                         </td>
                         <td class="col-md-2">
                             <input type="checkbox" disabled>
-                            <input type="text" class="date-hidden" value="" name="schedule[<%=i%>][date]" style="display:none">
+                            <input type="text" class="date-hidden" value="" name="report[schedule][<%=i%>][date]" style="display:none">
                         </td>
                         <td class="col-md-2 time">
-                        <input class='timepickerIn form-control timeIn' type='text'name='schedule[<%=i%>][timeIn]' data-validation="required" disabled/>  
+                        <input class='timepickerIn form-control timeIn' type='text'name='report[schedule][<%=i%>][timeIn]' data-validation="required" disabled/>  
                         </td>
                         <td class="col-md-2 time">
-                            <input class='timepickerOut form-control timeOut' type='text'name='schedule[<%=i%>][timeOut]' data-validation="required" disabled/>
+                            <input class='timepickerOut form-control timeOut' type='text'name='report[schedule][<%=i%>][timeOut]' data-validation="required" disabled/>
                         </td>
                     </tr>
                     <%}%>
@@ -62,7 +62,7 @@
         </div>
         <div class="text-right">
         <button class="btn btn-success">Create</button>
-        <button class="btn btn-danger">Cancel</button>
+        <a href="/superuser/<%=superuserID%>/client/<%=clientID%>/report" class="btn btn-danger">Cancel</a>
         </div>
     </div>
     

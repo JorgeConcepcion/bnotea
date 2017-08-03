@@ -35,7 +35,7 @@ router.post("/behavior",function(req,res){
 	res.send(req.body);
 });   
 router.get("/replacement",function(req,res){
-	res.render("report/replacement/new",{page:"replacement-report"});
+	res.render("replacement/new",{page:"replacement-section"});
 });
 router.post("/replacement",function(req,res){
 	res.send(req.body);

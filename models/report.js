@@ -1,17 +1,9 @@
-var mongoose=require("mongoose"),
-	assistantLog=require("assistantLog"),
-	behavior=require("behavior"),
-	replacement=require("replacement"),
-	supervision=require("supervision"),
-	medical=require("medical"),
-	analistLog=require("analistLog"),
-	caregiver=require("caregiver");
-	
-    
-var assistantReportSchema=new mongoose.Schema({
+var mongoose=require("mongoose");
+
+var reportSchema=new mongoose.Schema({
 	startDate:String,
 	endDate:String,
-	shedule:
+	schedule:
 		[
 			{
 				date:String,
@@ -19,14 +11,106 @@ var assistantReportSchema=new mongoose.Schema({
 				timeOut:String
 			}
 		],
-	assistantLog:assistantLog,
-	behavior:behavior,
-	replacement:replacement,
-	supervision:supervision,
-	medical:medical,
-	analistLog:analistLog,
-	caregiver:caregiver
+	assistantLog:{
+		log:
+			[
+				{
+					setting:String,
+					environmentalChange:String,
+					participation:String,
+					status:String,
+					behaviors:[],
+					intervention:{
+						behavior:String,
+						name:String,
+						result:String
+					},
+					replacements:[],
+					reinforces:String,
+					progress:String
+				}
+			],
+		signatures:{
+			assistant:String,
+			analist:String,
+			caregiver:String
+		},
+		state:String
+	},
+	behavior:{
+		intensity:[[]],
+		frequency:[],
+		signatures:{
+			assistant:String,
+			analist:String,
+		},
+		state:{type:String,default:""}
+	},
+	replacement:{
+		completion:[[]],
+		trials:[],
+		signatures:{
+			assistant:String,
+			analist:String,
+		},
+		state:{type:String,default:""}
+	},
+	supervision:{
+		date:String,
+		duration:Number,
+		characteristics:[],
+		performance:String,
+		signatures:{
+			assistant:String,
+			analist:String,
+			caregiver:String
+		},
+		state:String
+	},
+	medical:{
+		medicalVisit:[
+			{
+				doctor:String,
+				reason:String,
+				date:String,
+			}
+		],
+		medication:[
+			{
+				name:String,
+				action:String
+			}
+		],
+		signatures:{
+			assistant:String,
+			analist:String,
+			caregiver:String
+		},
+		state:String
+	},
+	analistLog:{
+		log:
+			[
+				{
+					progress:String
+				}
+			],
+		signatures:{
+			caregiver:String,
+			analist:String,
+		},
+		state:String
+	},
+	caregiver:{
+		performance:[[]],
+		date:[],
+		signatures:{
+			caregiver:String,
+			analist:String,
+		},
+		state:{type:String,default:""}
+	}
 
 });
 
-module.exports=mongoose.model("AssistantReport",assistantReportSchema);
+module.exports=mongoose.model("Report",reportSchema);

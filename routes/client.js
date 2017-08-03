@@ -102,7 +102,7 @@ router.get("/",Middleware.isLoggedIn,Middleware.isAuthorizedAssistant,Middleware
 
 //NEW ROUTE
 router.get("/new",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
-	Superuser.findById(req.params.superuserID,function(err,superuser){
+	Superuser.findById(req.params.superuserID,function(err){
 		if(err){
 			req.flash("error",err.message+", please login again to continue");
 			req.logout();
@@ -151,7 +151,7 @@ router.post("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthor
 
 //SHOW ROUTE
 router.get("/:clientID",Middleware.isLoggedIn,Middleware.isAuthorizedAssistant,Middleware.isAuthorizedAnalist,Middleware.isAuthorizedSuperuser,function(req,res){
-	Superuser.findById(req.params.superuserID,function(err,superuser){
+	Superuser.findById(req.params.superuserID,function(err){
 		if(err){
 			req.flash("error",err.message+", please login again to continue");
 			req.logout();

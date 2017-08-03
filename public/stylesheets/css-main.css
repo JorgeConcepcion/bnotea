@@ -182,13 +182,14 @@ h5.welcome {
 }
 
 
-/* DISPLAY THE EDIT DELETE DEACTIVATE...BUTTONS ON THE SAME LINE*/
+/* DISPLAY THE EDIT DELETE DEACTIVATE REPORTS...BUTTONS ON THE SAME LINE*/
 
 .clientButton {
     display: inline;
 }
-
-
+.btn-report{
+    display:block;width:220px; margin:0 auto; margin-top:5px
+}
 /* CLIENT EDIT */
 
 h4 .fa-plus {

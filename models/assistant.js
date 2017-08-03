@@ -16,11 +16,11 @@ var assistantSchema=new mongoose.Schema({
 			},
 
 		],
-	assistantReports:
+	reports:
 		[
 			{
 				type:mongoose.Schema.Types.ObjectId,
-				ref:"AssistantReport"
+				ref:"Report"
 			},
 
 		],

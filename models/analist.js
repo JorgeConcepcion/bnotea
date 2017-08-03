@@ -15,11 +15,11 @@ var analistSchema=new mongoose.Schema({
 				ref:"Client"
 			},
 		],
-	analistReport:
+	reports:
 		[
 			{
 				type:mongoose.Schema.Types.ObjectId,
-				ref:"AnalistReport"
+				ref:"Report"
 			},
 
 		],
