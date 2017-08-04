@@ -42,7 +42,7 @@ var clientSchema=new mongoose.Schema({
 		[
 			{
 				type:mongoose.Schema.Types.ObjectId,
-				ref:"AssistantReport"
+				ref:"Report"
 			},
 
 		],
@@ -50,7 +50,7 @@ var clientSchema=new mongoose.Schema({
 		[
 			{
 				type:mongoose.Schema.Types.ObjectId,
-				ref:"AnalistReport"
+				ref:"Report"
 			},
 
 		]

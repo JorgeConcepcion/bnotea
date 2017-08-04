@@ -1,0 +1,43 @@
+<%include ../partials/header%>
+<div class="container-fluid" style="padding-top: 60px;"> 
+    <div class="row text-center">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <img   src="<%=client.photo%>" class="avatar img-circle img-thumbnail main-image" alt="avatar">
+                <h2><%=client.firstName+" "+client.lastName%></h2>
+            </div>
+    </div>
+    <div class="row ">
+                <div class="col-md-3 col-sm-12 col-xs-12">
+                    <h4 class="page-header">Assistant Reports</h4>
+                </div>
+    </div>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Week</th>
+                        <th>Author</th>
+                        <th>Status</th>
+                        <th>Units</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%client.assistantReports.forEach(function(report,index){%>
+                        <tr>
+                            
+                        </tr>
+                        <tr>
+                            <td><%=report.startDate+" - "+report.endDate%></td>
+                            <td><%=report.author%></td>
+                            <td><%=states[index]%></td>
+                            <td><%=units[index]%></td>
+                        </tr>
+                    <%})%>
+                </tbody>
+            </table>
+        </div>
+
+    <a class="btn btn-success" href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/new">New Report</a>
+</div>
+
+<%include ../partials/footer%>

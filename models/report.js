@@ -1,6 +1,7 @@
 var mongoose=require("mongoose");
 
 var reportSchema=new mongoose.Schema({
+	author:String,
 	startDate:String,
 	endDate:String,
 	schedule:
@@ -44,7 +45,7 @@ var reportSchema=new mongoose.Schema({
 			assistant:String,
 			analist:String,
 		},
-		state:{type:String,default:""}
+		state:String
 	},
 	replacement:{
 		completion:[[]],
@@ -53,7 +54,7 @@ var reportSchema=new mongoose.Schema({
 			assistant:String,
 			analist:String,
 		},
-		state:{type:String,default:""}
+		state:String
 	},
 	supervision:{
 		date:String,
@@ -62,8 +63,7 @@ var reportSchema=new mongoose.Schema({
 		performance:String,
 		signatures:{
 			assistant:String,
-			analist:String,
-			caregiver:String
+			analist:String
 		},
 		state:String
 	},
@@ -83,7 +83,6 @@ var reportSchema=new mongoose.Schema({
 		],
 		signatures:{
 			assistant:String,
-			analist:String,
 			caregiver:String
 		},
 		state:String
@@ -108,7 +107,7 @@ var reportSchema=new mongoose.Schema({
 			caregiver:String,
 			analist:String,
 		},
-		state:{type:String,default:""}
+		state:String
 	}
 
 });
