@@ -140,27 +140,30 @@ functionObj.scheduleTotalHoursChecker=function(schedule1,schedule2){
 	});
 	return sol;
 };
-functionObj.scheduleOwnOverlappingChecker=function(reports,schedule){
+functionObj.scheduleOwnOverlappingChecker=function(reports,schedule,id){
 	var sol=[];
 	sol[0]=false;
 	reports.forEach(function(report){
-		report.schedule.forEach(function(schedule1Day){
-			schedule.forEach(function(schedule2Day){
-				if(schedule2Day.date==schedule1Day.date){
-					if(schedule1Day.timeIn &&schedule1Day.timeIn.length>0 && schedule2Day.timeIn &&schedule2Day.timeIn.length>0 ){
-						let schedule2In=Number(schedule2Day.timeIn.split(":")[0])+(Number(schedule2Day.timeIn.split(":")[1])/60);
-						let schedule2Out=Number(schedule2Day.timeOut.split(":")[0])+(Number(schedule2Day.timeOut.split(":")[1])/60);
-						let schedule1In=Number(schedule1Day.timeIn.split(":")[0])+(Number(schedule1Day.timeIn.split(":")[1])/60);
-						let schedule1Out=Number(schedule1Day.timeOut.split(":")[0])+(Number(schedule1Day.timeOut.split(":")[1])/60);
-						if((schedule1Out-schedule2In)*(schedule2Out-schedule1In)>0){
-							sol[0]=true;
-							sol[1]=schedule2Day.date;
-							sol[2]=report._id;
-						}	
+		if(report._id!=id){
+            	report.schedule.forEach(function(schedule1Day){
+				schedule.forEach(function(schedule2Day){
+					if(schedule2Day.date==schedule1Day.date){
+						if(schedule1Day.timeIn &&schedule1Day.timeIn.length>0 && schedule2Day.timeIn &&schedule2Day.timeIn.length>0 ){
+							let schedule2In=Number(schedule2Day.timeIn.split(":")[0])+(Number(schedule2Day.timeIn.split(":")[1])/60);
+							let schedule2Out=Number(schedule2Day.timeOut.split(":")[0])+(Number(schedule2Day.timeOut.split(":")[1])/60);
+							let schedule1In=Number(schedule1Day.timeIn.split(":")[0])+(Number(schedule1Day.timeIn.split(":")[1])/60);
+							let schedule1Out=Number(schedule1Day.timeOut.split(":")[0])+(Number(schedule1Day.timeOut.split(":")[1])/60);
+							if((schedule1Out-schedule2In)*(schedule2Out-schedule1In)>0){
+								sol[0]=true;
+								sol[1]=schedule2Day.date;
+								sol[2]=report._id;
+							}	
+						}
 					}
-				}
+				});
 			});
-		});
+		}
+	
 	});
 	
 	return sol;

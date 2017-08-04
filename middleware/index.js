@@ -380,7 +380,7 @@ midlewareObj.checkOwnSchedule= function(req,res,next){
 			else{
 				if(assistant!=undefined){
 					if(assistant.reports[0]!=undefined){
-						let resultOwnChecker=Functions.scheduleOwnOverlappingChecker(assistant.reports,req.body.report.schedule);
+						let resultOwnChecker=Functions.scheduleOwnOverlappingChecker(assistant.reports,req.body.report.schedule,req.params.reportID);
 						if(resultOwnChecker[0]==true){
 							Client.findOne({assistantReports:resultOwnChecker[2]},function(err,client){
 								if(err){
@@ -421,7 +421,7 @@ midlewareObj.checkOwnSchedule= function(req,res,next){
 			else{
 				if(analist!=undefined){
 					if(analist.reports[0]!=undefined){
-						let resultOwnChecker=Functions.scheduleOwnOverlappingChecker(analist.reports,req.body.report.schedule);
+						let resultOwnChecker=Functions.scheduleOwnOverlappingChecker(analist.reports,req.body.report.schedule,req.params.reportID);
 						if(resultOwnChecker[0]==true){
 							Client.findOne({analistReports:resultOwnChecker[2]},function(err,client){
 								if(err){

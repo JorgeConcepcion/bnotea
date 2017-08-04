@@ -244,6 +244,35 @@ router.post("/",Middleware.checkSchedule,Middleware.checkOwnSchedule,function(re
 		}
 	});
 });
+
+//EDIT ROUTE
+router.get("/:reportID/edit",function(req,res){
+	Report.findById(req.params.reportID,function(err,report){
+		if(err){
+			req.flash("error", err.message + ", please login again to continue");
+			req.logout();
+			return res.redirect("/login");
+		}
+		else{
+			return res.render("report/edit",{page:"report-edit",superuserID:req.params.superuserID,clientID:req.params.clientID,report:report});
+		}
+	});
+});
+//UPDATE ROUTE
+router.put("/:reportID",Middleware.checkSchedule,Middleware.checkOwnSchedule,function(req,res){
+	Report.findByIdAndUpdate(req.params.reportID,req.body.report,function(err,report){
+		if(err){
+			req.flash("error", err.message + ", please login again to continue");
+			req.logout();
+			return res.redirect("/login");
+		}
+		else{
+			req.flash("success","Report successfully updated");
+			return res.redirect("/superuser/"+req.params.superuserID+"/client/"+req.params.clientID+"/report");
+			
+		}
+	});
+});
 //SHOW ROUTE
 router.get("/:reportID",function(req,res){
 	Report.findById(req.params.reportID,function(err,report){

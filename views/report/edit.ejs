@@ -1,0 +1,85 @@
+<%include ../partials/header%>
+
+
+<div class="container-fluid" style="padding-top: 60px;">
+  <h1 class="page-header">Edit Report</h1>
+  <form  method="POST" action="/superuser/<%=superuserID%>/client/<%=clientID%>/report/<%=report._id%>?_method=PUT" class="form-horizontal" >
+    <div class="container-fluid" style="width:60%">
+        <div class="row text-center">
+            <!--Form to create a report-->
+                <div class="form-group col-xs-6">
+                    <input type="text" name="report[author]" value="<%=report.author%>" style="display:none">
+                    <input type="text" id="startDate" value=<%=report.startDate%> name="report[startDate]" style="display:none">
+                    <input type="text" id="endDate" value=<%=report.endDate%> name="report[endDate]" style="display:none">
+                    <label class="control-label">Start Date: </label>
+                    <span class="form-control-static"><%=report.startDate%></span>
+                </div>
+                <div class="form-group col-xs-6 ">
+                    <label class="control-label">End Date: </label>
+                    <span class="form-control-static"><%=report.endDate%></span>
+                </div>
+                 
+        </div>
+        <div class="table-responsive text-center">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th>
+                            Date
+                        </th>
+                         <th>
+                            Worked?
+                        </th>
+                        <th>
+                            Time-in:
+                        </th>
+                        <th>
+                            Time-out:
+                        </th>
+                    </tr>
+                    <%for(i=0;i<7;i++){%>
+                    <tr>
+                        <td class="day col-md-4">
+                            <%=report.schedule[i].date%>
+                        </td>
+                        <td class="col-md-2">
+                        <%if(report.schedule[i].timeIn && report.schedule[i].timeIn.length>0){%>
+                            <input type="checkbox" checked>
+                        <%}%>
+                         <%if(!(report.schedule[i].timeIn && report.schedule[i].timeIn.length>0)){%>
+                            <input type="checkbox">
+                        <%}%>
+                            <input type="text" class="date-hidden" value="<%=report.schedule[i].date%>" name="report[schedule][<%=i%>][date]" style="display:none">
+                        </td>
+                        <td class="col-md-2 time">
+                        <%if(report.schedule[i].timeIn && report.schedule[i].timeIn.length>0){%>
+                             <input class='timepickerIn form-control timeIn' type='text'name='report[schedule][<%=i%>][timeIn]' data-validation="required" value="<%=report.schedule[i].timeIn%>"/>  
+                        <%}%>
+                        <%if(!(report.schedule[i].timeIn && report.schedule[i].timeIn.length>0)){%>
+                             <input class='timepickerIn form-control timeIn' type='text'name='report[schedule][<%=i%>][timeIn]' data-validation="required" disabled/>  
+                        <%}%>
+                        </td>
+                        <td class="col-md-2 time">
+                        <%if(report.schedule[i].timeOut && report.schedule[i].timeOut.length>0){%>
+                            <input class='timepickerOut form-control timeOut' type='text'name='report[schedule][<%=i%>][timeOut]' data-validation="required" value="<%=report.schedule[i].timeOut%>"/>
+                        <%}%>
+                        <%if(!(report.schedule[i].timeOut && report.schedule[i].timeOut.length>0)){%>
+                            <input class='timepickerOut form-control timeOut' type='text'name='report[schedule][<%=i%>][timeOut]' data-validation="required" disabled/>
+                        <%}%>
+                        </td>
+                    </tr>
+                    <%}%>
+                </tbody>
+            </table>
+        </div>
+        <div class="text-right">
+        <button class="btn btn-success">Save</button>
+        <a href="/superuser/<%=superuserID%>/client/<%=clientID%>/report" class="btn btn-danger">Cancel</a>
+        </div>
+    </div>
+    
+  </form>
+</div>
+    
+
+<%include ../partials/footer%>
