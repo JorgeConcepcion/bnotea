@@ -72,7 +72,7 @@ router.get("/",function(req,res){
 	var assistantUnits=[];
 	var analistStates=[];
 	var analistUnits=[];
-	Client.findById(req.params.clientID).populate("assistantReports").populate("analistReports").exec(function(err,client){
+	Client.findById(req.params.clientID).populate({path:"assistantReports",options: { sort: { startDate: -1 }}}).populate({path:"analistReports",options: { sort: { startDate: -1 }}}).exec(function(err,client){
 		if(err){
 			req.flash("error", err.message + ", please login again to continue");
 			req.logout();
