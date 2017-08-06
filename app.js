@@ -8,6 +8,7 @@ var express = require("express"),
 	bodyParser = require("body-parser"),
 	methodOverride = require("method-override"),
 	flash = require("connect-flash"),
+	MongoDBStore = require("connect-mongodb-session")(expressSession),
 	//models
 	User = require("./models/user"),
 	//middleware
@@ -25,8 +26,11 @@ var express = require("express"),
 	reportRoute=require("./routes/report"),
 	testRoute=require("./routes/test"),
 	//private
-	mongooseConnect = require("./private/mongooseConnect");
-
+	mongooseConnect = require("./private/mongooseConnect"),
+	//setting session store
+	store = new MongoDBStore({uri:mongooseConnect.uri(),collection:"sessions"});
+		
+			
 //CONNECTING TO MONGO
 mongooseConnect.connect();
 
@@ -44,9 +48,13 @@ app.use(bodyParser.urlencoded({
 app.use(methodOverride("_method"));
 app.use(flash());
 app.use(expressSession({
-	secret: "kjhjbjhdbsksldfjlsdkfjhkurgfdskjbbf",
-	resave: false,
-	saveUninitialized: false
+	secret:"This is a secret",
+	cookie:{
+		maxAge:1000*60*60*8
+	},
+	store:store,
+	resave:true,
+	saveUninitialized:true
 }));
 
 //authentication with passport

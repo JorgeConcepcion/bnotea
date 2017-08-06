@@ -391,7 +391,13 @@ and (orientation:portrait) {
 }
 
 }
-
+/*REPORT SHOW*/
+.report-h4{
+    display:inline;
+}
+.report-edit-btn{
+    margin-left:20px;
+}
 
 
 

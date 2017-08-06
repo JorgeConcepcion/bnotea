@@ -281,7 +281,18 @@ router.get("/:reportID",function(req,res){
 			req.logout();
 			return res.redirect("/login");
 		}else{
-			res.send(report);
+			var units=[];
+			report.schedule.forEach(function(day){
+				if(day.timeIn && day.timeIn.length>0){
+					let hoursIn=Number(day.timeIn.split(":")[0]);
+					let minIn=Number(day.timeIn.split(":")[1]);
+					let hoursOut=Number(day.timeOut.split(":")[0]);
+					let minOut=Number(day.timeOut.split(":")[1]);
+					let unit=(hoursOut-hoursIn)*4+(minOut-minIn)/15;
+					units.push(unit);
+				}
+			});
+			return res.render("report/show",{page:"report-show",superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,units:units});
 		}
 		
 	});
