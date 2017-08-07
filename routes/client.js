@@ -11,7 +11,7 @@ var express=require("express"),
 	//functions
 	Functions=require("../functions"),
 	//aws private info
-	AWSPrivate=require("../private/awsPrivate");
+	AWSPrivate=require("../../private/awsPrivate");
     
 //INDEX ROUTE
 router.get("/",Middleware.isLoggedIn,Middleware.isAuthorizedAssistant,Middleware.isAuthorizedAnalist,Middleware.isAuthorizedSuperuser,function(req,res){

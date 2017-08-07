@@ -1,8 +1,15 @@
 /* global $ */
 /* global SignaturePad */
 if ($(".caregiver-canvas").length > 0) {
-    
+   
 	let signaturePadCaregiver = new SignaturePad($(".caregiver-canvas").get(0));
+	if($(".caregiver-input").attr("value")!=""){
+		signaturePadCaregiver.fromDataURL($(".caregiver-input").attr("value"));
+		$(".clear-caregiver").attr("disabled", "");
+		$(".activate-caregiver").attr("disabled", "");
+		$(".save-caregiver").attr("disabled", "");
+		signaturePadCaregiver.off();
+	}
 	signaturePadCaregiver.off();
 	$(".activate-caregiver").on("click",function(){
 		signaturePadCaregiver.on();
@@ -32,6 +39,13 @@ if ($(".caregiver-canvas").length > 0) {
 if ($(".assistant-canvas").length > 0) {
     
 	let signaturePadAssistant = new SignaturePad($(".assistant-canvas").get(0));
+	if($(".assistant-input").attr("value")!=""){
+		signaturePadAssistant.fromDataURL($(".assistant-input").attr("value"));
+		$(".clear-assistant").attr("disabled", "");
+		$(".activate-assistant").attr("disabled", "");
+		$(".save-assistant").attr("disabled", "");
+		signaturePadAssistant.off();
+	}
 	signaturePadAssistant.off();
 	$(".activate-assistant").on("click",function(){
 		signaturePadAssistant.on();
@@ -62,6 +76,13 @@ if ($(".assistant-canvas").length > 0) {
 if ($(".analist-canvas").length > 0) {
     
 	let signaturePadAnalist = new SignaturePad($(".analist-canvas").get(0));
+	if($(".analist-input").attr("value")!=""){
+		signaturePadAnalist.fromDataURL($(".analist-input").attr("value"));
+		$(".clear-analist").attr("disabled", "");
+		$(".activate-analist").attr("disabled", "");
+		$(".save-analist").attr("disabled", "");
+		signaturePadAnalist.off();
+	}
 	signaturePadAnalist.off();
 	$(".activate-analist").on("click",function(){
 		signaturePadAnalist.on();

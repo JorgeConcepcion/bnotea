@@ -194,6 +194,11 @@ router.post("/",Middleware.checkSchedule,Middleware.checkOwnSchedule,function(re
 					}
 					else if(req.user.type=="assistant"){
 						report.assistantLog.state="Started";
+						report.assistantLog.log=[];
+						report.assistantLog.signatures={assistant:"",caregiver:"",analist:""};
+						for(let i=0;i<7;i++){
+							report.assistantLog.log.push({progress:"",reinforces:"",status:"",participation:"",environmentalChange:"",setting:"",replacements:[],intervention:{result:"",name:"",behavior:""},behaviors:[]});
+						}
 						report.behavior.state="Started";
 						report.replacement.state="Started";
 						report.medical.state="Started";
@@ -247,6 +252,9 @@ router.post("/",Middleware.checkSchedule,Middleware.checkOwnSchedule,function(re
 
 //EDIT ROUTE
 router.get("/:reportID/edit",function(req,res){
+	var unit=0;
+	var units=[];
+	var hours="";
 	Report.findById(req.params.reportID,function(err,report){
 		if(err){
 			req.flash("error", err.message + ", please login again to continue");
@@ -254,13 +262,76 @@ router.get("/:reportID/edit",function(req,res){
 			return res.redirect("/login");
 		}
 		else{
-			return res.render("report/edit",{page:"report-edit",superuserID:req.params.superuserID,clientID:req.params.clientID,report:report});
+			report.schedule.forEach(function(day){
+				if(day.timeIn && day.timeIn.length>0){
+					let hoursIn=Number(day.timeIn.split(":")[0]);
+					let minIn=Number(day.timeIn.split(":")[1]);
+					let hoursOut=Number(day.timeOut.split(":")[0]);
+					let minOut=Number(day.timeOut.split(":")[1]);
+					let uday=(hoursOut-hoursIn)*4+(minOut-minIn)/15;
+					unit=unit+uday;
+					units.push(uday);
+				}
+			});
+			hours=Math.floor((unit/4)).toString()+" h "+((unit%4)*15).toString()+" m ";
+			Client.findById(req.params.clientID,function(err,client){
+				if(err){
+					req.flash("error", err.message + ", please login again to continue");
+					req.logout();
+					return res.redirect("/login");
+				}
+				else{
+					Analist.findOne({reports:req.params.reportID},function(err,analist){
+						if(err){
+							req.flash("error", err.message + ", please login again to continue");
+							req.logout();
+							return res.redirect("/login");
+						}
+						else{
+							Assistant.findOne({reports:req.params.reportID},function(err,assistant){
+								if(err){
+									req.flash("error", err.message + ", please login again to continue");
+									req.logout();
+									return res.redirect("/login");
+								}
+								else{
+									if(req.query.section=="schedule"){
+										return res.render("report/edit/schedule",{page:"report-edit",superuserID:req.params.superuserID,clientID:req.params.clientID,report:report});
+									}
+									else if(req.query.section=="assistantLog"){
+										return res.render("report/edit/assistantLog",{page:"assistantLog-section",superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analist:analist,unit:unit,units:units,hours:hours});
+									}
+									else if(req.query.section=="behavior"){
+										return res.render("report/edit/behavior",{page:"behavior-section",superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analist:analist});
+									}
+									else if(req.query.section=="replacement"){
+										return res.render("report/edit/replacement",{page:"replacement-section",superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analist:analist});
+									}
+									else if(req.query.section=="medical"){
+										return res.render("report/edit/medical",{page:"medical-section",superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analist:analist});
+									}
+									else if(req.query.section=="supervision"){
+										return res.render("report/edit/supervision",{page:"supervision-section",superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analist:analist});
+									}
+									else if(req.query.section=="analistLog"){
+										return res.render("report/edit/analistLog",{page:"analistLog-section",superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analist:analist});
+									}
+									else if(req.query.section=="caregiver"){
+										return res.render("report/edit/caregiver",{page:"caregiver-section",superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analist:analist});
+									}
+								}
+							});
+						}
+					});
+				}
+		
+			});
 		}
 	});
 });
 //UPDATE ROUTE
 router.put("/:reportID",Middleware.checkSchedule,Middleware.checkOwnSchedule,function(req,res){
-	Report.findByIdAndUpdate(req.params.reportID,req.body.report,function(err,report){
+	Report.findByIdAndUpdate(req.params.reportID,req.body.report,function(err){
 		if(err){
 			req.flash("error", err.message + ", please login again to continue");
 			req.logout();

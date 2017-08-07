@@ -3,6 +3,7 @@
 var express = require("express"),
 	app = express(),
 	passport = require("passport"),
+	mongoose=require("mongoose"),
 	LocalStrategy = require("passport-local"),
 	expressSession = require("express-session"),
 	bodyParser = require("body-parser"),
@@ -14,7 +15,7 @@ var express = require("express"),
 	//middleware
 	Middleware = require("./middleware"),
 	//database seed
-	seedDB = require("./private/seedDB"),
+	seedDB = require("./seedDB"),
 	//routes
 	superuserRoutes = require("./routes/superuser"),
 	indexRoutes = require("./routes/index"),
@@ -26,13 +27,14 @@ var express = require("express"),
 	reportRoute=require("./routes/report"),
 	testRoute=require("./routes/test"),
 	//private
-	mongooseConnect = require("./private/mongooseConnect"),
+	mongooseConnect = require("../private/mongooseConnect"),
 	//setting session store
-	store = new MongoDBStore({uri:mongooseConnect.uri(),collection:"sessions"});
+	connectionUri=mongooseConnect.uri(),
+	store = new MongoDBStore({uri:connectionUri,collection:"sessions"});
 		
 			
 //CONNECTING TO MONGO
-mongooseConnect.connect();
+mongoose.connect(connectionUri);
 
 
 

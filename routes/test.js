@@ -41,7 +41,7 @@ router.post("/replacement",function(req,res){
 	res.send(req.body);
 });
 router.get("/log",function(req,res){
-	res.render("report/analistLog/new",{page:"analistLog-report"});
+	res.render("report/edit/analistLog",{page:"analistLog-section"});
 });
 router.post("/log",function(req,res){
 	res.send(req.body);

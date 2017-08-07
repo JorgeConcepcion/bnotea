@@ -1,9 +1,8 @@
 /* global $ */
 $(".save").on("click",function(e){
 	e.preventDefault();
-	$("#form").get(0).reset();
 	$("#button").attr("value","save");
-	$("#form").get(0).submit(function(){}); 
+	$("#form").get(0).submit(); 
 });
 
 $(".submit").on("click",function(e){
