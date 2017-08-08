@@ -49,7 +49,6 @@ $(".timepickerOut").timepicki({
 });
 
 function change(ele) {
-    
 	var element=$(ele).parent().parent().siblings("td.time").children().children("input");
 	if($(ele).hasClass("timeIn")){
 		$(element).removeAttr("disabled");
@@ -70,6 +69,10 @@ function change(ele) {
 		let element_tim=Number($(element).attr("data-timepicki-tim"));
 		let ele_mini=Number($(ele).attr("data-timepicki-mini"));
 		let element_mini=Number($(element).attr("data-timepicki-mini"));
+		if(isNaN(element_tim)){
+			element_tim=$(element).val().split(":")[0];
+			element_mini=$(element).val().split(":")[1];
+		}
 		let units=((ele_tim-element_tim)*4)+((ele_mini-element_mini)/15);
 		if(ele_tim<element_tim || (ele_mini==element_mini && ele_tim<=element_mini) || (units>32)){
 			let t=$(element).val().split(":");

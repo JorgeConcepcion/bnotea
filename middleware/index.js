@@ -276,7 +276,7 @@ midlewareObj.fixInputFormat = function (req, res, next) {
 			req.body.client.approvals = [];
 		}
 	}
-
+	
 	return next();
 };
 
@@ -460,4 +460,5 @@ midlewareObj.checkOwnSchedule= function(req,res,next){
 		return next();
 	}
 };
+
 module.exports = midlewareObj;

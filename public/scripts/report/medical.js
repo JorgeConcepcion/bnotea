@@ -1,4 +1,5 @@
 /* global $ document */
+var dates=$("#dates").html();
 $(".fa.fa-plus.fa-plus-medical").on("click", function () {
 	var index;
 	var element = $(".selectpicker.index-medical").last().attr("name");
@@ -6,13 +7,13 @@ $(".fa.fa-plus.fa-plus-medical").on("click", function () {
 		index = 0;
 	}
 	else {
-		index = Number(element.split("[")[1].split("]")[0]) + 1;
+		index = Number(element.split("[")[3].split("]")[0]) + 1;
 	}
 	$(".medical-visit").append(" <div class=\"row medical-visit-row\">" +
 								"<div class=\"col-md-3 col-sm-12\">" +
 								"<div class=\"form-inline\">" +
 								"<label>Doctor: </label>" +
-								"<select class=\"selectpicker index-medical\" data-width=\"50%\" name=\"medicalVisit[" + index + "][doctor]\" title=\"Doctor\" data-validation=\"required\">" +
+								"<select class=\"selectpicker index-medical\" data-width=\"50%\" name=\"report[medical][medicalVisit][" + index + "][doctor]\" title=\"Doctor\" data-validation=\"required\">" +
 								"<option>Pediatrician</option>" +
 								"<option>Neurologist</option>" +
 								"<option>Psychiatrist</option>" +
@@ -23,13 +24,14 @@ $(".fa.fa-plus.fa-plus-medical").on("click", function () {
 								"<div class=\"col-md-6 col-sm-12\">" +
 								"<div class=\"form-inline\">" +
 								"<label>Reason: </label>" +
-								"<input type=\"text\"class=\"form-control wide\" placeholder=\"Reason\" name=\"medicalVisit[" + index + "][reason]\" data-validation=\"required\">" +
+								"<input type=\"text\"class=\"form-control wide\" placeholder=\"Reason\" name=\"report[medical][medicalVisit][" + index + "][reason]\" data-validation=\"required\">" +
 								"</div>" +
 								"</div>" +
 								"<div class=\"col-md-3 col-sm-12\">" +
 								"<div class=\"form-inline\">" +
 								"<label>Date: </label>" +
-								"<input type=\"date\"class=\"form-control\" name=\"medicalVisit[" + index + "][date]\" data-validation=\"required\">" +
+								"<select  class=\"selectpicker\" data-width=\"auto\" name=\"report[medical][medicalVisit]["+ index +"][date]\" title=\"Date\" data-validation=\"required\">" +dates+
+								" </select>"+
 								"<span class=\"trash\"><i class=\"fa fa-trash\" ></i></span>" +
 								"</div>" +
 								"</div>" +
@@ -44,20 +46,20 @@ $(".fa.fa-plus.fa-plus-medication").on("click", function () {
 		index = 0;
 	}
 	else {
-		index = Number(element.split("[")[1].split("]")[0]) + 1;
+		index = Number(element.split("[")[3].split("]")[0]) + 1;
 	}
 
 	$(".medication-change").append("<div class=\"row medication-row\">" +
 								"<div class=\"col-md-6\">" +
 								"<div class=\"form-inline\">" +
 								"<label>Medication: </label>" +
-								"<input type=\"text\"class=\"form-control wide\" placeholder=\"Medication\" name=\"medication[" + index + "][name]\" data-validation=\"required\">" +
+								"<input type=\"text\"class=\"form-control wide\" placeholder=\"Medication\" name=\"report[medical][medication][" + index + "][name]\" data-validation=\"required\">" +
 								"</div>" +
 								"</div>" +
 								"<div class=\"col-md-6\">" +
 								"<div class=\"form-inline\">" +
 								"<label>Action: </label>" +
-								"<select class=\"selectpicker index-medication\" data-width=\"20%\" name=\"medication[" + index + "][action]\" title=\"Action\" data-validation=\"required\">" +
+								"<select class=\"selectpicker index-medication\" data-width=\"20%\" name=\"report[medical][medication][" + index + "][action]\" title=\"Action\" data-validation=\"required\">" +
 								"<option>Add</option>" +
 								"<option>Increase dosage</option>" +
 								"<option>Decrease dosage</option>" +

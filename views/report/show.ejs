@@ -45,15 +45,19 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="page-header" >
                 <h4 class="report-h4" >Maladaptative Behaviors Data Collection</h4>
-                <a href="/superuser/<%=superuserID%>/client/<%=clientID%>/report/<%=report._id%>/edit?section=behavior" class="btn btn-success btn-sm report-edit-btn">Edit</a>
+                <%report.behavior.forEach(function(b,index){%>
+                      <a href="/superuser/<%=superuserID%>/client/<%=clientID%>/report/<%=report._id%>/edit?section=behavior&behavior=<%=index%>" class="btn btn-success btn-sm report-edit-btn">Edit <%=b.name%></a>
+                <%})%>
             </div>
         </div>
     </div>
-    <div class="row ">
+   <div class="row ">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="page-header" >
                 <h4 class="report-h4" >Replacement Behaviors Data Collection</h4>
-                <a href="/superuser/<%=superuserID%>/client/<%=clientID%>/report/<%=report._id%>/edit?section=replacement" class="btn btn-success btn-sm report-edit-btn">Edit</a>
+                <%report.replacement.forEach(function(b,index){%>
+                      <a href="/superuser/<%=superuserID%>/client/<%=clientID%>/report/<%=report._id%>/edit?section=replacement&replacement=<%=index%>" class="btn btn-success btn-sm report-edit-btn">Edit <%=b.name%></a>
+                <%})%>
             </div>
         </div>
     </div>

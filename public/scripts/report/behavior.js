@@ -87,7 +87,7 @@ $(".cellIntensity").on("click", function () {
 $(".submit").on("click", function (e) {
 	let frequency = Number($("#frequency").text());
 	let baseline = Number($("#baseline").text());
-	if ($("#1").attr("value") == "0" || $("#2").attr("value") == "0" || $("#3").attr("value") == "0" || $("#4").attr("value") == "0" || $("#5").attr("value") == "0" || $("#6").attr("value") == "0" || $("#7").attr("value") == "0") {
+	if ($("#1").attr("value") == "" || $("#2").attr("value") == "" || $("#3").attr("value") == "" || $("#4").attr("value") == "" || $("#5").attr("value") == "" || $("#6").attr("value") == "" || $("#7").attr("value") == "") {
 		e.preventDefault();
 		$.alert("All the days must be filled", {
 			position: ["center", [-0.42, 0]],
@@ -108,5 +108,5 @@ $(".submit").on("click", function (e) {
 			title: false // title
 		});
 	}
-	$("#button").attr("value", "submit");
+	$("#button").attr("value", "Submit");
 });

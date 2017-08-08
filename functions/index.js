@@ -74,7 +74,7 @@ functionObj.escapeRegex = function (text) {
 //AWS S3 file uploader
 functionObj.AWSS3Upload = function (bucket, key, filePath, acl) {
 	var s3 = new aws.S3;
-	aws.config.loadFromPath("./private/aws-keys.json");
+	aws.config.loadFromPath("../private/aws-keys.json");
 	var uploadParams = {
 		Bucket: bucket,
 		Key: key,
@@ -168,5 +168,41 @@ functionObj.scheduleOwnOverlappingChecker=function(reports,schedule,id){
 	
 	return sol;
 };
+functionObj.initializeAssistantReport=function(report,client){
+	//Assistant Log
+	report.assistantLog.state="Started";
+	report.assistantLog.log=[];
+	report.assistantLog.signatures={assistant:"",caregiver:"",analist:""};
+	for(let i=0;i<7;i++){
+		report.assistantLog.log.push({progress:"",reinforces:"",status:"",participation:"",environmentalChange:"",setting:"",replacements:[],intervention:{result:"",name:"",behavior:""},behaviors:[]});
+	}
+	//Behavior
+	report.behavior=[];
+	client.maladaptativeBehaviors.forEach(function(maladaptativeBehavior){
+		let intensityTemp=[[],[],[],[],[],[],[]];
+		let frequencyTemp=[];
+		report.behavior.push({name:maladaptativeBehavior.name,intensity:intensityTemp,frequency:frequencyTemp,signatures:{assistant:"",analist:""},state:"Started"})
+	});
+	//Replacement
+	report.replacement=[];
+	client.replacementsBehaviors.forEach(function(replacementBehavior){
+		let completionTemp=[[],[],[],[],[],[],[]];
+		let trialsTemp=[];
+		report.replacement.push({name:replacementBehavior.name,completion:completionTemp,trials:trialsTemp,signatures:{assistant:"",analist:""},state:"Started"})
+	});
+	//Supervision
+	let characteristicsTemp=[];
+	report.supervision={date:"",duration:"",characteristics:characteristicsTemp,performance:"",signatures:{assistant:"",analist:""},state:"Started"};
+	//Medical
+	let medicalVisitTemp=[];
+	let medicationTemp=[];
+	report.medical={state:"Started",medicalVisit:medicalVisitTemp,medication:medicationTemp,signatures:{assistant:"",caregiver:""}};
+	
+	
 
+
+	report.medical.state="Started";
+	
+	return report;
+};
 module.exports = functionObj;

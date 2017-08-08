@@ -2,11 +2,13 @@
 var express=require("express"),
 	router=express.Router({mergeParams:true}),
 	moment=require("moment"),
+	Superuser=require("../models/superuser"),
 	Client=require("../models/client"),
 	Assistant=require("../models/assistant"),
 	Analist=require("../models/analist"),
 	Report=require("../models/report"),
-	Middleware=require("../middleware");
+	Middleware=require("../middleware"),
+	Functions=require("../functions");
 //NEW ROUTE
 router.get("/new",function(req,res){
 	var author;
@@ -193,16 +195,7 @@ router.post("/",Middleware.checkSchedule,Middleware.checkOwnSchedule,function(re
 						});
 					}
 					else if(req.user.type=="assistant"){
-						report.assistantLog.state="Started";
-						report.assistantLog.log=[];
-						report.assistantLog.signatures={assistant:"",caregiver:"",analist:""};
-						for(let i=0;i<7;i++){
-							report.assistantLog.log.push({progress:"",reinforces:"",status:"",participation:"",environmentalChange:"",setting:"",replacements:[],intervention:{result:"",name:"",behavior:""},behaviors:[]});
-						}
-						report.behavior.state="Started";
-						report.replacement.state="Started";
-						report.medical.state="Started";
-						report.supervision.state="Started";
+						report=Functions.initializeAssistantReport(report,client);
 						report.save(function(err,report){
 							if(err){
 								req.flash("error", err.message + ", please login again to continue");
@@ -272,6 +265,9 @@ router.get("/:reportID/edit",function(req,res){
 					unit=unit+uday;
 					units.push(uday);
 				}
+				else{
+					units.push(0);
+				}
 			});
 			hours=Math.floor((unit/4)).toString()+" h "+((unit%4)*15).toString()+" m ";
 			Client.findById(req.params.clientID,function(err,client){
@@ -281,48 +277,79 @@ router.get("/:reportID/edit",function(req,res){
 					return res.redirect("/login");
 				}
 				else{
-					Analist.findOne({reports:req.params.reportID},function(err,analist){
+					Superuser.findById(req.params.superuserID,function(err,superuser){
 						if(err){
 							req.flash("error", err.message + ", please login again to continue");
 							req.logout();
 							return res.redirect("/login");
 						}
 						else{
-							Assistant.findOne({reports:req.params.reportID},function(err,assistant){
+							Analist.findOne({clients:req.params.clientID},function(err,analist){
 								if(err){
 									req.flash("error", err.message + ", please login again to continue");
 									req.logout();
 									return res.redirect("/login");
 								}
 								else{
-									if(req.query.section=="schedule"){
-										return res.render("report/edit/schedule",{page:"report-edit",superuserID:req.params.superuserID,clientID:req.params.clientID,report:report});
-									}
-									else if(req.query.section=="assistantLog"){
-										return res.render("report/edit/assistantLog",{page:"assistantLog-section",superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analist:analist,unit:unit,units:units,hours:hours});
-									}
-									else if(req.query.section=="behavior"){
-										return res.render("report/edit/behavior",{page:"behavior-section",superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analist:analist});
-									}
-									else if(req.query.section=="replacement"){
-										return res.render("report/edit/replacement",{page:"replacement-section",superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analist:analist});
-									}
-									else if(req.query.section=="medical"){
-										return res.render("report/edit/medical",{page:"medical-section",superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analist:analist});
-									}
-									else if(req.query.section=="supervision"){
-										return res.render("report/edit/supervision",{page:"supervision-section",superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analist:analist});
-									}
-									else if(req.query.section=="analistLog"){
-										return res.render("report/edit/analistLog",{page:"analistLog-section",superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analist:analist});
-									}
-									else if(req.query.section=="caregiver"){
-										return res.render("report/edit/caregiver",{page:"caregiver-section",superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analist:analist});
-									}
+									Assistant.findOne({clients:req.params.clientID},function(err,assistant){
+										if(err){
+											req.flash("error", err.message + ", please login again to continue");
+											req.logout();
+											return res.redirect("/login");
+										}
+										else{
+											if(req.query.section=="schedule"){
+												return res.render("report/edit/schedule",{page:"report-edit",superuser:superuser,superuserID:req.params.superuserID,clientID:req.params.clientID,report:report});
+											}
+											else if(req.query.section=="assistantLog"){
+												return res.render("report/edit/assistantLog",{page:"assistantLog-section",superuser:superuser,superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analist:analist,unit:unit,units:units,hours:hours});
+											}
+											else if(req.query.section=="behavior"){
+												let frequency=0;
+												report.behavior[req.query.behavior].frequency.forEach(function(f){
+													frequency=frequency+Number(f);
+												});
+												return res.render("report/edit/behavior",{page:"behavior-section",superuser:superuser,superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analist:analist,behavior:req.query.behavior,frequency:frequency});
+											}
+											else if(req.query.section=="replacement"){
+												var trials=0;
+												var completed=0;
+												var porcentage=0;
+												report.replacement[req.query.replacement].trials.forEach(function(t){
+													trials=trials+Number(t);
+												});
+												report.replacement[req.query.replacement].completion.forEach(function(day){
+													day.forEach(function(d){
+														if(d=="1"){
+															completed=completed+1;
+														}
+													});
+											
+												});
+												if(trials!=0){
+													porcentage = Math.round((completed / trials) * 10000) / 100;
+												}
+												return res.render("report/edit/replacement",{page:"replacement-section",superuser:superuser,superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analist:analist,replacement:req.query.replacement,trials:trials,completed:completed,porcentage:porcentage});
+											}
+											else if(req.query.section=="medical"){
+												return res.render("report/edit/medical",{page:"medical-section",superuser:superuser,superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analist:analist});
+											}
+											else if(req.query.section=="supervision"){
+												return res.render("report/edit/supervision",{page:"supervision-section",superuser:superuser,superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analist:analist});
+											}
+											else if(req.query.section=="analistLog"){
+												return res.render("report/edit/analistLog",{page:"analistLog-section",superuser:superuser,superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analist:analist});
+											}
+											else if(req.query.section=="caregiver"){
+												return res.render("report/edit/caregiver",{page:"caregiver-section",superuser:superuser,superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analist:analist});
+											}
+										}
+									});
 								}
 							});
 						}
 					});
+					
 				}
 		
 			});
@@ -331,18 +358,49 @@ router.get("/:reportID/edit",function(req,res){
 });
 //UPDATE ROUTE
 router.put("/:reportID",Middleware.checkSchedule,Middleware.checkOwnSchedule,function(req,res){
-	Report.findByIdAndUpdate(req.params.reportID,req.body.report,function(err){
-		if(err){
-			req.flash("error", err.message + ", please login again to continue");
-			req.logout();
-			return res.redirect("/login");
-		}
-		else{
-			req.flash("success","Report successfully updated");
-			return res.redirect("/superuser/"+req.params.superuserID+"/client/"+req.params.clientID+"/report");
+	if(req.body.report.behavior){
+		Report.update({_id:req.params.reportID,"behavior.name":req.body.report.behavior.name},{$set:{"behavior.$":req.body.report.behavior}},function(err,report){
+			if(err){
+				req.flash("error", err.message + ", please login again to continue");
+				req.logout();
+				return res.redirect("/login");
+			}
+			else{
+				req.flash("success","Report successfully updated");
+				return res.redirect("/superuser/"+req.params.superuserID+"/client/"+req.params.clientID+"/report");
 			
-		}
-	});
+			}
+		});
+	}
+	else if(req.body.report.replacement){
+		Report.update({_id:req.params.reportID,"replacement.name":req.body.report.replacement.name},{$set:{"replacement.$":req.body.report.replacement}},function(err,report){
+			if(err){
+				req.flash("error", err.message + ", please login again to continue");
+				req.logout();
+				return res.redirect("/login");
+			}
+			else{
+				req.flash("success","Report successfully updated");
+				return res.redirect("/superuser/"+req.params.superuserID+"/client/"+req.params.clientID+"/report");
+			
+			}
+		});
+	}
+	else{
+		Report.findByIdAndUpdate(req.params.reportID,req.body.report,function(err){
+			if(err){
+				req.flash("error", err.message + ", please login again to continue");
+				req.logout();
+				return res.redirect("/login");
+			}
+			else{
+				req.flash("success","Report successfully updated");
+				return res.redirect("/superuser/"+req.params.superuserID+"/client/"+req.params.clientID+"/report");
+			
+			}
+		});
+	}
+
 });
 //SHOW ROUTE
 router.get("/:reportID",function(req,res){
@@ -361,6 +419,9 @@ router.get("/:reportID",function(req,res){
 					let minOut=Number(day.timeOut.split(":")[1]);
 					let unit=(hoursOut-hoursIn)*4+(minOut-minIn)/15;
 					units.push(unit);
+				}
+				else{
+					units.push(0);
 				}
 			});
 			return res.render("report/show",{page:"report-show",superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,units:units});

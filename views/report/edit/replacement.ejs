@@ -1,91 +1,104 @@
-<%include ../partials/header%>
+<%include ../../partials/header%>
 	
-<form id="form" method="POST" action="/replacement">
+<form id="form" method="POST" action="/superuser/<%=superuserID%>/client/<%=clientID%>/report/<%=report._id%>?_method=PUT">
 	<div class="doc-name text-center">
         <h4>REPLACEMENT BEHAVIOR DATA COLLECTION</h4>
     </div>
    <div class="table-responsive">
        <table class="table table-bordered doc-header">
-            <tbody>
+           <tbody>
                 <tr>
-                    <td><h4>Name of Recipient/Medicaid ID: @Juan Perez/@9543678543</h4></td>
-                    <td><h4>Name of Behavior Technician/Provider ID:@Juan Perez/090987657</h4></td>
+                    <td><h4>Name of Recipient/Medicaid ID:<%=client.firstName+" "+client.lastName+"/"+client.medicaidNumber%></h4></td>
+                    <td><h4>Name of Behavior Technician/Provider ID:<%=assistant.firstName+" "+assistant.lastName+"/"+assistant.providerId%></h4></td>
                 </tr>
                  <tr>
                     <td><h4>PA #:@98765093</h4></td>
-                    <td><h4>Month/Year: @May/@2017</h4></td>
+					<td><h4>Week:<%=report.schedule[0].date+" - "+report.schedule[6].date%></h4></td>
+					
                 </tr>
             </tbody>
         </table>
     </div>
 	<div class="container">
 	    <div class="text-center">
-	        <h4 class="page-header">@Social Skills</h4>
+			<h4 class="page-header"><%=client.replacementsBehaviors[replacement].name%></h4>
+			<input style="display:none" type="text" name="report[replacement][name]" value="<%=client.replacementsBehaviors[replacement].name%>">
 	    </div>
 	    <div class="text-center behavior-collection-header-container">
-		    <h5  class="behavior-collection-header">Trials: <span id="trialsTotal">0</span></h5>
-		    <h5  class="behavior-collection-header">Completed: <span id="trialsCompleted">0</span></h5>
-		    <h5  class="behavior-collection-header">Porcentage: <span id="porcentage">0</span></h5>
-		    <h5 class="behavior-collection-header">Baseline:@<span id="baseline">30</span></h5>
+		    <h5  class="behavior-collection-header">Trials: <span id="trialsTotal"><%=trials%></span></h5>
+		    <h5  class="behavior-collection-header">Completed: <span id="trialsCompleted"><%=completed%></span></h5>
+		    <h5  class="behavior-collection-header">Porcentage: <span id="porcentage"><%=porcentage%></span></h5>
+		    <h5 class="behavior-collection-header">Baseline:<span id="baseline"><%=client.replacementsBehaviors[replacement].baseline%></span></h5>
 	    </div>
 	     <div class="table-responsive">
 	        <table class="table table-bordered table-condensed text-center">
 	            <tbody>
 	                <tr>
-                        <td><h5></h5></td>
-	                    <td><h5>Trial</h5></td>
-	                    <td><h5>Completed</h5></td>
-	                    <td><h5>Trial</h5></td>
-	                    <td><h5>Completed</h5></td>
-	                    <td><h5>Trial</h5></td>
-	                    <td><h5>Completed</h5></td>
-	                    <td><h5>Trial</h5></td>
-	                    <td><h5>Completed</h5></td>
-	                    <td><h5>Trial</h5></td>
-	                    <td><h5>Completed</h5></td>
-	                    <td><h5>Trial</h5></td>
-	                    <td><h5>Completed</h5></td>
-	                    <td><h5>Trial</h5></td>
-	                    <td><h5>Completed</h5></td>
+						<td><h5></h5></td>
+						<%for(let i=0;i<7;i++){%>
+							<%if(report.schedule[i].timeIn && report.schedule[i].timeIn.length>0){%>
+								<td><h5>Trial</h5></td>
+	                    		<td><h5>Completed</h5></td>
+							<%}%>
+						<%}%>
                     </tr>
 	                <%for(i=20;i>0;i--){%>
 		                <tr>
 		                    <td><h5><%=i%></h5></td>
-		                    <td id="1T<%=i%>" class="cellTrial"></td>
-		                    <td id="1C<%=i%>" class="cellCompletion"></td>
-		                    <input id="1N<%=i%>" style="display:none" type="number" name="completion[1][<%=i%>]" value="">
-		                    <td id="2T<%=i%>" class="cellTrial"></td>
-		                    <td id="2C<%=i%>" class="cellCompletion"></td>
-		                    <input id="2N<%=i%>" style="display:none" type="number" name="completion[2][<%=i%>]" value="">
-		                    <td id="3T<%=i%>" class="cellTrial"></td>
-		                    <td id="3C<%=i%>" class="cellCompletion"></td>
-		                    <input id="3N<%=i%>" style="display:none" type="number" name="completion[3][<%=i%>]" value="">
-		                    <td id="4T<%=i%>" class="cellTrial"></td>
-		                    <td id="4C<%=i%>" class="cellCompletion"></td>
-		                    <input id="4N<%=i%>" style="display:none" type="number" name="completion[4][<%=i%>]" value="">
-		                    <td id="5T<%=i%>" class="cellTrial"></td>
-		                    <td id="5C<%=i%>" class="cellCompletion"></td>
-		                    <input id="5N<%=i%>" style="display:none" type="number" name="completion[5][<%=i%>]" value="">
-		                    <td id="6T<%=i%>" class="cellTrial"></td>
-		                    <td id="6C<%=i%>" class="cellCompletion"></td>
-		                    <input id="6N<%=i%>" style="display:none" type="number" name="completion[6][<%=i%>]" value="">
-		                    <td id="7T<%=i%>" class="cellTrial"></td>
-		                    <td id="7C<%=i%>" class="cellCompletion"></td>
-		                    <input id="7N<%=i%>" style="display:none" type="number" name="completion[7][<%=i%>]" value="">
-		                </tr
+							<%if(report.schedule[0].timeIn && report.schedule[0].timeIn.length>0){%>
+							<td id="1T<%=i%>" class="cellTrial"><%if(report.replacement[replacement].trials[0]>=i){%>X<%}%></td>
+		                    <td id="1C<%=i%>" class="cellCompletion"><%if(report.replacement[replacement].completion[0][i-1]=="1"){%>Yes<%}%><%if(report.replacement[replacement].completion[0][i-1]=="0"){%>No<%}%></td>
+							<%}%>
+							
+							<input id="1N<%=i%>" style="display:none" type="number" name="report[replacement][completion][0][<%=i-1%>]" value="<%=report.replacement[replacement].completion[0][i-1]%>">
+							<%if(report.schedule[1].timeIn && report.schedule[0].timeIn.length>0){%>
+							<td id="2T<%=i%>" class="cellTrial"><%if(report.replacement[replacement].trials[1]>=i){%>X<%}%></td>
+		                    <td id="2C<%=i%>" class="cellCompletion"><%if(report.replacement[replacement].completion[1][i-1]=="1"){%>Yes<%}%><%if(report.replacement[replacement].completion[1][i-1]=="0"){%>No<%}%></td>
+							<%}%>
+							
+							<input id="2N<%=i%>" style="display:none" type="number" name="report[replacement][completion][1][<%=i-1%>]" value="<%=report.replacement[replacement].completion[1][i-1]%>">
+							<%if(report.schedule[2].timeIn && report.schedule[0].timeIn.length>0){%>
+							<td id="3T<%=i%>" class="cellTrial"><%if(report.replacement[replacement].trials[2]>=i){%>X<%}%></td>
+		                    <td id="3C<%=i%>" class="cellCompletion"><%if(report.replacement[replacement].completion[2][i-1]=="1"){%>Yes<%}%><%if(report.replacement[replacement].completion[2][i-1]=="0"){%>No<%}%></td>
+							<%}%>
+							
+							<input id="3N<%=i%>" style="display:none" type="number" name="report[replacement][completion][2][<%=i-1%>]" value="<%=report.replacement[replacement].completion[2][i-1]%>">
+							<%if(report.schedule[3].timeIn && report.schedule[0].timeIn.length>0){%>
+							<td id="4T<%=i%>" class="cellTrial"><%if(report.replacement[replacement].trials[3]>=i){%>X<%}%></td>
+		                    <td id="4C<%=i%>" class="cellCompletion"><%if(report.replacement[replacement].completion[3][i-1]=="1"){%>Yes<%}%><%if(report.replacement[replacement].completion[3][i-1]=="0"){%>No<%}%></td>
+							<%}%>
+							<input id="4N<%=i%>" style="display:none" type="number" name="report[replacement][completion][3][<%=i-1%>]" value="<%=report.replacement[replacement].completion[3][i-1]%>">
+							
+							<%if(report.schedule[4].timeIn && report.schedule[0].timeIn.length>0){%>
+							<td id="5T<%=i%>" class="cellTrial"><%if(report.replacement[replacement].trials[4]>=i){%>X<%}%></td>
+		                    <td id="5C<%=i%>" class="cellCompletion"><%if(report.replacement[replacement].completion[4][i-1]=="1"){%>Yes<%}%><%if(report.replacement[replacement].completion[4][i-1]=="0"){%>No<%}%></td>
+							<%}%>
+							<input id="5N<%=i%>" style="display:none" type="number" name="report[replacement][completion][4][<%=i-1%>]" value="<%=report.replacement[replacement].completion[4][i-1]%>">
+							
+							<%if(report.schedule[5].timeIn && report.schedule[0].timeIn.length>0){%>
+							<td id="6T<%=i%>" class="cellTrial"><%if(report.replacement[replacement].trials[5]>=i){%>X<%}%></td>
+		                    <td id="6C<%=i%>" class="cellCompletion"><%if(report.replacement[replacement].completion[5][i-1]=="1"){%>Yes<%}%><%if(report.replacement[replacement].completion[5][i-1]=="0"){%>No<%}%></td>
+							<%}%>
+							<input id="6N<%=i%>" style="display:none" type="number" name="report[replacement][completion][5][<%=i-1%>]" value="<%=report.replacement[replacement].completion[5][i-1]%>">
+							
+							<%if(report.schedule[6].timeIn && report.schedule[0].timeIn.length>0){%>
+							<td id="7T<%=i%>" class="cellTrial"><%if(report.replacement[replacement].trials[6]>=i){%>X<%}%></td>
+		                    <td id="7C<%=i%>" class="cellCompletion"><%if(report.replacement[replacement].completion[6][i-1]=="1"){%>Yes<%}%><%if(report.replacement[replacement].completion[6][i-1]=="0"){%>No<%}%></td>
+							<%}%>
+							<input id="7N<%=i%>" style="display:none" type="number" name="report[replacement][completion][6][<%=i-1%>]" value="<%=report.replacement[replacement].completion[6][i-1]%>">
+							
+						</tr
 		              <%}%>
 		              <%for(i=0;i<8;i++){%>
-		                 <input id="<%=i%>" style="display:none" type="number" name="trials" value="0">
+		                 <input id="<%=i%>" style="display:none" type="number" name="report[replacement][trials]" value="<%=report.replacement[replacement].trials[i-1]%>">
 	                 <%}%>
 	                    <tr>
 	                        <td><h5>Days</h5></td>
-		                    <td colspan="2"><h5>1</h5></td>
-		                    <td colspan="2"><h5>2</h5></td>
-		                    <td colspan="2"><h5>3</h5></td>
-		                    <td colspan="2"><h5>4</h5></td>
-		                    <td colspan="2"><h5>5</h5></td>
-		                    <td colspan="2"><h5>6</h5></td>
-		                    <td colspan="2"><h5>7</h5></td>
+							<%for(let i=0;i<7;i++){%>
+								<%if(report.schedule[i].timeIn && report.schedule[i].timeIn.length>0){%>
+									<td colspan="2"><h5><%=report.schedule[i].date%></h5></td>
+								<%}%>
+							<%}%>
 	                    </tr>
 	            </tbody>
 	        </table>
@@ -95,7 +108,7 @@
     	<div class="col-sm-6 col-xs-12 text-center">
     		 <canvas class="assistant-canvas" width="290" height="150" ></canvas>
     		 <h4>Assistant Signature</h4>
-    		 <input type="text" class="assistant-input" name="signatures[assistant]" style="display:none" value="">
+    		 <input type="text" class="assistant-input" name="report[replacement][signatures][assistant]" style="display:none" value="<%=report.replacement[replacement].signatures.assistant%>">
     		 <button type="button" class="btn btn-default activate-assistant">Activate</button>
     		 <button type="button" class="btn btn-default clear-assistant" >Clear</button>
   			 <button type="button" class="btn btn-default save-assistant"  >Save</button>
@@ -103,7 +116,7 @@
     	<div class="col-sm-6 col-xs-12 text-center">
     		 <canvas class="analist-canvas" width="290" height="150"></canvas>
     		 <h4>Analist Signature</h4>
-    		 <input type="text" class="analist-input" name="signatures[analist]" style="display:none" value="">
+    		 <input type="text" class="analist-input" name="report[replacement][signatures][analist]" style="display:none" value="<%=report.replacement[replacement].signatures.analist%>">
     		 <button type="button" class="btn btn-default activate-analist"  >Activate</button>
     		 <button type="button" class="btn btn-default clear-analist" >Clear</button>
   			 <button type="button" class="btn btn-default save-analist"  >Save</button>
@@ -112,8 +125,8 @@
      <div class="save-buttons text-center">
     	<button class="btn btn-success btn-lg save">Save</button>
     	<button class="btn btn-success btn-lg submit">Submit</button>
-    	<input id="button" type="text" name="button" value="submit" style="display:none">
+    	<input id="button" type="text" name="report[replacement][state]" value="Started" style="display:none">
     </div>
 </form>
 
-<%include ../partials/footer%>
+<%include ../../partials/footer%>

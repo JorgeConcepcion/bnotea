@@ -1,4 +1,14 @@
 /* global $ */
+
+$(".cellCompletion").each(function(){
+	if($(this).text()=="No"){
+		$(this).addClass("No");
+	}
+	else if($(this).text()=="Yes"){
+		$(this).addClass("Yes");
+	}
+});
+
 $(".cellTrial").on("click", function () {
 	if ($(this).text() != "X") {
 		let col = $(this).attr("id").split("T")[0];
@@ -47,6 +57,7 @@ $(".cellTrial").on("click", function () {
 $(".cellCompletion").on("click", function () {
 	let val;
 	let completed = $(this).text();
+	
 	if (completed == "Yes") {
 		$(this).removeClass("Yes");
 		$(this).addClass("No");
@@ -87,13 +98,7 @@ $(".submit").on("click", function (e) {
 			title: false // title
 		});
 	}
-	else if ($("#1").attr("value") == "0" || $("#2").attr("value") == "0" || $("#3").attr("value") == "0" || $("#4").attr("value") == "0" || $("#5").attr("value") == "0" || $("#6").attr("value") == "0" || $("#7").attr("value") == "0") {
-		e.preventDefault();
-		$.alert("All the days must be filled", {
-			position: ["center", [-0.42, 0]],
-			title: false // title
-		});
-	}
+	
 	else if (frequency - baseline >= 5 || baseline - frequency >= 5) {
 		e.preventDefault();
 		$.alert("Completion porcentage is too far from the baseline ", {
@@ -108,5 +113,5 @@ $(".submit").on("click", function (e) {
 			title: false // title
 		});
 	}
-	$("#button").attr("value", "submit");
+	$("#button").attr("value", "Submit");
 });

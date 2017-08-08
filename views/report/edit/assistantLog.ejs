@@ -104,21 +104,34 @@
 							<div class="form-group">
 								<h4>Implemented interventions:</h4>
 								<p>Client showed 
-								<select  class="selectpicker" data-width="auto" name="report[assistantLog][log][<%=i%>][intervention][behavior]" title="behavior" data-validation="required">
-		  							<option>Mustarda</option>
-		  							<option>Ketchup</option>
-		  							<option>Relish</option>
+								<select  id="intervention" class="selectpicker" data-width="auto" name="report[assistantLog][log][<%=i%>][intervention][behavior]" title="behavior" data-validation="required">
+		  							<%client.maladaptativeBehaviors.forEach(function(behavior){%>	
+										<%if(report.assistantLog.log[i].intervention.behavior==behavior.name){%>
+											<option selected="selected"><%=behavior.name%></option>
+										<%}%>
+										<%if(!(report.assistantLog.log[i].intervention.behavior==behavior.name)){%>
+											<option><%=behavior.name%></option>
+										<%}%>
+									<%})%>
 								</select>
 								,the applied intervention was:
 								<select  class="selectpicker" data-width="auto" name="report[assistantLog][log][<%=i%>][intervention][name]" title="intervention" data-validation="required">
-		  							<option>Mustard</option>
-		  							<option>Ketchup</option>
-		  							<option>Relish</option>
+									<option <%if(report.assistantLog.log[i].intervention.name=="Alternative sensory activities"){%> selected="selected" <%}%>>Alternative sensory activities</option>
+									<option <%if(report.assistantLog.log[i].intervention.name=="Behavioral Momentum"){%> selected="selected" <%}%>>Behavioral Momentum</option>  
+									<option <%if(report.assistantLog.log[i].intervention.name=="DRA"){%> selected="selected" <%}%>>DRA</option>
+									<option <%if(report.assistantLog.log[i].intervention.name=="DRI"){%> selected="selected" <%}%>>DRI</option>
+									<option <%if(report.assistantLog.log[i].intervention.name=="DRO"){%> selected="selected" <%}%>>DRO</option>
+									<option <%if(report.assistantLog.log[i].intervention.name=="Enviromental manipulation"){%> selected="selected" <%}%>>Enviromental manipulation</option>
+									<option <%if(report.assistantLog.log[i].intervention.name=="Interruption/redirection"){%> selected="selected" <%}%>>Interruption/redirection</option>
+									<option <%if(report.assistantLog.log[i].intervention.name=="Planned ignoring and extinction"){%> selected="selected" <%}%>>Planned ignoring and extinction</option>
+									<option <%if(report.assistantLog.log[i].intervention.name=="Premack principle"){%> selected="selected" <%}%>>Premack principle</option>
+									<option <%if(report.assistantLog.log[i].intervention.name=="Response blocked"){%> selected="selected" <%}%>>Response blocked</option>
+									<option <%if(report.assistantLog.log[i].intervention.name=="Taking turns"){%> selected="selected" <%}%>>Taking turns</option>						
 								</select>
 								It
 								<select  class="selectpicker" name="report[assistantLog][log][<%=i%>][intervention][result]" data-width="auto" title="result" data-validation="required">
-		  							<option>works</option>
-		  							<option>does not work</option>
+		  							<option <%if(report.assistantLog.log[i].intervention.result=="works"){%> selected="selected" <%}%>>works</option>
+		  							<option <%if(report.assistantLog.log[i].intervention.result=="does not work"){%> selected="selected" <%}%>>does not work</option>
 								</select>
 								at this time
 								</p>
@@ -127,7 +140,6 @@
 								<h4>Implemented Replacements:</h4>
 								<select class="selectpicker" multiple data-width="100%" name="report[assistantLog][log][<%=i%>][replacements]" title="Implemented replacements" data-validation="required">
 									<%client.replacementsBehaviors.forEach(function(replacement){%>	
-						
 											<%if(report.assistantLog.log[i].replacements.indexOf(replacement.name)>-1){%>
 												<option selected="selected"><%=replacement.name%></option>
 											<%}%>
@@ -184,7 +196,7 @@
      <div class="save-buttons text-center">
     	<button class="btn btn-success btn-lg save">Save</button>
     	<button class="btn btn-success btn-lg submit">Submit</button>
-    	<input id="button" type="text" name="button" value="submit" style="display:none">
+    	<input id="button" type="text" name="report[assistantLog][state]" value="Submit" style="display:none">
     </div>
 </form>
 
