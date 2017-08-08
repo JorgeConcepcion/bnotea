@@ -396,12 +396,22 @@ and (orientation:portrait) {
     display:inline;
 }
 .report-edit-btn{
-    margin-left:20px;
+    margin-left:5px;
 }
 
+/*REPORT-INDEX*/
 
-
-
-
+.report-desc{
+    display:none;
+}
+.report-name{
+ cursor: pointer;
+}
+.report-index-section{
+    margin-top:20px;
+}
+.report-index-sub-section{
+    margin-top:5px;
+}
 
 

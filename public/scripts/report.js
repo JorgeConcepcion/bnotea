@@ -89,4 +89,6 @@ function change(ele) {
     
 }
 
-
+$(".report-name").on("click",function(event){
+	$(this).parent().next(".report-desc").fadeToggle();
+});

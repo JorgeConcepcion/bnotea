@@ -25,10 +25,106 @@
                 <tbody>
                     <%client.assistantReports.forEach(function(report,index){%>
                             <tr>
-                                <td><a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>"><%=report.startDate+" - "+report.endDate%></a></td>
+                                <td class="report-name"><%=report.startDate+" - "+report.endDate%></td>
                                 <td><%=report.author%></td>
                                 <td><%=assistantStates[index]%></td>
                                 <td><%=assistantUnits[index]%></td>
+                            </tr>
+                             <tr class="report-desc">
+                                <td colspan="4">
+                                    <ul>
+                                        <li class="report-index-section">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <h4 class="report-h4">Schedule</h4>
+                                                </div>
+                                                <div class="col-md-7">
+                                                     <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/edit?section=schedule" class="btn btn-success btn-sm report-edit-btn">Edit</a>
+                                                     <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/show?section=schedule" class="btn btn-success btn-sm report-edit-btn">Show</a>
+                                                </div>
+                                            </div>
+                                           
+                                        </li>
+                                        <li class="report-index-section">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <h4 class="report-h4"><%="Daily Log"+": "+report.assistantLog.state%></h4>
+                                                </div>
+                                                <div class="col-md-7">
+                                                     <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/edit?section=assistantLog" class="btn btn-success btn-sm report-edit-btn">Edit</a>
+                                                     <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/show?section=assistantLog" class="btn btn-success btn-sm report-edit-btn">Show</a>
+                                                </div>
+                                            </div> 
+                                        </li>
+                                         <li class="report-index-section">
+                                            <div class="row">
+                                                    <div class="col-md-5">
+                                                        <h4 class="report-h4">Maladaptative Behaviors Data Collection</h4>
+                                                    </div>
+                                            </div> 
+                                            
+                                                <%report.behavior.forEach(function(b,index){%>
+                                                    <div class="report-index-sub-section">
+                                                        <div class="row ">
+                                                            <div class="col-md-5">
+                                                                  <h5 class="report-h4"><%=b.name+": "+b.state%></h5>
+                                                            </div>
+                                                            <div class="col-md-7">
+                                                                 <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/edit?section=behavior&behavior=<%=index%>" class="btn btn-success btn-xs report-edit-btn">Edit</a>
+                                                                 <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/show?section=behavior&behavior=<%=index%>" class="btn btn-success btn-xs report-edit-btn">Show</a>
+                                                            </div>
+                                                        </div>  
+                                                    </div>
+                                                <%})%>
+                                            
+                                        </li>
+                                         <li class="report-index-section">
+                                               <div class="row">
+                                                    <div class="col-md-5">
+                                                        <h4 class="report-h4">Replacement Behaviors Data Collection</h4>
+                                                    </div>
+                                                </div> 
+                                            
+                                            
+                                                <%report.replacement.forEach(function(r,index){%>
+                                                    <div class="report-index-sub-section">
+                                                        <div class="row">
+                                                            <div class="col-md-5">
+                                                                <h5 class="report-h4"><%=r.name+": "+r.state%></h5>
+                                                            </div>
+                                                            <div class="col-md-7">
+                                                                <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/edit?section=replacement&replacement=<%=index%>" class="btn btn-success btn-xs report-edit-btn">Edit</a>
+                                                                <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/show?section=replacement&replacement=<%=index%>" class="btn btn-success btn-xs report-edit-btn">Show</a>
+                                                            </div>
+                                                        </div> 
+                                                    </div>
+                                                <%})%>
+                                            
+                                        </li>
+                                         <li class="report-index-section">
+                                             <div class="row">
+                                                <div class="col-md-5">
+                                                     <h4 class="report-h4"><%="Medical Log"+": "+report.medical.state%></h4>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/edit?section=medical" class="btn btn-success btn-sm report-edit-btn">Edit</a>
+                                                    <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/show?section=medical" class="btn btn-success btn-sm report-edit-btn">Show</a>
+                                                </div>
+                                            </div> 
+                                        </li>
+                                        <li class="report-index-section">
+                                             <div class="row">
+                                                <div class="col-md-5">
+                                                      <h4 class="report-h4"><%="Supervision Conducted by Behavior Analist"+": "+report.supervision.state%></h4>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/edit?section=supervision" class="btn btn-success btn-sm report-edit-btn">Edit</a>
+                                                    <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/show?section=supervision" class="btn btn-success btn-sm report-edit-btn">Show</a>
+                                                </div>
+                                            </div> 
+                                        </li>
+                                    </ul>
+                                </td> 
                             </tr>
                     <%})%>
                 </tbody>
@@ -54,10 +150,49 @@
                 <tbody>
                     <%client.analistReports.forEach(function(report,index){%>
                             <tr>
-                                <td><a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>"><%=report.startDate+" - "+report.endDate%></a></td>
+                                <td class="report-name"><%=report.startDate+" - "+report.endDate%></td>
                                 <td><%=report.author%></td>
-                                <td><%=analistStates[index]%></td>
-                                <td><%=analistUnits[index]%></td>
+                                <td><%=assistantStates[index]%></td>
+                                <td><%=assistantUnits[index]%></td>
+                            </tr>
+                            <tr class="report-desc">
+                                <td colspan="4">
+                                    <ul>
+                                        <li class="report-index-section">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <h4 class="report-h4">Schedule</h4>
+                                                </div>
+                                                <div class="col-md-7">
+                                                     <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/edit?section=schedule" class="btn btn-success btn-sm report-edit-btn">Edit</a>
+                                                     <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/show?section=schedule" class="btn btn-success btn-sm report-edit-btn">Show</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                         <li class="report-index-section">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <h4 class="report-h4"><%="Daily Log"+": "+report.analistLog.state%></h4>
+                                                </div>
+                                                <div class="col-md-7">
+                                                     <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/edit?section=analistLog" class="btn btn-success btn-sm report-edit-btn">Edit</a>
+                                                     <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/show?section=analistLog" class="btn btn-success btn-sm report-edit-btn">Show</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                         <li class="report-index-section">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <h4 class="report-h4"><%="Caregiver Competency Check"+":  "+report.caregiver.state%></h4>
+                                                </div>
+                                                <div class="col-md-7">
+                                                     <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/edit?section=caregiver" class="btn btn-success btn-sm report-edit-btn">Edit</a>
+                                                     <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/show?section=caregiver" class="btn btn-success btn-sm report-edit-btn">Show</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </td>
                             </tr>
                     <%})%>
                 </tbody>

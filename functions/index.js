@@ -201,7 +201,24 @@ functionObj.initializeAssistantReport=function(report,client){
 	
 
 
-	report.medical.state="Started";
+	
+	
+	return report;
+};
+functionObj.initializeAnalistReport=function(report,client){
+	//Analist Log
+	report.analistLog.state="Started";
+	report.analistLog.log=[];
+	report.analistLog.signatures={caregiver:"",analist:""};
+	for(let i=0;i<7;i++){
+		report.analistLog.log.push({progress:""});
+	}
+
+	//Caregiver
+	let performanceTemp=[[]];
+	let dateTemp=[];
+	report.caregiver={state:"Started",performance:performanceTemp,date:dateTemp,signatures:{analist:"",caregiver:""}}
+	
 	
 	return report;
 };
