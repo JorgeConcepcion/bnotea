@@ -97,6 +97,11 @@ router.get("/",function(req,res){
 				|| report.medical.state=="Completed" ){
 					assistantStates.push("Completed");
 				}
+				else if(report.assistantLog.state=="Accepted" || report.behavior.state=="Accepted" 
+				|| report.replacement.state=="Accepted" || report.supervision.state=="Accepted"   
+				|| report.medical.state=="Accepted" ){
+					assistantStates.push("Accepted");
+				}
 				var unit=0;
 				report.schedule.forEach(function(day){
 					if(day.timeIn && day.timeIn.length>0){
@@ -118,6 +123,9 @@ router.get("/",function(req,res){
 				}
 				else if(report.analistLog.state=="Completed" || report.caregiver.state=="Completed"){
 					analistStates.push("Completed");
+				}
+				else if(report.analistLog.state=="Accepted" || report.caregiver.state=="Accepted"){
+					analistStates.push("Accepted");
 				}
 				var unit=0;
 				report.schedule.forEach(function(day){

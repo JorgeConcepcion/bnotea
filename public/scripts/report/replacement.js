@@ -106,7 +106,7 @@ $(".submit").on("click", function (e) {
 			title: false // title
 		});
 	}
-	else if($(".assistant-input").attr("value")=="" && !($(".assistant-canvas").parent().attr("style").length>0) ||  $(".analist-input").attr("value")=="" && !($(".analist-canvas").parent().attr("style").length>0) || $(".caregiver-input").attr("value")=="" && !($(".caregiver-canvas").parent().attr("style").length>0) ){
+	else if($(".assistant-input").attr("value")=="" && $(".assistant-canvas").parent().attr("style")==undefined ||  $(".analist-input").attr("value")=="" && $(".analist-canvas").parent().attr("style")==undefined || $(".caregiver-input").attr("value")=="" && $(".caregiver-canvas").parent().attr("style")==undefined ){
 		e.preventDefault();
 		$.alert("The entire document needs to be signed", {
 			position: ["center", [-0.42, 0]],

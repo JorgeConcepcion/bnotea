@@ -158,13 +158,13 @@
 		<button class="btn btn-success btn-lg submit">Submit</button>
 
 		<%if(currentUser.type=="analist"){%>
-		<input class="analist" id="button" type="text" name="report[behavior][state]" value="<%=report.behavior.state%>" style="display:none">
+		<input class="analist" id="button" type="text" name="report[behavior][state]" value="<%=report.behavior[behavior].state%>" style="display:none">
 		<%}%>
 		<%if(currentUser.type=="assistant"){%>
-		<input id="button" class="assistant" type="text" name="report[behavior][state]" value="<%=report.behavior.state%>" style="display:none">	
+		<input id="button" class="assistant" type="text" name="report[behavior][state]" value="<%=report.behavior[behavior].state%>" style="display:none">	
 		<%}%>
 		<%if(currentUser.type=="superuser"){%>
-		<input id="button" class="superuser" type="text" name="report[behavior][state]" value="<%=report.behavior.state%>" style="display:none">	
+		<input id="button" class="superuser" type="text" name="report[behavior][state]" value="<%=report.behavior[behavior].state%>" style="display:none">	
 		<%}%>
     </div>
 </form>
