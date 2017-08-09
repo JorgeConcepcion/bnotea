@@ -1,9 +1,9 @@
 <%include ../../partials/header%>
 		
-<form id="form" method="POST" action="/caregiver">	
+<form id="form" method="POST" action="/superuser/<%=superuserID%>/client/<%=clientID%>/report/<%=report._id%>?_method=PUT">
 	<div class="doc-name text-center">
         <h4>CAREGIVER COMPETENCY CHECK</h4>
-    </div>
+	</div>
    <div class="table-responsive">
         <table class="table table-bordered doc-header">
             <tbody>
@@ -12,7 +12,7 @@
                     <td><h4>Name of Behavior Analist/Provider ID:<%=analist.firstName+" "+analist.lastName+"/"+analist.providerId%></h4></td>
                 </tr>
                 <tr>
-                    <td><h4>PA #:@98765093</h4></td>
+                     <td><h4>PA #:<%if(analistApprovalCurrent){%><%=analistApprovalCurrent.number%><%}%></h4></td>
                     <td><h4>Week:<%=report.schedule[0].date+" - "+report.schedule[6].date%></h4></td>
                 </tr>
             </tbody>
@@ -23,142 +23,162 @@
 	        <tbody>
 	             <thead>
 	                <tr class="date-row">
-	                    <th class="text-center"><h4>Evaluation Parameter <i class="fa fa-plus" aria-hidden="true"></i></h4></th>
-	                    <th class="0">
+	                    <th class="text-center"><h4>Evaluation Parameter</i></h4></th>
+	                	<th>
 	                        <div class="form-group text-center">
 	                        <label> <span class="trash"><i class="fa fa-trash" ></i></span> Date:</label>
-	                        <input class="form-control" type="date" name="date" data-validation="required"> 
+	                        <select  class="selectpicker" data-width="auto" name="report[caregiver][date]" title="Date" data-validation="required">
+								<% report.schedule.forEach(function(day,index){%>
+									<%if(day.timeIn && day.timeIn.length>0){%>
+										<option <%if(report.caregiver.date[index]==day.date){%> selected="selected" <%}%>><%=day.date%></option>
+									<%}%>
+								<%})%>
+							</select>
 	                        </div>
-	                    </th>
+						</th>
 	                </tr>
 	            </thead>
 	             <tr class="text-center performance-row">
 	                <td>
 						<p>Caregiver was able to recognize incidents of maladaptative behaviors as ocurred today and collect data</p>
 							
-	                </td>
-	                <td class="0">
+					</td>
+					
+	                <td>
 	                   	<div class="form-group">
-				            <select class="selectpicker" data-width="100%" name="performance[0]" title="Supervisee performance" data-validation="required">
-  					            <option data-subtext="No response">0</option>
-  					            <option data-subtext="Verbal cues and modeling">1</option>
-  					            <option data-subtext="Verbal cues and pointing">2</option>
-  					            <option data-subtext="Verbal cues">3</option>
-  					            <option data-subtext="Independent">4</option>
+				            <select class="selectpicker" data-width="100%" name="report[caregiver][performance]" title="Supervisee performance" data-validation="required">
+  					            <option <%if(report.caregiver.performance[0]=="0"){%> selected="selected" <%}%> data-subtext="No response">0</option>
+  					            <option <%if(report.caregiver.performance[0]=="1"){%> selected="selected" <%}%> data-subtext="Verbal cues and modeling">1</option>
+  					            <option <%if(report.caregiver.performance[0]=="2"){%> selected="selected" <%}%> data-subtext="Verbal cues and pointing">2</option>
+  					            <option <%if(report.caregiver.performance[0]=="3"){%> selected="selected" <%}%> data-subtext="Verbal cues">3</option>
+  					            <option <%if(report.caregiver.performance[0]=="4"){%> selected="selected" <%}%> data-subtext="Independent">4</option>
 				            </select>
 		                </div>
-	                </td>
+					</td>
+		
 	            </tr>
 	            <tr class="text-center performance-row">
 	                <td>
 						<p>Caregiver followed recommended intervention/procedures upon ocurrence of maladaptative behaviors in session</p>
 							
-	                </td>
-	                <td class="0">
+					</td>
+					
+	                <td>
 	                   	<div class="form-group">
-				            <select class="selectpicker" data-width="100%" name="performance[0]" title="Supervisee performance" data-validation="required">
-  					            <option data-subtext="No response">0</option>
-  					            <option data-subtext="Verbal cues and modeling">1</option>
-  					            <option data-subtext="Verbal cues and pointing">2</option>
-  					            <option data-subtext="Verbal cues">3</option>
-  					            <option data-subtext="Independent">4</option>
+				            <select class="selectpicker" data-width="100%" name="report[caregiver][performance]" title="Supervisee performance" data-validation="required">
+  					            <option <%if(report.caregiver.performance[1]=="0"){%> selected="selected" <%}%> data-subtext="No response">0</option>
+  					            <option <%if(report.caregiver.performance[1]=="1"){%> selected="selected" <%}%> data-subtext="Verbal cues and modeling">1</option>
+  					            <option <%if(report.caregiver.performance[1]=="2"){%> selected="selected" <%}%> data-subtext="Verbal cues and pointing">2</option>
+  					            <option <%if(report.caregiver.performance[1]=="3"){%> selected="selected" <%}%> data-subtext="Verbal cues">3</option>
+  					            <option <%if(report.caregiver.performance[1]=="4"){%> selected="selected" <%}%> data-subtext="Independent">4</option>
 				            </select>
 		                </div>
-	                </td>
+					</td>
+		
 	            </tr>
 	            <tr class="text-center performance-row">
 	                <td>
 						<p>Caregiver provided reinforcers/reinforcement in accordance with the Behavior Support Plan</p>
 							
 	                </td>
-	                <td class="0">
+	
+	                <td>
 	                   	<div class="form-group">
-				            <select class="selectpicker" data-width="100%" name="performance[0]" title="Supervisee performance" data-validation="required">
-  					            <option data-subtext="No response">0</option>
-  					            <option data-subtext="Verbal cues and modeling">1</option>
-  					            <option data-subtext="Verbal cues and pointing">2</option>
-  					            <option data-subtext="Verbal cues">3</option>
-  					            <option data-subtext="Independent">4</option>
+				            <select class="selectpicker" data-width="100%" name="report[caregiver][performance]" title="Supervisee performance" data-validation="required">
+  					            <option <%if(report.caregiver.performance[2]=="0"){%> selected="selected" <%}%> data-subtext="No response">0</option>
+  					            <option <%if(report.caregiver.performance[2]=="1"){%> selected="selected" <%}%> data-subtext="Verbal cues and modeling">1</option>
+  					            <option <%if(report.caregiver.performance[2]=="2"){%> selected="selected" <%}%> data-subtext="Verbal cues and pointing">2</option>
+  					            <option <%if(report.caregiver.performance[2]=="3"){%> selected="selected" <%}%> data-subtext="Verbal cues">3</option>
+  					            <option <%if(report.caregiver.performance[2]=="4"){%> selected="selected" <%}%> data-subtext="Independent">4</option>
 				            </select>
 		                </div>
-	                </td>
+					</td>
+					
 	            </tr>
 	            <tr class="text-center performance-row">
 	                <td>
-						<p>Caregiver implemented the acquisitions/replacements programs and recorded data</p>
-							
+						<p>Caregiver implemented the acquisitions/replacements programs and recorded data</p>	
 	                </td>
-	                <td class="0">
+	                <td>
 	                   	<div class="form-group">
-				            <select class="selectpicker" data-width="100%" name="performance[0]" title="Supervisee performance" data-validation="required">
-  					            <option data-subtext="No response">0</option>
-  					            <option data-subtext="Verbal cues and modeling">1</option>
-  					            <option data-subtext="Verbal cues and pointing">2</option>
-  					            <option data-subtext="Verbal cues">3</option>
-  					            <option data-subtext="Independent">4</option>
+				            <select class="selectpicker" data-width="100%" name="report[caregiver][performance]" title="Supervisee performance" data-validation="required">
+  					            <option <%if(report.caregiver.performance[3]=="0"){%> selected="selected" <%}%> data-subtext="No response">0</option>
+  					            <option <%if(report.caregiver.performance[3]=="1"){%> selected="selected" <%}%> data-subtext="Verbal cues and modeling">1</option>
+  					            <option <%if(report.caregiver.performance[3]=="2"){%> selected="selected" <%}%> data-subtext="Verbal cues and pointing">2</option>
+  					            <option <%if(report.caregiver.performance[3]=="3"){%> selected="selected" <%}%> data-subtext="Verbal cues">3</option>
+  					            <option <%if(report.caregiver.performance[3]=="4"){%> selected="selected" <%}%> data-subtext="Independent">4</option>
 				            </select>
 		                </div>
-	                </td>
+					</td>
 	            </tr>
 	            <tr class="text-center performance-row">
 	                <td>
 						<p>Caregiver can indicate when the behavior ocurred across setting and people, and the effectiveness of the plan's implementation (programming for generalization)</p>
 							
 	                </td>
-	                <td class="0">
+	                <td>
 	                   	<div class="form-group">
-				            <select class="selectpicker" data-width="100%" name="performance[0]" title="Supervisee performance" data-validation="required">
-  					            <option data-subtext="No response">0</option>
-  					            <option data-subtext="Verbal cues and modeling">1</option>
-  					            <option data-subtext="Verbal cues and pointing">2</option>
-  					            <option data-subtext="Verbal cues">3</option>
-  					            <option data-subtext="Independent">4</option>
+				            <select class="selectpicker" data-width="100%" name="report[caregiver][performance]" title="Supervisee performance" data-validation="required">
+  					            <option <%if(report.caregiver.performance[4]=="0"){%> selected="selected" <%}%> data-subtext="No response">0</option>
+  					            <option <%if(report.caregiver.performance[4]=="1"){%> selected="selected" <%}%> data-subtext="Verbal cues and modeling">1</option>
+  					            <option <%if(report.caregiver.performance[4]=="2"){%> selected="selected" <%}%> data-subtext="Verbal cues and pointing">2</option>
+  					            <option <%if(report.caregiver.performance[4]=="3"){%> selected="selected" <%}%> data-subtext="Verbal cues">3</option>
+  					            <option <%if(report.caregiver.performance[4]=="4"){%> selected="selected" <%}%> data-subtext="Independent">4</option>
 				            </select>
 		                </div>
-	                </td>
+					</td>
 	            </tr>
 	            <tr class="text-center performance-row">
 	                <td>
 						<p>Verbally reported about major changes in the environment, daily activity schedule, medical status, or severity of problem behaviors, along with new behaviors ocurring, and difficulty implementing behavior plan as is</p>
 							
 	                </td>
-	                <td class="0">
+	            
+	                <td>
 	                   	<div class="form-group">
-				            <select class="selectpicker" data-width="100%" name="performance[0]" title="Supervisee performance" data-validation="required">
-  					            <option data-subtext="No response">0</option>
-  					            <option data-subtext="Verbal cues and modeling">1</option>
-  					            <option data-subtext="Verbal cues and pointing">2</option>
-  					            <option data-subtext="Verbal cues">3</option>
-  					            <option data-subtext="Independent">4</option>
+				            <select class="selectpicker" data-width="100%" name="report[caregiver][performance]" title="Supervisee performance" data-validation="required">
+  					            <option <%if(report.caregiver.performance[5]=="0"){%> selected="selected" <%}%> data-subtext="No response">0</option>
+  					            <option <%if(report.caregiver.performance[5]=="1"){%> selected="selected" <%}%> data-subtext="Verbal cues and modeling">1</option>
+  					            <option <%if(report.caregiver.performance[5]=="2"){%> selected="selected" <%}%> data-subtext="Verbal cues and pointing">2</option>
+  					            <option <%if(report.caregiver.performance[5]=="3"){%> selected="selected" <%}%> data-subtext="Verbal cues">3</option>
+  					            <option <%if(report.caregiver.performance[5]=="4"){%> selected="selected" <%}%> data-subtext="Independent">4</option>
 				            </select>
 		                </div>
-	                </td>
+					</td>
+			
 	            </tr>
 	        </tbody>
 	    </table>
 	</div>
     <div class="row canvas-area text-center">
-    	<div class="col-sm-6 col-xs-12">
+    	<div class="col-sm-6 col-xs-12" <%if(currentUser.type=="assistant"){%>style="display:none"<%}%>>
+			
     		 <canvas class="analist-canvas" width="290" height="150"></canvas>
     		 <h4>Analist Signature</h4>
     		 <input type="text" class="analist-input" name="report[caregiver][signatures][analist]" style="display:none" value="<%=report.caregiver.signatures.analist%>">
     		 <button type="button" class="btn btn-default activate-analist"  >Activate</button>
     		 <button type="button" class="btn btn-default clear-analist" >Clear</button>
   			 <button type="button" class="btn btn-default save-analist"  >Save</button>
-    	</div>
-    	<div class="col-sm-6 col-xs-12">
+		</div>
+    	<div class="col-sm-6 col-xs-12" <%if(currentUser.type=="assistant"){%>style="display:none"<%}%>>
     		 <canvas class="caregiver-canvas" width="290" height="150"></canvas>
     		 <h4>Caregiver Signature</h4>
     		 <input type="text" class="caregiver-input" name="report[caregiver][signatures][caregiver] " style="display:none" value="<%=report.caregiver.signatures.caregiver%>">
     		 <button type="button" class="btn btn-default activate-caregiver"  >Activate</button>
     		 <button type="button" class="btn btn-default clear-caregiver" >Clear</button>
   			 <button type="button" class="btn btn-default save-caregiver"  >Save</button>
-    	</div>
+		</div>
+
     </div>
      <div class="save-buttons text-center">
     	<button class="btn btn-success btn-lg save">Save</button>
-    	<button class="btn btn-success btn-lg submit">Submit</button>
-    	<input id="button" type="text" name="report[caregiver][state]" value="Submit" style="display:none">
+		<button class="btn btn-success btn-lg submit">Submit</button>
+		<%if(currentUser.type=="analist"){%>
+		<input id="button" class="analist" type="text" name="report[caregiver][state]" value="<%=report.caregiver.state%>" style="display:none">
+		<%}%>
+		<%if(currentUser.type=="superuser"){%>
+		<input id="button" class="superuser" type="text" name="report[caregiver][state]" value="<%=report.caregiver.state%>" style="display:none">
+		<%}%>
     </div>
 </form>
 	

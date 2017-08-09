@@ -12,7 +12,7 @@
                     <td><h4>Name of Behavior Technician/Provider ID:<%=assistant.firstName+" "+assistant.lastName+"/"+assistant.providerId%></h4></td>
                 </tr>
                  <tr>
-                    <td><h4>PA #:@98765093</h4></td>
+                    <td><h4>PA #:<%if(assistantApprovalCurrent){%><%=assistantApprovalCurrent.number%><%}%></h4></td>
 					<td><h4>Week:<%=report.schedule[0].date+" - "+report.schedule[6].date%></h4></td>
 					
                 </tr>
@@ -132,15 +132,18 @@
 	    <%}%>
 	</div>
     <div class="row canvas-area">
-    	<div class="col-sm-6 col-xs-12 text-center">
+		
+    	<div class="col-sm-6 col-xs-12 text-center" <%if(currentUser.type=="analist"){%>style="display:none"<%}%>>
     		 <canvas class="assistant-canvas" width="290" height="150" ></canvas>
     		 <h4>Assistant Signature</h4>
     		 <input type="text" class="assistant-input" name="report[behavior][signatures][assistant]" style="display:none" value="<%=report.behavior[behavior].signatures.assistant%>">
     		 <button type="button" class="btn btn-default activate-assistant">Activate</button>
     		 <button type="button" class="btn btn-default clear-assistant" >Clear</button>
   			 <button type="button" class="btn btn-default save-assistant"  >Save</button>
-    	</div>
-    	<div class="col-sm-6 col-xs-12 text-center">
+		</div>
+	
+	
+    	<div class="col-sm-6 col-xs-12 text-center" <%if(currentUser.type=="assistant"){%>style="display:none"<%}%>>
     		 <canvas class="analist-canvas" width="290" height="150"></canvas>
     		 <h4>Analist Signature</h4>
     		 <input type="text" class="analist-input" name="report[behavior][signatures][analist]" style="display:none" value="<%=report.behavior[behavior].signatures.analist%>">
@@ -148,12 +151,21 @@
     		 <button type="button" class="btn btn-default clear-analist" >Clear</button>
   			 <button type="button" class="btn btn-default save-analist"  >Save</button>
 		</div>
-			
+	
     </div>
-     <div class="save-buttons text-center">
+    <div class="save-buttons text-center">
     	<button class="btn btn-success btn-lg save">Save</button>
-    	<button class="btn btn-success btn-lg submit">Submit</button>
-    	<input id="button" type="text" name="report[behavior][state]" value="Started" style="display:none">
+		<button class="btn btn-success btn-lg submit">Submit</button>
+
+		<%if(currentUser.type=="analist"){%>
+		<input class="analist" id="button" type="text" name="report[behavior][state]" value="<%=report.behavior.state%>" style="display:none">
+		<%}%>
+		<%if(currentUser.type=="assistant"){%>
+		<input id="button" class="assistant" type="text" name="report[behavior][state]" value="<%=report.behavior.state%>" style="display:none">	
+		<%}%>
+		<%if(currentUser.type=="superuser"){%>
+		<input id="button" class="superuser" type="text" name="report[behavior][state]" value="<%=report.behavior.state%>" style="display:none">	
+		<%}%>
     </div>
 </form>
 

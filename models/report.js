@@ -103,8 +103,8 @@ var reportSchema=new mongoose.Schema({
 		state:String
 	},
 	caregiver:{
-		performance:[[]],
-		date:[],
+		performance:[],
+		date:String,
 		signatures:{
 			caregiver:String,
 			analist:String,

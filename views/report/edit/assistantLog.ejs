@@ -16,7 +16,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><h4>PA #:@98765093</h4></td>
+                    <td><h4>PA #:<%if(assistantApprovalCurrent){%><%=assistantApprovalCurrent.number%><%}%></h4></td>
                     <td><h4>Week:<%=report.schedule[0].date+" - "+report.schedule[6].date%></h4></td>
                 </tr>
             </tbody>
@@ -168,35 +168,48 @@
 		</div>
     <%})%>
     <div class="row canvas-area text-center">
-    	<div class="col-md-4 col-sm-12 col-xs-12">
+		
+    	<div class="col-md-4 col-sm-12 col-xs-12" <%if(currentUser.type=="analist"){%>style="display:none"<%}%>>
     		 <canvas class="assistant-canvas" width="290" height="150" ></canvas>
     		 <h4>Assistant Signature</h4>
     		 <input type="text" class="assistant-input" name="report[assistantLog][signatures][assistant]" style="display:none" value="<%=report.assistantLog.signatures.assistant%>">
     		 <button type="button" class="btn btn-default activate-assistant">Activate</button>
     		 <button type="button" class="btn btn-default clear-assistant" >Clear</button>
   			 <button type="button" class="btn btn-default save-assistant"  >Save</button>
-    	</div>
-    	<div class="col-md-4 col-sm-12 col-xs-12">
+		</div>
+		
+    	<div class="col-md-4 col-sm-12 col-xs-12"  <%if(currentUser.type=="assistant"){%>style="display:none"<%}%>>
     		 <canvas class="analist-canvas" width="290" height="150"></canvas>
     		 <h4>Analist Signature</h4>
     		 <input type="text" class="analist-input" name="report[assistantLog][signatures][analist]" style="display:none" value="<%=report.assistantLog.signatures.analist%>">
     		 <button type="button" class="btn btn-default activate-analist"  >Activate</button>
     		 <button type="button" class="btn btn-default clear-analist" >Clear</button>
   			 <button type="button" class="btn btn-default save-analist"  >Save</button>
-    	</div>
-    	<div  class="col-md-4 col-sm-12 col-xs-12">
+		</div>
+
+		
+    	<div  class="col-md-4 col-sm-12 col-xs-12" <%if(currentUser.type=="analist"){%>style="display:none"<%}%>>
     		 <canvas class="caregiver-canvas" width="290" height="150"></canvas>
     		 <h4>Caregiver Signature</h4>
     		 <input type="text" class="caregiver-input" name="report[assistantLog][signatures][caregiver]" style="display:none" value="<%=report.assistantLog.signatures.caregiver%>">
     		 <button type="button" class="btn btn-default activate-caregiver"  >Activate</button>
     		 <button type="button" class="btn btn-default clear-caregiver" >Clear</button>
   			 <button type="button" class="btn btn-default save-caregiver"  >Save</button>
-    	</div>
+		</div>
+		
     </div>
      <div class="save-buttons text-center">
     	<button class="btn btn-success btn-lg save">Save</button>
-    	<button class="btn btn-success btn-lg submit">Submit</button>
-    	<input id="button" type="text" name="report[assistantLog][state]" value="Submit" style="display:none">
+		<button class="btn btn-success btn-lg submit">Submit</button>
+		<%if(currentUser.type=="superuser"){%>
+		<input id="button" class="superuser" type="text" name="report[assistantLog][state]" value="<%=report.assistantLog.state%>" style="display:none">
+		<%}%>
+		<%if(currentUser.type=="analist"){%>
+		<input id="button" class="analist" type="text" name="report[assistantLog][state]" value="<%=report.assistantLog.state%>"  style="display:none">
+		<%}%>
+		<%if(currentUser.type=="assistant"){%>
+		<input id="button" class="assistant" type="text" name="report[assistantLog][state]" value="<%=report.assistantLog.state%>"  style="display:none">
+		<%}%>
     </div>
 </form>
 

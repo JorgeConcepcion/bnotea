@@ -181,14 +181,14 @@ functionObj.initializeAssistantReport=function(report,client){
 	client.maladaptativeBehaviors.forEach(function(maladaptativeBehavior){
 		let intensityTemp=[[],[],[],[],[],[],[]];
 		let frequencyTemp=[];
-		report.behavior.push({name:maladaptativeBehavior.name,intensity:intensityTemp,frequency:frequencyTemp,signatures:{assistant:"",analist:""},state:"Started"})
+		report.behavior.push({name:maladaptativeBehavior.name,intensity:intensityTemp,frequency:frequencyTemp,signatures:{assistant:"",analist:""},state:"Started"});
 	});
 	//Replacement
 	report.replacement=[];
 	client.replacementsBehaviors.forEach(function(replacementBehavior){
 		let completionTemp=[[],[],[],[],[],[],[]];
 		let trialsTemp=[];
-		report.replacement.push({name:replacementBehavior.name,completion:completionTemp,trials:trialsTemp,signatures:{assistant:"",analist:""},state:"Started"})
+		report.replacement.push({name:replacementBehavior.name,completion:completionTemp,trials:trialsTemp,signatures:{assistant:"",analist:""},state:"Started"});
 	});
 	//Supervision
 	let characteristicsTemp=[];
@@ -205,7 +205,7 @@ functionObj.initializeAssistantReport=function(report,client){
 	
 	return report;
 };
-functionObj.initializeAnalistReport=function(report,client){
+functionObj.initializeAnalistReport=function(report){
 	//Analist Log
 	report.analistLog.state="Started";
 	report.analistLog.log=[];
@@ -215,11 +215,19 @@ functionObj.initializeAnalistReport=function(report,client){
 	}
 
 	//Caregiver
-	let performanceTemp=[[]];
-	let dateTemp=[];
-	report.caregiver={state:"Started",performance:performanceTemp,date:dateTemp,signatures:{analist:"",caregiver:""}}
+	let performanceTemp=[];
+	report.caregiver={state:"Started",performance:performanceTemp,date:"",signatures:{analist:"",caregiver:""}};
 	
 	
 	return report;
+};
+functionObj.getNewestApproval=function(client){
+	var res=client.approvals[0];
+	client.approvals.forEach(function(a){
+		if(res.startDate<a.startDate){
+			res=a;
+		}
+	});
+	return res;
 };
 module.exports = functionObj;
