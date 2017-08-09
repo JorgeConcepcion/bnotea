@@ -85,6 +85,6 @@ app.use(defaultRoute);
 //seedDB();
 
 //STARTING THE SERVER
-app.listen(3000,"127.0.0.1",function() {
+app.listen(8080,"0.0.0.0",function() {
 
 });
