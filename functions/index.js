@@ -209,9 +209,7 @@ functionObj.initializeAssistantReport=function(report,client,assistant){
 	let medicationTemp=[];
 	report.medical={state:"Started",medicalVisit:medicalVisitTemp,medication:medicationTemp,signatures:{assistant:"",caregiver:""}};
 	
-	//Deleting unnecessary fields
-	report.analystLog=undefined;
-	report.caregiver=undefined;
+	
 	return report;
 };
 functionObj.initializeAnalystReport=function(report,client,analyst){
@@ -238,12 +236,7 @@ functionObj.initializeAnalystReport=function(report,client,analyst){
 	let performanceTemp=[];
 	report.caregiver={state:"Started",performance:performanceTemp,date:"",signatures:{analyst:"",caregiver:""}};
 	
-	//Deleting unnecessary fields
-	report.assistantLog=undefined;
-	report.replacement=undefined;
-	report.behavior=undefined;
-	report.supervision=undefined;
-	report.medical=undefined;
+
 	return report;
 };
 
