@@ -2,19 +2,19 @@
 
 
 <div class="container-fluid" style="padding-top: 60px;">
-<!--Displaying the analist picture-->
-    <form  method="POST" action="/superuser/<%=superuserID%>/analist/<%=analist._id%>?_method=PUT" class="form-horizontal" enctype="multipart/form-data" size="chars">
+<!--Displaying the analyst picture-->
+    <form  method="POST" action="/superuser/<%=superuserID%>/analyst/<%=analyst._id%>?_method=PUT" class="form-horizontal" enctype="multipart/form-data" size="chars">
         <div class="row text-center">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <img src="<%=analist.photo%>" class="avatar img-circle img-thumbnail main-image" alt="avatar">
+                <img src="<%=analyst.photo%>" class="avatar img-circle img-thumbnail main-image" alt="avatar">
             </div>
         </div>
         <div class="row text-center">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <%if(currentUser.type=="superuser"){%>
-                <h2><%=analist.firstName+" "+analist.lastName%></h2>
+                <h2><%=analyst.firstName+" "+analyst.lastName%></h2>
                 <%}%>
-                <%if(currentUser.type=="analist"){%>
+                <%if(currentUser.type=="analyst"){%>
                 <h2 class="page-header">Edit Profile</h2>
                 <%}%>
                 <div>
@@ -23,7 +23,7 @@
                 </div>
             </div>
        </div>
-   <!--Form to edit an analist-->
+   <!--Form to edit an analyst-->
        <div class="row">
            <div class="col-md-3 col-sm-3 col-xs-3">
                <h4 class="page-header">Info</h4> 
@@ -34,31 +34,31 @@
                 <div class="form-group">
                   <label class="col-lg-3 control-label">First name:</label>
                   <div class="col-lg-8">
-                    <input class="form-control" value="<%=analist.firstName%>" name="analist[firstName]" type="text" data-validation="required" data-validation-error-msg="The first name is required">
+                    <input class="form-control" value="<%=analyst.firstName%>" name="analyst[firstName]" type="text" data-validation="required" data-validation-error-msg="The first name is required">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-3 control-label">Last name:</label>
                   <div class="col-lg-8">
-                    <input class="form-control" value="<%=analist.lastName%>" name="analist[lastName]" type="text" data-validation="required" data-validation-error-msg="The last name is required">
+                    <input class="form-control" value="<%=analyst.lastName%>" name="analyst[lastName]" type="text" data-validation="required" data-validation-error-msg="The last name is required">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-3 control-label">Phone:</label>
                   <div class="col-lg-8">
-                    <input class="form-control" value="<%=analist.phone%>" name="analist[phone]" type="text" data-validation="number" data-validation-allowing="range[1000000000;9999999999]" data-validation-optional="true"  data-validation-error-msg="Wrong phone format">
+                    <input class="form-control" value="<%=analyst.phone%>" name="analyst[phone]" type="text" data-validation="number" data-validation-allowing="range[1000000000;9999999999]" data-validation-optional="true"  data-validation-error-msg="Wrong phone format">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-3 control-label">Email:</label>
                   <div class="col-lg-8">
-                    <input class="form-control" value="<%=analist.email%>" name="analist[email]" type="email"  data-validation="email">
+                    <input class="form-control" value="<%=analyst.email%>" name="analyst[email]" type="email"  data-validation="email">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-3 control-label">Provider ID</label>
                   <div class="col-lg-8">
-                    <input class="form-control" value="<%=analist.providerId%>" name="analist[providerId]" type="text" data-validation="number" data-validation-allowing="range[1000000000;9999999999]" data-validation-optional="true" data-validation-error-msg="The provider Id must be 10 digits">
+                    <input class="form-control" value="<%=analyst.providerId%>" name="analyst[providerId]" type="text" data-validation="number" data-validation-allowing="range[1000000000;9999999999]" data-validation-optional="true" data-validation-error-msg="The provider Id must be 10 digits">
                   </div>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                                             <td><%=client.phone%></td>
                                             <td><%=client.diagnosis%></td>
                                             <td><%=client.medicaidNumber%><span class="trash"><i class="fa fa-trash" ></i></span></td>    
-                                            <td style="display:none"><input class="table-input" value="<%=client._id%>" name="analist[clients]" disabled="disabled" type="text"></td> 
+                                            <td style="display:none"><input class="table-input" value="<%=client._id%>" name="analyst[clients]" disabled="disabled" type="text"></td> 
                                         </tr>
                                     </tbody>
                                 </table>
@@ -109,7 +109,7 @@
                         </tr>
                     </thead>
                     <tbody id="client-table">
-                        <%analist.clients.forEach(function(client,index){%>
+                        <%analyst.clients.forEach(function(client,index){%>
                             <tr class="client-table-row table-row">
                                 <td><%=client.firstName%></td>
                                 <td><%=client.lastName%></td>
@@ -117,7 +117,7 @@
                                 <td><%=client.phone%></td>
                                 <td><%=client.diagnosis%></td>
                                 <td><%=client.medicaidNumber%><span class="trash"><i class="fa fa-trash" ></i></span></td>
-                                <td style="display:none"><input class="table-input" value="<%=client._id%>" name="analist[clients]" type="text"></td>
+                                <td style="display:none"><input class="table-input" value="<%=client._id%>" name="analyst[clients]" type="text"></td>
                             </tr>
                         <%})%>
                     </tbody>
@@ -128,7 +128,7 @@
         <div class="row form-group">
            <div class="col-md-8 col-sm-6 col-xs-6">
                <input class="btn btn-success" type="submit" value="Save">
-               <a class="btn btn-default"href="/superuser/<%=superuserID%>/analist/<%=analist._id%>">Cancel</a>
+               <a class="btn btn-default"href="/superuser/<%=superuserID%>/analyst/<%=analyst._id%>">Cancel</a>
            </div>
        </div>
     </form>

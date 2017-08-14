@@ -1,0 +1,28 @@
+<%include ../partials/header%>
+
+
+
+<!--Displaying all the analysts-->
+<div class="container-fluid" style="padding-top: 60px;">
+    <!--ROW START-->
+    <div class="row">
+        <%analysts.forEach(function(analyst){%>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="text-center">
+                   <a href="/superuser/<%=superuserID%>/analyst/<%=analyst._id%>"><img src="<%=analyst.photo%>" class="avatar img-circle img-thumbnail index-image" alt="avatar"></a>
+                    <div class="caption">
+                        <h3><%=analyst.firstName+" "+analyst.lastName%></h3>
+                        <p><strong>Phone: </strong><%=analyst.phone%></p>
+                        <p><strong>Email: </strong><%=analyst.email%></p>
+                        <p><strong>Provider ID: </strong><%=analyst.providerId%></p>
+                    </div>
+                </div>
+            </div>
+        <%})%>
+    </div>
+    <!--ROW FINISH-->
+</div>
+    
+
+
+<%include ../partials/footer%>

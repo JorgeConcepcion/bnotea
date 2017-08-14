@@ -15,13 +15,13 @@ var express = require("express"),
 	//middleware
 	Middleware = require("./middleware"),
 	//database seed
-	//seedDB = require("./seedDB"),
+	seedDB = require("./seedDB"),
 	//routes
 	superuserRoutes = require("./routes/superuser"),
 	indexRoutes = require("./routes/index"),
 	assistantRoutes = require("./routes/assistant"),
 	authenticationRoutes = require("./routes/authentication"),
-	analistRoutes = require("./routes/analist"),
+	analystRoutes = require("./routes/analyst"),
 	clientRoutes = require("./routes/client"),
 	defaultRoute = require("./routes/default"),
 	reportRoute=require("./routes/report"),
@@ -74,7 +74,7 @@ app.use("/superuser", superuserRoutes);
 app.use(indexRoutes);
 app.use(authenticationRoutes);
 app.use("/superuser/:superuserID/assistant", assistantRoutes);
-app.use("/superuser/:superuserID/analist", analistRoutes);
+app.use("/superuser/:superuserID/analyst", analystRoutes);
 app.use("/superuser/:superuserID/client", clientRoutes);
 app.use("/superuser/:superuserID/client/:clientID/report",reportRoute);
 app.use(testRoute);
@@ -82,7 +82,7 @@ app.use(defaultRoute);
 
 
 //SEEDING THE DATABASE
-//seedDB();
+seedDB();
 
 //STARTING THE SERVER
 app.listen(8080,"0.0.0.0",function() {

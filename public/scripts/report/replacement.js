@@ -106,7 +106,7 @@ $(".submit").on("click", function (e) {
 			title: false // title
 		});
 	}
-	else if($(".assistant-input").attr("value")=="" && $(".assistant-canvas").parent().attr("style")==undefined ||  $(".analist-input").attr("value")=="" && $(".analist-canvas").parent().attr("style")==undefined || $(".caregiver-input").attr("value")=="" && $(".caregiver-canvas").parent().attr("style")==undefined ){
+	else if($(".assistant-input").attr("value")=="" && $(".assistant-canvas").parent().attr("style")==undefined ||  $(".analyst-input").attr("value")=="" && $(".analyst-canvas").parent().attr("style")==undefined || $(".caregiver-input").attr("value")=="" && $(".caregiver-canvas").parent().attr("style")==undefined ){
 		e.preventDefault();
 		$.alert("The entire document needs to be signed", {
 			position: ["center", [-0.42, 0]],
@@ -114,7 +114,7 @@ $(".submit").on("click", function (e) {
 		});
 	}
 	else{
-		if($(".analist").length>0){
+		if($(".analyst").length>0){
 			$("#button").attr("value", "Completed");
 		}
 		if($(".assistant").length>0){

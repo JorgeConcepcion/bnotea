@@ -6,10 +6,10 @@
                 <h2><%=client.firstName+" "+client.lastName%></h2>
             </div>
     </div>
-      <%if(currentUser.type=="analist" || currentUser.type=="superuser"){%>
+      <%if(currentUser.type=="analyst" || currentUser.type=="superuser"){%>
          <div class="row ">
                 <div class="col-md-3 col-sm-12 col-xs-12">
-                    <h4 class="page-header">Analist Reports</h4>
+                    <h4 class="page-header">analyst Reports</h4>
                 </div>
         </div>
         <div class="table-responsive">
@@ -23,12 +23,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <%client.analistReports.forEach(function(report,index){%>
+                    <%client.analystReports.forEach(function(report,index){%>
                             <tr>
                                 <td class="report-name"><%=report.startDate+" - "+report.endDate%></td>
-                                <td><%=report.author%></td>
-                                <td><%=analistStates[index]%></td>
-                                <td><%=analistUnits[index]%></td>
+                                <td><%=report.author.firstName+" "+report.author.lastName%></td>
+                                <td><%=analystStates[index]%></td>
+                                <td><%=analystUnits[index]%></td>
                             </tr>
                             <tr class="report-desc">
                                 <td colspan="4">
@@ -49,15 +49,15 @@
                                          <li class="report-index-section">
                                             <div class="row">
                                                 <div class="col-md-5">
-                                                    <h4 class="report-h4"><%="Daily Log"+": "+report.analistLog.state%></h4>
+                                                    <h4 class="report-h4"><%="Daily Log"+": "+report.analystLog.state%></h4>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <%if(currentUser.type=="analist" &&(report.analistLog.state=="Started" || report.analistLog.state=="Completed" ) || currentUser.type=="superuser" &&( report.analistLog.state=="Accepted" || report.analistLog.state=="Completed" )){%>  
-                                                     <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/edit?section=analistLog" class="btn btn-success btn-sm report-edit-btn">Edit</a>
+                                                    <%if(currentUser.type=="analyst" &&(report.analystLog.state=="Started" || report.analystLog.state=="Completed" ) || currentUser.type=="superuser" &&( report.analystLog.state=="Accepted" || report.analystLog.state=="Completed" )){%>  
+                                                     <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/edit?section=analystLog" class="btn btn-success btn-sm report-edit-btn">Edit</a>
                                                      
                                                     <%}%>
                                                    
-                                                     <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/show?section=analistLog" class="btn btn-success btn-sm report-edit-btn">Show</a>
+                                                     <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/show?section=analystLog" class="btn btn-success btn-sm report-edit-btn">Show</a>
                                                     
                                                 </div>
                                             </div>
@@ -68,7 +68,7 @@
                                                     <h4 class="report-h4"><%="Caregiver Competency Check"+":  "+report.caregiver.state%></h4>
                                                 </div>
                                                 <div class="col-md-7">
-                                                      <%if(currentUser.type=="analist" &&(report.caregiver.state=="Started" || report.caregiver.state=="Completed" ) || currentUser.type=="superuser" &&( report.caregiver.state=="Accepted" || report.caregiver.state=="Completed" )){%>  
+                                                      <%if(currentUser.type=="analyst" &&(report.caregiver.state=="Started" || report.caregiver.state=="Completed" ) || currentUser.type=="superuser" &&( report.caregiver.state=="Accepted" || report.caregiver.state=="Completed" )){%>  
                                                      <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/edit?section=caregiver" class="btn btn-success btn-sm report-edit-btn">Edit</a>
                                                     <%}%>
                                                     
@@ -105,7 +105,7 @@
                     <%client.assistantReports.forEach(function(report,index){%>
                             <tr>
                                 <td class="report-name"><%=report.startDate+" - "+report.endDate%></td>
-                                <td><%=report.author%></td>
+                                 <td><%=report.author.firstName+" "+report.author.lastName%></td>
                                 <td><%=assistantStates[index]%></td>
                                 <td><%=assistantUnits[index]%></td>
                             </tr>
@@ -132,7 +132,7 @@
                                                     <h4 class="report-h4"><%="Daily Log"+": "+report.assistantLog.state%></h4>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <%if(currentUser.type=="assistant" &&(report.assistantLog.state=="Started" || report.assistantLog.state=="On revision" || report.assistantLog.state=="Completed") || currentUser.type=="analist" &&(report.assistantLog.state=="On revision" || report.assistantLog.state=="Completed" ) || currentUser.type=="superuser" &&( report.assistantLog.state=="Accepted" || report.assistantLog.state=="Completed" )){%>  
+                                                    <%if(currentUser.type=="assistant" &&(report.assistantLog.state=="Started" || report.assistantLog.state=="On revision" || report.assistantLog.state=="Completed") || currentUser.type=="analyst" &&(report.assistantLog.state=="On revision" || report.assistantLog.state=="Completed" ) || currentUser.type=="superuser" &&( report.assistantLog.state=="Accepted" || report.assistantLog.state=="Completed" )){%>  
                                                      <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/edit?section=assistantLog" class="btn btn-success btn-sm report-edit-btn">Edit</a>
                                                     <%}%>
                                                     <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/show?section=assistantLog" class="btn btn-success btn-sm report-edit-btn">Show</a>
@@ -153,7 +153,7 @@
                                                                   <h5 class="report-h4"><%=b.name+": "+b.state%></h5>
                                                             </div>
                                                             <div class="col-md-7">
-                                                                <%if(currentUser.type=="assistant" &&(b.state=="Started" || b.state=="On revision" || b.state=="Completed") || currentUser.type=="analist" &&(b.state=="On revision" || b.state=="Completed" ) || currentUser.type=="superuser" &&( b.state=="Accepted" || b.state=="Completed" )){%>   
+                                                                <%if(currentUser.type=="assistant" &&(b.state=="Started" || b.state=="On revision" || b.state=="Completed") || currentUser.type=="analyst" &&(b.state=="On revision" || b.state=="Completed" ) || currentUser.type=="superuser" &&( b.state=="Accepted" || b.state=="Completed" )){%>   
                                                                     <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/edit?section=behavior&behavior=<%=index%>" class="btn btn-success btn-sm report-edit-btn">Edit</a>
                                                                 <%}%>
                                                                      <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/show?section=behavior&behavior=<%=index%>" class="btn btn-success btn-sm report-edit-btn">Show</a>
@@ -178,7 +178,7 @@
                                                                 <h5 class="report-h4"><%=r.name+": "+r.state%></h5>
                                                             </div>
                                                             <div class="col-md-7">
-                                                                <%if(currentUser.type=="assistant" &&(r.state=="Started" || r.state=="On revision" || r.state=="Completed") || currentUser.type=="analist" &&(r.state=="On revision" || r.state=="Completed" ) || currentUser.type=="superuser" &&( r.state=="Accepted" || r.state=="Completed" )){%>  
+                                                                <%if(currentUser.type=="assistant" &&(r.state=="Started" || r.state=="On revision" || r.state=="Completed") || currentUser.type=="analyst" &&(r.state=="On revision" || r.state=="Completed" ) || currentUser.type=="superuser" &&( r.state=="Accepted" || r.state=="Completed" )){%>  
                                                                     <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/edit?section=replacement&replacement=<%=index%>" class="btn btn-success btn-sm report-edit-btn">Edit</a>
                                                                 <%}%>
                                                                 <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/show?section=replacement&replacement=<%=index%>" class="btn btn-success btn-sm report-edit-btn">Show</a>
@@ -194,7 +194,7 @@
                                                      <h4 class="report-h4"><%="Medical Log"+": "+report.medical.state%></h4>
                                                 </div>
                                                 <div class="col-md-7">
-                                                     <%if(currentUser.type=="assistant" &&(report.medical.state=="Started" || report.medical.state=="On revision" || report.medical.state=="Completed") || currentUser.type=="analist" &&(report.medical.state=="On revision" || report.medical.state=="Completed" ) || currentUser.type=="superuser" &&( report.medical.state=="Accepted" || report.medical.state=="Completed" )){%>  
+                                                     <%if(currentUser.type=="assistant" &&(report.medical.state=="Started" || report.medical.state=="On revision" || report.medical.state=="Completed") || currentUser.type=="analyst" &&(report.medical.state=="On revision" || report.medical.state=="Completed" ) || currentUser.type=="superuser" &&( report.medical.state=="Accepted" || report.medical.state=="Completed" )){%>  
                                                         <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/edit?section=medical" class="btn btn-success btn-sm report-edit-btn">Edit</a>
                                                     <%}%>
                                                         <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/show?section=medical" class="btn btn-success btn-sm report-edit-btn">Show</a>
@@ -204,10 +204,10 @@
                                         <li class="report-index-section">
                                              <div class="row">
                                                 <div class="col-md-5">
-                                                      <h4 class="report-h4"><%="Supervision Conducted by Behavior Analist"+": "+report.supervision.state%></h4>
+                                                      <h4 class="report-h4"><%="Supervision Conducted by Behavior analyst"+": "+report.supervision.state%></h4>
                                                 </div>
                                                 <div class="col-md-7">
-                                                     <%if(currentUser.type=="assistant" &&(report.supervision.state=="Started" || report.supervision.state=="On revision" || report.supervision.state=="Completed") || currentUser.type=="analist" &&(report.supervision.state=="Started" || report.supervision.state=="On revision" || report.supervision.state=="Completed" ) || currentUser.type=="superuser" &&( report.supervision.state=="Accepted" || report.supervision.state=="Completed" )){%>   
+                                                     <%if(currentUser.type=="assistant" &&(report.supervision.state=="Started" || report.supervision.state=="On revision" || report.supervision.state=="Completed") || currentUser.type=="analyst" &&(report.supervision.state=="Started" || report.supervision.state=="On revision" || report.supervision.state=="Completed" ) || currentUser.type=="superuser" &&( report.supervision.state=="Accepted" || report.supervision.state=="Completed" )){%>   
                                                      <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/edit?section=supervision" class="btn btn-success btn-sm report-edit-btn">Edit</a>
                                                     <%}%>
                                                  

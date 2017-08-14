@@ -2,38 +2,38 @@
 
 
 <div class="container-fluid" style="padding-top: 60px;">
-  <h1 class="page-header">New Analist</h1>
-  <form  id="new" method="POST" action="/superuser/<%=superuserID%>/analist" class="form-horizontal">
+  <h1 class="page-header">New Analyst</h1>
+  <form  id="new" method="POST" action="/superuser/<%=superuserID%>/analyst" class="form-horizontal">
     <div class="col-sm-8 col-xs-12 ">
-    <!--Form to create an analist-->
+    <!--Form to create an analyst-->
       <div class="form-group">
         <label class="col-lg-3 control-label">First name:</label>
         <div class="col-lg-8">
-          <input class="form-control"  placeholder="first name" name="analist[firstName]" type="text" data-validation="required" data-validation-error-msg="The first name is required">
+          <input class="form-control"  placeholder="first name" name="analyst[firstName]" type="text" data-validation="required" data-validation-error-msg="The first name is required">
         </div>
       </div>
       <div class="form-group">
         <label class="col-lg-3 control-label">Last name:</label>
         <div class="col-lg-8">
-          <input class="form-control" placeholder="last name" name="analist[lastName]" type="text" data-validation="required" data-validation-error-msg="The last name is required">
+          <input class="form-control" placeholder="last name" name="analyst[lastName]" type="text" data-validation="required" data-validation-error-msg="The last name is required">
         </div>
       </div>
       <div class="form-group">
         <label class="col-lg-3 control-label">Phone:</label>
         <div class="col-lg-8">
-          <input class="form-control" placeholder="phone" name="analist[phone]" type="text" data-validation="number" data-validation-allowing="range[1000000000;9999999999]" data-validation-optional="true"  data-validation-error-msg="Wrong phone format">
+          <input class="form-control" placeholder="phone" name="analyst[phone]" type="text" data-validation="number" data-validation-allowing="range[1000000000;9999999999]" data-validation-optional="true"  data-validation-error-msg="Wrong phone format">
         </div>
       </div>
       <div class="form-group">
         <label class="col-lg-3 control-label">Email:</label>
         <div class="col-lg-8">
-          <input class="form-control" placeholder="email" name="analist[email]" type="text" data-validation="email" >
+          <input class="form-control" placeholder="email" name="analyst[email]" type="text" data-validation="email" >
         </div>
       </div>
       <div class="form-group">
         <label class="col-lg-3 control-label">Provider ID:</label>
         <div class="col-lg-8">
-          <input class="form-control" placeholder="provider id" name="analist[providerId]" type="text" data-validation="number" data-validation-allowing="range[1000000000;9999999999]" data-validation-optional="true" data-validation-error-msg="The provider Id must be 10 digits">
+          <input class="form-control" placeholder="provider id" name="analyst[providerId]" type="text" data-validation="number" data-validation-allowing="range[1000000000;9999999999]" data-validation-optional="true" data-validation-error-msg="The provider Id must be 10 digits">
         </div>
       </div>
       <div class="form-group">

@@ -71,8 +71,8 @@
                                     <i class="fa fa-home" aria-hidden="true"></i>
                                 </a>
                             <%}%>
-                            <%if(currentUser.type=="analist"){%>
-                                <a class="navbar-brand" href="/superuser/<%=superuserID%>/analist/<%=currentUser.userRef%>">
+                            <%if(currentUser.type=="analyst"){%>
+                                <a class="navbar-brand" href="/superuser/<%=superuserID%>/analyst/<%=currentUser.userRef%>">
                                     <i class="fa fa-home" aria-hidden="true"></i>
                                 </a>
                             <%}%>
@@ -105,8 +105,8 @@
                              <li>
                                 <a href="#" data-toggle="collapse" data-target="#submenu-3"><i class="fa fa-fw fa-star"></i>  ANALISTS <i class="fa fa-fw fa-angle-down pull-right"></i></a>
                                 <ul id="submenu-3" class="collapse">
-                                    <li><a href="/superuser/<%=superuserID%>/analist"><i class="fa fa-search"></i> SHOW</a></li>
-                                    <li><a href="/superuser/<%=superuserID%>/analist/new"><i class="fa fa-plus"></i> NEW</a></li>
+                                    <li><a href="/superuser/<%=superuserID%>/analyst"><i class="fa fa-search"></i> SHOW</a></li>
+                                    <li><a href="/superuser/<%=superuserID%>/analyst/new"><i class="fa fa-plus"></i> NEW</a></li>
                                 </ul>
                             </li>
                          <%}%>
@@ -119,8 +119,8 @@
                                 <%if(currentUser.type=="assistant"){%>
                                     <li><a href="/superuser/<%=superuserID%>/assistant/<%=currentUser.userRef%>/edit"><i class="fa fa-fw fa-user" aria-hidden="true"></i> EDIT</a></li>
                                 <%}%>
-                                <%if(currentUser.type=="analist"){%>
-                                     <li><a href="/superuser/<%=superuserID%>/analist/<%=currentUser.userRef%>/edit"><i class="fa fa-fw fa-user" aria-hidden="true"></i> EDIT</a></li>
+                                <%if(currentUser.type=="analyst"){%>
+                                     <li><a href="/superuser/<%=superuserID%>/analyst/<%=currentUser.userRef%>/edit"><i class="fa fa-fw fa-user" aria-hidden="true"></i> EDIT</a></li>
                                 <%}%>
                                 <li><a href="/change"><i class="fa fa-fw fa-cog"></i> CHANGE PASSWORD</a></li>
                             </ul>
@@ -139,7 +139,7 @@
                 <div class="container-fluid">
                 <!-- Page Heading -->
                     <div class="row" id="main" >
-                        <%if((page!="superuser-show") && !(page=="analist-show" && currentUser.type=="analist") && !(page=="assistant-show" && currentUser.type=="assistant")){%>
+                        <%if((page!="superuser-show") && !(page=="analyst-show" && currentUser.type=="analyst") && !(page=="assistant-show" && currentUser.type=="assistant")){%>
                             <div id="content">
                                 <div id="flash">
                                     <%if(error && error.length>0){%>

@@ -1,6 +1,6 @@
 var aws = require("aws-sdk"),
-	fs = require("fs");
-
+	fs = require("fs"),
+	moment=require("moment");
 
 
 var functionObj = {};
@@ -168,11 +168,22 @@ functionObj.scheduleOwnOverlappingChecker=function(reports,schedule,id){
 	
 	return sol;
 };
-functionObj.initializeAssistantReport=function(report,client){
+functionObj.initializeAssistantReport=function(report,client,assistant){
+
+	var assistantApprovalCurrent="";
+	client.approvals.forEach(function(approval){
+		if(moment(approval.endDate).format("MM/DD/YYYY")>moment(Date.now()).format("MM/DD/YYYY") && approval.procedure=="H2014 BA"){
+			assistantApprovalCurrent=approval;
+		}
+	});
+	//Author Info
+	report.author={firstName:assistant.firstName,lastName:assistant.lastName,providerId:assistant.providerId};
+	//Recipient Info
+	report.recipient={firstName:client.firstName,lastName:client.lastName,medicaidNumber:client.medicaidNumber,approvalNumber:assistantApprovalCurrent.number};
 	//Assistant Log
 	report.assistantLog.state="Started";
 	report.assistantLog.log=[];
-	report.assistantLog.signatures={assistant:"",caregiver:"",analist:""};
+	report.assistantLog.signatures={assistant:"",caregiver:"",analyst:""};
 	for(let i=0;i<7;i++){
 		report.assistantLog.log.push({progress:"",reinforces:"",status:"",participation:"",environmentalChange:"",setting:"",replacements:[],intervention:{result:"",name:"",behavior:""},behaviors:[]});
 	}
@@ -181,53 +192,59 @@ functionObj.initializeAssistantReport=function(report,client){
 	client.maladaptativeBehaviors.forEach(function(maladaptativeBehavior){
 		let intensityTemp=[[],[],[],[],[],[],[]];
 		let frequencyTemp=[];
-		report.behavior.push({name:maladaptativeBehavior.name,intensity:intensityTemp,frequency:frequencyTemp,signatures:{assistant:"",analist:""},state:"Started"});
+		report.behavior.push({name:maladaptativeBehavior.name,intensity:intensityTemp,frequency:frequencyTemp,signatures:{assistant:"",analyst:""},state:"Started"});
 	});
 	//Replacement
 	report.replacement=[];
 	client.replacementsBehaviors.forEach(function(replacementBehavior){
 		let completionTemp=[[],[],[],[],[],[],[]];
 		let trialsTemp=[];
-		report.replacement.push({name:replacementBehavior.name,completion:completionTemp,trials:trialsTemp,signatures:{assistant:"",analist:""},state:"Started"});
+		report.replacement.push({name:replacementBehavior.name,completion:completionTemp,trials:trialsTemp,signatures:{assistant:"",analyst:""},state:"Started"});
 	});
 	//Supervision
 	let characteristicsTemp=[];
-	report.supervision={date:"",duration:"",characteristics:characteristicsTemp,performance:"",signatures:{assistant:"",analist:""},state:"Started"};
+	report.supervision={date:"",duration:"",characteristics:characteristicsTemp,performance:"",signatures:{assistant:"",analyst:""},state:"Started"};
 	//Medical
 	let medicalVisitTemp=[];
 	let medicationTemp=[];
 	report.medical={state:"Started",medicalVisit:medicalVisitTemp,medication:medicationTemp,signatures:{assistant:"",caregiver:""}};
 	
-	
-
-
-	
-	
+	//Deleting unnecessary fields
+	report.analystLog=undefined;
+	report.caregiver=undefined;
 	return report;
 };
-functionObj.initializeAnalistReport=function(report){
-	//Analist Log
-	report.analistLog.state="Started";
-	report.analistLog.log=[];
-	report.analistLog.signatures={caregiver:"",analist:""};
+functionObj.initializeAnalystReport=function(report,client,analyst){
+	var analystApprovalCurrent="";
+	client.approvals.forEach(function(approval){
+		if(moment(approval.endDate).format("MM/DD/YYYY")>moment(Date.now()).format("MM/DD/YYYY") && approval.procedure=="H2019 BA"){
+			analystApprovalCurrent=approval;
+		}
+	});
+	//Author Info
+	report.author={firstName:analyst.firstName,lastName:analyst.lastName,providerId:analyst.providerId};
+	//Recipient Info
+	report.recipient={firstName:client.firstName,lastName:client.lastName,medicaidNumber:client.medicaidNumber,approvalNumber:analystApprovalCurrent.number};
+	
+	//Analyst Log
+	report.analystLog.state="Started";
+	report.analystLog.log=[];
+	report.analystLog.signatures={caregiver:"",analyst:""};
 	for(let i=0;i<7;i++){
-		report.analistLog.log.push({progress:""});
+		report.analystLog.log.push({progress:""});
 	}
 
 	//Caregiver
 	let performanceTemp=[];
-	report.caregiver={state:"Started",performance:performanceTemp,date:"",signatures:{analist:"",caregiver:""}};
+	report.caregiver={state:"Started",performance:performanceTemp,date:"",signatures:{analyst:"",caregiver:""}};
 	
-	
+	//Deleting unnecessary fields
+	report.assistantLog=undefined;
+	report.replacement=undefined;
+	report.behavior=undefined;
+	report.supervision=undefined;
+	report.medical=undefined;
 	return report;
 };
-functionObj.getNewestApproval=function(client){
-	var res=client.approvals[0];
-	client.approvals.forEach(function(a){
-		if(res.startDate<a.startDate){
-			res=a;
-		}
-	});
-	return res;
-};
+
 module.exports = functionObj;

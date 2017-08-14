@@ -1,17 +1,17 @@
 <%include ../partials/header%>
 
-    <!--Displaying analist, including delete deactivate and edit buttons-->
+    <!--Displaying analyst, including delete deactivate and edit buttons-->
     <%if(currentUser.type=="superuser"){%>
     <div class="container-fluid" style="padding-top: 60px;">
     <div class="row text-center">
         <div class="col-md-12 col-sm-12 col-xs-12">
-            <img   src="<%=analist.photo%>" class="avatar img-circle img-thumbnail main-image" alt="avatar">
+            <img   src="<%=analyst.photo%>" class="avatar img-circle img-thumbnail main-image" alt="avatar">
         </div>
     </div>
     <div class="row text-center">
         <div class="col-md-12 col-sm-4 col-xs-12">
-            <h2><%=analist.firstName+" "+analist.lastName%></h2>
-            <a class="btn btn-success"href="/superuser/<%=superuserID%>/analist/<%=analist._id%>/edit">Edit</a>
+            <h2><%=analyst.firstName+" "+analyst.lastName%></h2>
+            <a class="btn btn-success"href="/superuser/<%=superuserID%>/analyst/<%=analyst._id%>/edit">Edit</a>
             <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#deactivateModal">Deactivate</button>
             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
             <div id="deactivateModal" class="modal fade" role="dialog">
@@ -26,7 +26,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class=" btn btn-default" data-dismiss="modal">No</button>
-                            <form class="clientButton" method="post" action="/superuser/<%=superuserID%>/analist/<%=analist._id%>?_method=DELETE">
+                            <form class="clientButton" method="post" action="/superuser/<%=superuserID%>/analyst/<%=analyst._id%>?_method=DELETE">
                                 <input style="display:none" type="text" value="deactivate" name="deleteFlag">
                                 <button class="btn btn-default ">Yes</button>
                             </form>
@@ -46,7 +46,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class=" btn btn-default" data-dismiss="modal">No</button>
-                            <form class="clientButton" method="post" action="/superuser/<%=superuserID%>/analist/<%=analist._id%>?_method=DELETE">
+                            <form class="clientButton" method="post" action="/superuser/<%=superuserID%>/analyst/<%=analyst._id%>?_method=DELETE">
                                 <button class="btn btn-default ">Yes</button>
                             </form>
                         </div>
@@ -56,7 +56,7 @@
         </div>
     </div>
     <%}%>
-    <%if(currentUser.type=="analist"){%>
+    <%if(currentUser.type=="analyst"){%>
         <div id="content">
             <div>
                 <%if(error && error.length>0){%>
@@ -67,7 +67,7 @@
                 <%}%>
             </div>
             <div class="col-sm-12 col-md-12 well">
-                <h1 id="welcome">Welcome <%=analist.firstName%></h1>
+                <h1 id="welcome">Welcome <%=analyst.firstName%></h1>
             </div>
         </div>
         <div class="container" style="padding-top: 60px;">
@@ -75,40 +75,40 @@
                 <!--Showing superuser atrributes including the picture-->
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="text-center">
-                        <img src="<%=analist.photo%>" class="avatar img-circle img-thumbnail main-image" alt="avatar">
+                        <img src="<%=analyst.photo%>" class="avatar img-circle img-thumbnail main-image" alt="avatar">
                         <div class="caption">
                             <h2><%=currentUser.company%></h2>
-                            <h4><strong>Phone: </strong><%=analist.phone%></h4>
-                            <h4><strong>Email: </strong><%=analist.email%></h4>
-                            <h4><strong>Provider ID: </strong><%=analist.providerId%></h4>
+                            <h4><strong>Phone: </strong><%=analyst.phone%></h4>
+                            <h4><strong>Email: </strong><%=analyst.email%></h4>
+                            <h4><strong>Provider ID: </strong><%=analyst.providerId%></h4>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
      <%}%>
-     <%if(currentUser.type!="analist"){%>
+     <%if(currentUser.type!="analyst"){%>
     <div class="row">
         <div class="col-md-3 col-sm-12 col-xs-12">
             <h4 class="page-header">Info</h4> 
         </div>
     </div>
-    <!--Showing analist attributes on a table-->
+    <!--Showing analyst attributes on a table-->
     <div class="row custom-table">
         <div class="table-responsive">
             <table class="table table-bordered">
                 <tbody>
                     <tr>
                         <th scope="row"> Phone</th>
-                        <td><%=analist.phone%></td>
+                        <td><%=analyst.phone%></td>
                     </tr>
                     <tr>
                         <th scope="row"> Email</th>
-                        <td><%=analist.email%></td>
+                        <td><%=analyst.email%></td>
                     </tr>
                      <tr>
                         <th scope="row"> Provider ID</th>
-                        <td><%=analist.providerId%></td>
+                        <td><%=analyst.providerId%></td>
                     </tr>
                 </tbody>
             </table>
@@ -133,7 +133,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <%analist.clients.forEach(function(client){%>
+                    <%analyst.clients.forEach(function(client){%>
                             <tr>
                                 <td><%=client.firstName+" "+client.lastName%></td>
                                 <td><%=client.guardian%></td>

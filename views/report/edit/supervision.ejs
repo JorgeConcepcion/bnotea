@@ -7,13 +7,13 @@
        <table class="table table-bordered doc-header">
             <tbody>
                 <tr>
-                    <td><h4>Name of Recipient/Medicaid ID:<%=client.firstName+" "+client.lastName+"/"+client.medicaidNumber%></h4></td>
-                     <td><h4>PA #:<%if(analistApprovalCurrent){%><%=analistApprovalCurrent.number%><%}%></h4></td>
+                   <td><h4>Name of Recipient/Medicaid ID:<%=report.recipient.firstName+" "+report.recipient.lastName+"/"+report.recipient.medicaidNumber%></h4></td>
+                     <td><h4>PA #: <%=report.recipient.approvalNumber%></h4></td>
                      <td class="col-center-supervision" rowspan="2"><h4>Week:<%=report.schedule[0].date+" - "+report.schedule[6].date%></h4></td>
                 </tr>
                  <tr>
-                    <td><h4>Name of Behavior Technician/Provider ID:<%=assistant.firstName+" "+assistant.lastName+"/"+assistant.providerId%></h4></td>
-                    <td><h4>Name of Behavior Analyst/Provider ID:<%=analist.firstName+" "+analist.lastName+"/"+analist.providerId%></h4></td>
+                   <td><h4>Name of Behavior Technician/Provider ID:<%=report.author.firstName+" "+report.author.lastName+"/"+report.author.providerId%></h4></td>
+                    <td><h4>Name of Behavior Analyst/Provider ID:<%=report.author.firstName+" "+report.author.lastName+"/"+report.author.providerId%></h4></td>
                 </tr>
             </tbody>
         </table>
@@ -28,7 +28,7 @@
 	                    <th><h4>Characteristics of supervision conducted</h4></th>
 	                    <th><h4>Overall evaluation of supervisee performance</h4></th>
 	                    <th><h4>Behavior assistant signature</h4></th>
-	                    <th><h4>Behavior analist signature</h4></th>
+	                    <th><h4>Behavior analyst signature</h4></th>
 	                </tr>
                 </thead>
                  <tr>
@@ -64,7 +64,7 @@
 			            </div>
                     </td>
                     <td>
-                        <div <%if(currentUser.type=="analist"){%>style="display:none"<%}%>>
+                        <div <%if(currentUser.type=="analyst"){%>style="display:none"<%}%>>
 	                     <canvas class="assistant-canvas" width="290" height="70" ></canvas>
 	                     <input type="text" class="assistant-input" name="report[supervision][signatures][assistant]" style="display:none" value="<%=report.supervision.signatures.assistant%>">
 		                 <button type="button" class="btn btn-default activate-assistant">Activate</button>
@@ -74,11 +74,11 @@
                     </td>
                     <td>
                         <div <%if(currentUser.type=="assistant"){%>style="display:none"<%}%>>
-    		    		 <canvas class="analist-canvas" width="290" height="70"></canvas>
-    		    		 <input type="text" class="analist-input" name="report[supervision][signatures][analist]" style="display:none" value="<%=report.supervision.signatures.analist%>">
-    		    		 <button type="button" class="btn btn-default activate-analist"  >Activate</button>
-    		    		 <button type="button" class="btn btn-default clear-analist" >Clear</button>
-                           <button type="button" class="btn btn-default save-analist"  >Save</button>
+    		    		 <canvas class="analyst-canvas" width="290" height="70"></canvas>
+    		    		 <input type="text" class="analyst-input" name="report[supervision][signatures][analyst]" style="display:none" value="<%=report.supervision.signatures.analyst%>">
+    		    		 <button type="button" class="btn btn-default activate-analyst"  >Activate</button>
+    		    		 <button type="button" class="btn btn-default clear-analyst" >Clear</button>
+                           <button type="button" class="btn btn-default save-analyst"  >Save</button>
                         </div>
                     </td>
                 </tr>
@@ -91,8 +91,8 @@
         <%if(currentUser.type=="assistant"){%>
         <input class="assistant" id="button" type="text" name="report[supervision][state]" value="<%=report.supervision.state%>" style="display:none">
         <%}%>
-         <%if(currentUser.type=="analist"){%>
-        <input class="analist" id="button" type="text" name="report[supervision][state]" value="<%=report.supervision.state%>" style="display:none">
+         <%if(currentUser.type=="analyst"){%>
+        <input class="analyst" id="button" type="text" name="report[supervision][state]" value="<%=report.supervision.state%>" style="display:none">
         <%}%>
         <%if(currentUser.type=="superuser"){%>
         <input class="superuser" id="button" type="text" name="report[supervision][state]" value="<%=report.supervision.state%>" style="display:none">

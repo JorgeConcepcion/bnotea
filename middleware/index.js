@@ -1,7 +1,7 @@
 var midlewareObj = {};
 var Superuser = require("../models/superuser");
 var Assistant = require("../models/assistant");
-var Analist = require("../models/analist");
+var Analyst = require("../models/analyst");
 var Client = require("../models/client");
 var multer = require("multer");
 var multerS3 = require("multer-s3");
@@ -42,9 +42,9 @@ midlewareObj.isAssistantSuperuser = function (req, res, next) {
 	return res.redirect("back");
 };
 
-//Check if an user is an analist or a superuser
-midlewareObj.isAnalistSuperuser = function (req, res, next) {
-	if (req.user.type == "analist" || req.user.type == "superuser") {
+//Check if an user is an analyst or a superuser
+midlewareObj.isAnalystSuperuser = function (req, res, next) {
+	if (req.user.type == "analyst" || req.user.type == "superuser") {
 		return next();
 	}
 	req.flash("error", "You don't have authorization to do that");
@@ -133,11 +133,11 @@ midlewareObj.isAuthorizedAssistant = function (req, res, next) {
 	}
 };
 
-//Assuming that the user is an analist, checks if is authorized to access the requested resource
-midlewareObj.isAuthorizedAnalist = function (req, res, next) {
-	if (req.user.type == "analist") {
-		if (req.params.hasOwnProperty("analistID")) {
-			if (req.params.analistID == req.user.userRef) {
+//Assuming that the user is an analyst, checks if is authorized to access the requested resource
+midlewareObj.isAuthorizedAnalyst = function (req, res, next) {
+	if (req.user.type == "analyst") {
+		if (req.params.hasOwnProperty("analystID")) {
+			if (req.params.analystID == req.user.userRef) {
 				return next();
 			}
 			else {
@@ -147,17 +147,17 @@ midlewareObj.isAuthorizedAnalist = function (req, res, next) {
 		}
 		else {
 			if (req.params.hasOwnProperty("clientID")) {
-				Analist.findOne({
+				Analyst.findOne({
 					_id: req.user.userRef,
 					clients: req.params.clientID
-				}, function (err, analist) {
+				}, function (err, analyst) {
 					if (err) {
 						req.flash("error", err.message + ", please login again to continue");
 						req.logout();
 						return res.redirect("/login");
 					}
 					else {
-						if (analist != null) {
+						if (analyst != null) {
 							return next();
 						}
 						else {
@@ -170,7 +170,7 @@ midlewareObj.isAuthorizedAnalist = function (req, res, next) {
 			else if (req.params.hasOwnProperty("superuserID")) {
 				Superuser.findOne({
 					_id: req.params.superuserID,
-					analists: req.user.userRef
+					analysts: req.user.userRef
 				}, function (err, superuser) {
 					if (err) {
 						req.flash("error", err.message + ", please login again to continue");
@@ -227,9 +227,9 @@ midlewareObj.isLoggedInLandingPage = function (req, res, next) {
 			});
 
 		}
-		else if (req.user.type == "analist") {
+		else if (req.user.type == "analyst") {
 			Superuser.findOne({
-				analists: req.user.userRef
+				analysts: req.user.userRef
 			}, function (err, superuser) {
 				if (err) {
 					req.flash("error", err.message + ", please login again to continue");
@@ -237,7 +237,7 @@ midlewareObj.isLoggedInLandingPage = function (req, res, next) {
 					return res.redirect("/login");
 				}
 				else {
-					return res.redirect("/superuser/" + superuser._id + "/analist/" + req.user.userRef);
+					return res.redirect("/superuser/" + superuser._id + "/analyst/" + req.user.userRef);
 				}
 			});
 		}
@@ -259,9 +259,9 @@ midlewareObj.fixInputFormat = function (req, res, next) {
 			req.body.assistant.clients=[];
 		}
 	}
-	if (req.body.analist) {
-		if (!req.body.analist.clients) {
-			req.body.analist.clients = [];
+	if (req.body.analyst) {
+		if (!req.body.analyst.clients) {
+			req.body.analyst.clients = [];
 		}
 	}
     
@@ -303,8 +303,8 @@ midlewareObj.uploadPhoto = multer({
 			if (req.params.hasOwnProperty("clientID")) {
 				id = req.params.clientID;
 			}
-			if (req.params.hasOwnProperty("analistID")) {
-				id = req.params.analistID;
+			if (req.params.hasOwnProperty("analystID")) {
+				id = req.params.analystID;
 			}
 			if (req.params.hasOwnProperty("assistantID")) {
 				id = req.params.assistantID;
@@ -317,7 +317,7 @@ midlewareObj.uploadPhoto = multer({
 midlewareObj.checkSchedule= function(req,res,next){
 	if(req.body.report.startDate && req.body.report.startDate.length>0){
 		if(req.user.type=="assistant"){
-			Client.findById(req.params.clientID).populate({path:"analistReports",match:{startDate:req.body.report.startDate},select:"schedule"}).exec(function(err,client){
+			Client.findById(req.params.clientID).populate({path:"analystReports",match:{startDate:req.body.report.startDate},select:"schedule"}).exec(function(err,client){
 				if(err){
 					req.flash("error", err.message + ", please login again to continue");
 					req.logout();
@@ -325,15 +325,15 @@ midlewareObj.checkSchedule= function(req,res,next){
 				}
 				else{
 					if(client!=undefined){
-						if(client.analistReports[0]!=undefined){
-							let resultOverlapping=Functions.scheduleOverlappingChecker(client.analistReports[0].schedule,req.body.report.schedule);
+						if(client.analystReports[0]!=undefined){
+							let resultOverlapping=Functions.scheduleOverlappingChecker(client.analystReports[0].schedule,req.body.report.schedule);
 							if(resultOverlapping[0]==true){
-								req.flash("error","There is an overlapping on your schedule and the analist schedule on day "+resultOverlapping[1]+". You will need to contact the case analist in order to solve the conflict");
+								req.flash("error","There is an overlapping on your schedule and the analyst schedule on day "+resultOverlapping[1]+". You will need to contact the case analyst in order to solve the conflict");
 								return res.redirect("back");
 							}
-							let resultTotalHours=Functions.scheduleTotalHoursChecker(client.analistReports[0].schedule,req.body.report.schedule);
+							let resultTotalHours=Functions.scheduleTotalHoursChecker(client.analystReports[0].schedule,req.body.report.schedule);
 							if(resultTotalHours[0]==true){
-								req.flash("error","On day "+resultTotalHours[1]+" there is more than 8 hours of therapy between you and the analist. You will need to contact the case analist in order to solve the conflict");
+								req.flash("error","On day "+resultTotalHours[1]+" there is more than 8 hours of therapy between you and the analyst. You will need to contact the case analyst in order to solve the conflict");
 								return res.redirect("back");
 							}
 						}
@@ -342,7 +342,7 @@ midlewareObj.checkSchedule= function(req,res,next){
 				}
 			});
 		}
-		else if(req.user.type=="analist"){
+		else if(req.user.type=="analyst"){
 			Client.findById(req.params.clientID).populate({path:"assistantReports",match:{startDate:req.body.report.startDate},select:"schedule"}).exec(function(err,client){
 				if(err){
 					req.flash("error", err.message + ", please login again to continue");
@@ -416,19 +416,19 @@ midlewareObj.checkOwnSchedule= function(req,res,next){
 				}
 			});
 		}
-		else if(req.user.type=="analist"){
-			Analist.findById(req.user.userRef).populate({path:"reports",match:{startDate:req.body.report.startDate},select:"schedule"}).exec(function(err,analist){
+		else if(req.user.type=="analyst"){
+			Analyst.findById(req.user.userRef).populate({path:"reports",match:{startDate:req.body.report.startDate},select:"schedule"}).exec(function(err,analyst){
 				if(err){
 					req.flash("error", err.message + ", please login again to continue");
 					req.logout();
 					return res.redirect("/login");
 				}
 				else{
-					if(analist!=undefined){
-						if(analist.reports[0]!=undefined){
-							let resultOwnChecker=Functions.scheduleOwnOverlappingChecker(analist.reports,req.body.report.schedule,req.params.reportID);
+					if(analyst!=undefined){
+						if(analyst.reports[0]!=undefined){
+							let resultOwnChecker=Functions.scheduleOwnOverlappingChecker(analyst.reports,req.body.report.schedule,req.params.reportID);
 							if(resultOwnChecker[0]==true){
-								Client.findOne({analistReports:resultOwnChecker[2]},function(err,client){
+								Client.findOne({analystReports:resultOwnChecker[2]},function(err,client){
 									if(err){
 										req.flash("error", err.message + ", please login again to continue");
 										req.logout();

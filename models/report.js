@@ -1,7 +1,19 @@
 var mongoose=require("mongoose");
 
 var reportSchema=new mongoose.Schema({
-	author:String,
+	author:
+		{
+			firstName:String,
+			lastName:String,
+			providerId:String
+		},
+	recipient:
+		{
+			firstName:String,
+			lastName:String,
+			approvalNumber:String,
+			medicaidNumber:String
+		},
 	startDate:String,
 	endDate:String,
 	schedule:
@@ -33,7 +45,7 @@ var reportSchema=new mongoose.Schema({
 			],
 		signatures:{
 			assistant:String,
-			analist:String,
+			analyst:String,
 			caregiver:String
 		},
 		state:String
@@ -44,7 +56,7 @@ var reportSchema=new mongoose.Schema({
 		frequency:[],
 		signatures:{
 			assistant:String,
-			analist:String,
+			analyst:String,
 		},
 		state:String
 	}],
@@ -54,7 +66,7 @@ var reportSchema=new mongoose.Schema({
 		trials:[],
 		signatures:{
 			assistant:String,
-			analist:String,
+			analyst:String,
 		},
 		state:String
 	}],
@@ -65,7 +77,7 @@ var reportSchema=new mongoose.Schema({
 		performance:String,
 		signatures:{
 			assistant:String,
-			analist:String
+			analyst:String
 		},
 		state:String
 	},
@@ -89,7 +101,7 @@ var reportSchema=new mongoose.Schema({
 		},
 		state:String
 	},
-	analistLog:{
+	analystLog:{
 		log:
 			[
 				{
@@ -98,7 +110,7 @@ var reportSchema=new mongoose.Schema({
 			],
 		signatures:{
 			caregiver:String,
-			analist:String,
+			analyst:String,
 		},
 		state:String
 	},
@@ -107,7 +119,7 @@ var reportSchema=new mongoose.Schema({
 		date:String,
 		signatures:{
 			caregiver:String,
-			analist:String,
+			analyst:String,
 		},
 		state:String
 	}

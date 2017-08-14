@@ -5,7 +5,7 @@ var express=require("express"),
 	Superuser=require("../models/superuser"),
 	Client=require("../models/client"),
 	Assistant=require("../models/assistant"),
-	Analist=require("../models/analist"),
+	Analyst=require("../models/analyst"),
 	//middleware
 	Middleware=require("../middleware"),
 	//functions
@@ -14,7 +14,7 @@ var express=require("express"),
 	AWSPrivate=require("../../private/awsPrivate");
     
 //INDEX ROUTE
-router.get("/",Middleware.isLoggedIn,Middleware.isAuthorizedAssistant,Middleware.isAuthorizedAnalist,Middleware.isAuthorizedSuperuser,function(req,res){
+router.get("/",Middleware.isLoggedIn,Middleware.isAuthorizedAssistant,Middleware.isAuthorizedAnalyst,Middleware.isAuthorizedSuperuser,function(req,res){
 	var regex;
 	if(req.user.type=="superuser"){
 		if(req.query.search){
@@ -43,29 +43,29 @@ router.get("/",Middleware.isLoggedIn,Middleware.isAuthorizedAssistant,Middleware
 			});
 		}  
 	}
-	if(req.user.type=="analist"){
+	if(req.user.type=="analyst"){
 		if(req.query.search){
 			regex=new RegExp(Functions.escapeRegex(req.query.search),"gi");
-			Analist.findById(req.user.userRef).populate("clients",null,{firstName:regex}).exec(function(err,analist){
+			Analyst.findById(req.user.userRef).populate("clients",null,{firstName:regex}).exec(function(err,analyst){
 				if(err){
 					req.flash("error",err.message+", please login again to continue");
 					req.logout();
 					return res.redirect("/login");
 				}
 				else{
-					res.render("client/index",{page:"client-index",clients:analist.clients,superuserID:req.params.superuserID});
+					res.render("client/index",{page:"client-index",clients:analyst.clients,superuserID:req.params.superuserID});
 				}
 			});
 		}
 		else{
-			Analist.findById(req.user.userRef).populate("clients").exec(function(err,analist){
+			Analyst.findById(req.user.userRef).populate("clients").exec(function(err,analyst){
 				if(err){
 					req.flash("error",err.message+", please login again to continue");
 					req.logout();
 					return res.redirect("/login");
 				}
 				else{
-					res.render("client/index",{page:"client-index",clients:analist.clients,superuserID:req.params.superuserID});
+					res.render("client/index",{page:"client-index",clients:analyst.clients,superuserID:req.params.superuserID});
 				}
 			});
 		}  
@@ -150,7 +150,7 @@ router.post("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthor
 });
 
 //SHOW ROUTE
-router.get("/:clientID",Middleware.isLoggedIn,Middleware.isAuthorizedAssistant,Middleware.isAuthorizedAnalist,Middleware.isAuthorizedSuperuser,function(req,res){
+router.get("/:clientID",Middleware.isLoggedIn,Middleware.isAuthorizedAssistant,Middleware.isAuthorizedAnalyst,Middleware.isAuthorizedSuperuser,function(req,res){
 	Superuser.findById(req.params.superuserID,function(err){
 		if(err){
 			req.flash("error",err.message+", please login again to continue");
@@ -220,7 +220,7 @@ router.delete("/:clientID",Middleware.isLoggedIn,Middleware.isSuperuser,Middlewa
 			return res.redirect("/login");
 		}
 		else{
-			Analist.findOneAndUpdate({clients:req.params.clientID},{$pull:{clients:req.params.clientID}},function(err,analist){
+			Analyst.findOneAndUpdate({clients:req.params.clientID},{$pull:{clients:req.params.clientID}},function(err,analyst){
 				if(err){
 					req.flash("error",err.message+", please login again to continue");
 					req.logout();

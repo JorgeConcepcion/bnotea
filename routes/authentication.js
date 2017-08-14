@@ -32,15 +32,15 @@ router.post("/login",passport.authenticate("local",{
 			}
 		});
 	}
-	if(req.user.type=="analist"){
-		Superuser.findOne({analists:req.user.userRef},function(err,superuser){
+	if(req.user.type=="analyst"){
+		Superuser.findOne({analysts:req.user.userRef},function(err,superuser){
 			if(err){
 				req.flash("error",err.message+", please login again to continue");
 				req.logout();
 				res.redirect("/login");
 			}
 			else{
-				res.redirect("/superuser/"+superuser._id+"/analist/"+req.user.userRef);
+				res.redirect("/superuser/"+superuser._id+"/analyst/"+req.user.userRef);
 			}
 		});
 	}

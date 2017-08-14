@@ -8,11 +8,11 @@
        <table class="table table-bordered doc-header">
             <tbody>
                 <tr>
-                     <td><h4>Name of Recipient/Medicaid ID:<%=client.firstName+" "+client.lastName+"/"+client.medicaidNumber%></h4></td>
-                    <td><h4>Name of Behavior Technician/Provider ID:<%=assistant.firstName+" "+assistant.lastName+"/"+assistant.providerId%></h4></td>
+                     <td><h4>Name of Recipient/Medicaid ID:<%=report.recipient.firstName+" "+report.recipient.lastName+"/"+report.recipient.medicaidNumber%></h4></td>
+                    <td><h4>Name of Behavior Technician/Provider ID:<%=report.author.firstName+" "+report.author.lastName+"/"+report.author.providerId%></h4></td>
                 </tr>
                  <tr>
-                    <td><h4>PA #:<%if(assistantApprovalCurrent){%><%=assistantApprovalCurrent.number%><%}%></h4></td>
+                    <td><h4>PA #: <%=report.recipient.approvalNumber%></h4></td>
                     <td ><h4>Week:<%=report.schedule[0].date+" - "+report.schedule[6].date%></h4></td>
                 </tr>
             </tbody>
@@ -100,7 +100,7 @@
     </div>
     <div class="row canvas-area">
         
-    	<div class="col-sm-6 col-xs-12 text-center" <%if(currentUser.type=="analist"){%>style="display:none"<%}%>>
+    	<div class="col-sm-6 col-xs-12 text-center" <%if(currentUser.type=="analyst"){%>style="display:none"<%}%>>
     		 <canvas class="assistant-canvas" width="290" height="150" ></canvas>
     		 <h4>Assistant Signature</h4>
     		 <input type="text" class="assistant-input" name="report[medical][signatures][assistant]" style="display:none" value="<%=report.medical.signatures.assistant%>">
@@ -108,7 +108,7 @@
     		 <button type="button" class="btn btn-default clear-assistant" >Clear</button>
   			 <button type="button" class="btn btn-default save-assistant"  >Save</button>
         </div>
-    	<div class="col-sm-6 col-xs-12 text-center" <%if(currentUser.type=="analist"){%>style="display:none"<%}%>>
+    	<div class="col-sm-6 col-xs-12 text-center" <%if(currentUser.type=="analyst"){%>style="display:none"<%}%>>
     		 <canvas class="caregiver-canvas" width="290" height="150"></canvas>
     		 <h4>Caregiver Signature</h4>
     		 <input type="text" class="caregiver-input" name="report[medical][signatures][caregiver] " style="display:none" value="<%=report.medical.signatures.caregiver%>">
@@ -124,8 +124,8 @@
         <%if(currentUser.type=="assistant"){%>
         <input id="button" class="assistant" type="text" name="report[medical][state]" value="<%=report.medical.state%>" style="display:none">
         <%}%>
-         <%if(currentUser.type=="analist"){%>
-        <input id="button" class="analist" type="text" name="report[medical][state]" value="<%=report.medical.state%>" style="display:none">
+         <%if(currentUser.type=="analyst"){%>
+        <input id="button" class="analyst" type="text" name="report[medical][state]" value="<%=report.medical.state%>" style="display:none">
         <%}%>
          <%if(currentUser.type=="superuser"){%>
         <input id="button" class="superuser" type="text" name="report[medical][state]" value="<%=report.medical.state%>" style="display:none">

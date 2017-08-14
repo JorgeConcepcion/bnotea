@@ -40,6 +40,7 @@ $(".fa.fa-plus.fa-plus-medical").on("click", function () {
 });
 
 $(".fa.fa-plus.fa-plus-medication").on("click", function () {
+	console.log($(".assistant").length);
 	var index;
 	var element = $(".selectpicker.index-medication").last().attr("name");
 	if (element == undefined) {
@@ -69,12 +70,7 @@ $(".fa.fa-plus.fa-plus-medication").on("click", function () {
 								"</div>" +
 								"</div>");
 	$(".selectpicker").selectpicker("refresh");
-	//Activating validation on all forms
-	$.validate({
-		modules: "security",
-		errorMessagePosition: "top",
-		validateOnBlur: false
-	});
+	
 });
 
 

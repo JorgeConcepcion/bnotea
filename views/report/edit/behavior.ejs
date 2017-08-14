@@ -8,11 +8,11 @@
        <table class="table table-bordered doc-header">
             <tbody>
                 <tr>
-                    <td><h4>Name of Recipient/Medicaid ID:<%=client.firstName+" "+client.lastName+"/"+client.medicaidNumber%></h4></td>
-                    <td><h4>Name of Behavior Technician/Provider ID:<%=assistant.firstName+" "+assistant.lastName+"/"+assistant.providerId%></h4></td>
+                    <td><h4>Name of Recipient/Medicaid ID:<%=report.recipient.firstName+" "+report.recipient.lastName+"/"+report.recipient.medicaidNumber%></h4></td>
+                    <td><h4>Name of Behavior Technician/Provider ID:<%=report.author.firstName+" "+report.author.lastName+"/"+report.author.providerId%></h4></td>
                 </tr>
                  <tr>
-                    <td><h4>PA #:<%if(assistantApprovalCurrent){%><%=assistantApprovalCurrent.number%><%}%></h4></td>
+                    <td><h4>PA #: <%=report.recipient.approvalNumber%></h4></td>
 					<td><h4>Week:<%=report.schedule[0].date+" - "+report.schedule[6].date%></h4></td>
 					
                 </tr>
@@ -133,7 +133,7 @@
 	</div>
     <div class="row canvas-area">
 		
-    	<div class="col-sm-6 col-xs-12 text-center" <%if(currentUser.type=="analist"){%>style="display:none"<%}%>>
+    	<div class="col-sm-6 col-xs-12 text-center" <%if(currentUser.type=="analyst"){%>style="display:none"<%}%>>
     		 <canvas class="assistant-canvas" width="290" height="150" ></canvas>
     		 <h4>Assistant Signature</h4>
     		 <input type="text" class="assistant-input" name="report[behavior][signatures][assistant]" style="display:none" value="<%=report.behavior[behavior].signatures.assistant%>">
@@ -144,12 +144,12 @@
 	
 	
     	<div class="col-sm-6 col-xs-12 text-center" <%if(currentUser.type=="assistant"){%>style="display:none"<%}%>>
-    		 <canvas class="analist-canvas" width="290" height="150"></canvas>
-    		 <h4>Analist Signature</h4>
-    		 <input type="text" class="analist-input" name="report[behavior][signatures][analist]" style="display:none" value="<%=report.behavior[behavior].signatures.analist%>">
-    		 <button type="button" class="btn btn-default activate-analist"  >Activate</button>
-    		 <button type="button" class="btn btn-default clear-analist" >Clear</button>
-  			 <button type="button" class="btn btn-default save-analist"  >Save</button>
+    		 <canvas class="analyst-canvas" width="290" height="150"></canvas>
+    		 <h4>Analyst Signature</h4>
+    		 <input type="text" class="analyst-input" name="report[behavior][signatures][analyst]" style="display:none" value="<%=report.behavior[behavior].signatures.analyst%>">
+    		 <button type="button" class="btn btn-default activate-analyst"  >Activate</button>
+    		 <button type="button" class="btn btn-default clear-analyst" >Clear</button>
+  			 <button type="button" class="btn btn-default save-analyst"  >Save</button>
 		</div>
 	
     </div>
@@ -157,8 +157,8 @@
     	<button class="btn btn-success btn-lg save">Save</button>
 		<button class="btn btn-success btn-lg submit">Submit</button>
 
-		<%if(currentUser.type=="analist"){%>
-		<input class="analist" id="button" type="text" name="report[behavior][state]" value="<%=report.behavior[behavior].state%>" style="display:none">
+		<%if(currentUser.type=="analyst"){%>
+		<input class="analyst" id="button" type="text" name="report[behavior][state]" value="<%=report.behavior[behavior].state%>" style="display:none">
 		<%}%>
 		<%if(currentUser.type=="assistant"){%>
 		<input id="button" class="assistant" type="text" name="report[behavior][state]" value="<%=report.behavior[behavior].state%>" style="display:none">	

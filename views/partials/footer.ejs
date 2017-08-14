@@ -11,7 +11,7 @@
             <script src="/scripts/client-edit.js"></script>
         <%}%>
         
-         <%if(page=="assistant-edit" || page=="analist-edit"){%>
+         <%if(page=="assistant-edit" || page=="analyst-edit"){%>
             <script src="/scripts/add-remove-client.js"></script>
         <%}%>
         
@@ -25,10 +25,10 @@
         
         <%}%>
         
-        <%if(page.indexOf("section") > -1){%>
+        <%if(page.indexOf("edit-section") > -1 &&page!= "schedule-edit-section"){%>
             <div class="confidentiality-area text-center">
         		<p>
-        			Confidentiality Notice: This information is for the sole use of ACHA, Beacon Health Options, and @Friendly Hands Health, INC. This form may contain confidential and priviliged information that is exempt from public disclosure
+        			Confidentiality Notice: This information is for the sole use of ACHA, Beacon Health Options, and <%=superuser.company%>. This form may contain confidential and priviliged information that is exempt from public disclosure
         		</p>
         	</div>
          </div>
@@ -38,25 +38,25 @@
         <%}%>
         
         
-        <%if(page!="behavior-section" && page!="replacement-section"){%>
+        <%if(page!="behavior-edit-section" && page!="replacement-edit-section"){%>
             <script src="/scripts/report/validation.js"></script>
         <%}%>
         
-        <%if(page=="behavior-section"){%>
+        <%if(page=="behavior-edit-section"){%>
             <script src="/scripts/report/behavior.js"></script>
         <%}%>
         
-        <%if(page=="replacement-section"){%>
+        <%if(page=="replacement-edit-section"){%>
             <script src="/scripts/report/replacement.js"></script>
         <%}%>
         
-        <%if(page=="medical-section"){%>
+        <%if(page=="medical-edit-section"){%>
             <script src="/scripts/report/medical.js"></script>
         <%}%>
-        <%if(page=="assistantLog-section"){%>
+        <%if(page=="assistantLog-edit-section"){%>
             <script src="/scripts/report/log.js"></script>
         <%}%>
-        <%if (page.indexOf("report") > -1){%>
+        <%if (page=="schedule-edit-section" || page.indexOf("report") > -1){%>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js"></script>
             <script type='text/javascript'src='/scripts/external/timepicki.js'></script>
            <script src="/scripts/report.js"></script>

@@ -3,7 +3,7 @@ var express=require("express"),
 	router=express.Router({mergeParams:true}),
 	//models
 	Superuser=require("../models/superuser"),
-	Analist=require("../models/analist"),
+	Analyst=require("../models/analyst"),
 	User=require("../models/user"),
 	Client=require("../models/client"),
 	//midleware
@@ -18,26 +18,26 @@ router.get("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthori
 	var regex;
 	if(req.query.search){
 		regex=new RegExp(Functions.escapeRegex(req.query.search),"gi");
-		Superuser.findById(req.user.userRef).populate("analists",null,{firstName:regex}).exec(function(err,superuser){
+		Superuser.findById(req.user.userRef).populate("analysts",null,{firstName:regex}).exec(function(err,superuser){
 			if(err){
 				req.flash("error",err.message+", please login again to continue");
 				req.logout();
 				return res.redirect("/login");
 			}
 			else{
-				res.render("analist/index",{page:"analist-index",analists:superuser.analists,superuserID:req.user.userRef});
+				res.render("analyst/index",{page:"analyst-index",analysts:superuser.analysts,superuserID:req.user.userRef});
 			}
 		});
 	}
 	else{
-		Superuser.findById(req.user.userRef).populate("analists").exec(function(err,superuser){
+		Superuser.findById(req.user.userRef).populate("analysts").exec(function(err,superuser){
 			if(err){
 				req.flash("error",err.message+", please login again to continue");
 				req.logout();
 				return res.redirect("/login");
 			}
 			else{
-				res.render("analist/index",{page:"analist-index",analists:superuser.analists,superuserID:req.user.userRef});
+				res.render("analyst/index",{page:"analyst-index",analysts:superuser.analysts,superuserID:req.user.userRef});
 			}
 		});
 	}    
@@ -45,12 +45,12 @@ router.get("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthori
 
 //NEW ROUTE
 router.get("/new",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
-	res.render("analist/new",{page:"analist-new",superuserID:req.user.userRef});
+	res.render("analyst/new",{page:"analyst-new",superuserID:req.user.userRef});
 });
 
 //CREATE ROUTE
 router.post("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
-	Analist.create(req.body.analist,function(err,analist){
+	Analyst.create(req.body.analyst,function(err,analyst){
 		if(err){
 			req.flash("error",err.message+", please login again to continue");
 			req.logout();
@@ -58,9 +58,9 @@ router.post("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthor
 		}
 		else{
             
-			Functions.AWSS3Upload(AWSPrivate.bucket(),AWSPrivate.key(analist._id),AWSPrivate.filePath(),AWSPrivate.acl());
-			analist.photo=AWSPrivate.uploadedPhotoLocation(analist._id);
-			analist.save(function(err){
+			Functions.AWSS3Upload(AWSPrivate.bucket(),AWSPrivate.key(analyst._id),AWSPrivate.filePath(),AWSPrivate.acl());
+			analyst.photo=AWSPrivate.uploadedPhotoLocation(analyst._id);
+			analyst.save(function(err){
 				if(err){
 					req.flash("error",err.message+", please login again to continue");
 					req.logout();
@@ -74,17 +74,17 @@ router.post("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthor
 					return res.redirect("/login");
 				}
 				else{
-					superuser.analists.push(analist);
+					superuser.analysts.push(analyst);
 					superuser.save();
-					User.register(new User({username:req.body.username,type:"analist",company:superuser.company,userRef:analist._id}),req.body.password,function(err,user){
+					User.register(new User({username:req.body.username,type:"analyst",company:superuser.company,userRef:analyst._id}),req.body.password,function(err,user){
 						if(err){
 							req.flash("error",err.message+", please login again to continue");
 							req.logout();
 							return res.redirect("/login");
 						}
 						else{
-							req.flash("success","Analist successfully created");
-							res.redirect("/superuser/"+req.user.userRef+"/analist");
+							req.flash("success","Analyst successfully created");
+							res.redirect("/superuser/"+req.user.userRef+"/analyst");
 						}
                        
 					});
@@ -95,7 +95,7 @@ router.post("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthor
 });
 
 //SHOW ROUTE
-router.get("/:analistID",Middleware.isLoggedIn,Middleware.isAnalistSuperuser,Middleware.isAuthorizedSuperuser,Middleware.isAuthorizedAnalist,function(req,res){
+router.get("/:analystID",Middleware.isLoggedIn,Middleware.isAnalystSuperuser,Middleware.isAuthorizedSuperuser,Middleware.isAuthorizedAnalyst,function(req,res){
 	Superuser.findById(req.params.superuserID,function(err,superuser){
 		if(err){
 			req.flash("error",err.message+", please login again to continue");
@@ -103,14 +103,14 @@ router.get("/:analistID",Middleware.isLoggedIn,Middleware.isAnalistSuperuser,Mid
 			return res.redirect("/login");
 		}
 		else{
-			Analist.findById(req.params.analistID).populate("clients").exec(function(err,analist){
+			Analyst.findById(req.params.analystID).populate("clients").exec(function(err,analyst){
 				if(err){
 					req.flash("error",err.message+", please login again to continue");
 					req.logout();
 					return res.redirect("/login");
 				}
 				else{
-					res.render("analist/show",{page:"analist-show",superuserID:req.params.superuserID,analist:analist});
+					res.render("analyst/show",{page:"analyst-show",superuserID:req.params.superuserID,analyst:analyst});
 				}
 			});
                
@@ -119,50 +119,50 @@ router.get("/:analistID",Middleware.isLoggedIn,Middleware.isAnalistSuperuser,Mid
 });
 
 //EDIT ROUTE
-router.get("/:analistID/edit",Middleware.isLoggedIn,Middleware.isAnalistSuperuser,Middleware.isAuthorizedSuperuser,Middleware.isAuthorizedAnalist,function(req,res){
+router.get("/:analystID/edit",Middleware.isLoggedIn,Middleware.isAnalystSuperuser,Middleware.isAuthorizedSuperuser,Middleware.isAuthorizedAnalyst,function(req,res){
    
-	Analist.findById(req.params.analistID).populate("clients").exec(function(err,analist){
+	Analyst.findById(req.params.analystID).populate("clients").exec(function(err,analyst){
 		if(err){
 			req.flash("error",err.message+", please login again to continue");
 			req.logout();
 			return res.redirect("/login");
 		}
 		else{
-			Client.find({'analist.firstName':"",deactivationSuperuser:{ $exists:false}},function(err,clients){
+			Client.find({'analyst.firstName':"",deactivationSuperuser:{ $exists:false}},function(err,clients){
 				if(err){
 					req.flash("error",err.message+", please login again to continue");
 					req.logout();
 					return res.redirect("/login");
 				}
 				else{
-					res.render("analist/edit",{page:"analist-edit",superuserID:req.params.superuserID,analist:analist,clients:clients});
+					res.render("analyst/edit",{page:"analyst-edit",superuserID:req.params.superuserID,analyst:analyst,clients:clients});
 				}
 			});
 		}
 	});
 });
 //UPDATE ROUTE
-router.put("/:analistID",Middleware.isLoggedIn,Middleware.isAnalistSuperuser,Middleware.isAuthorizedSuperuser,Middleware.isAuthorizedAnalist,Middleware.uploadPhoto.array('photo'),Middleware.fixInputFormat,function(req,res){
-	Analist.findById(req.params.analistID,function(err,analist){
+router.put("/:analystID",Middleware.isLoggedIn,Middleware.isAnalystSuperuser,Middleware.isAuthorizedSuperuser,Middleware.isAuthorizedAnalyst,Middleware.uploadPhoto.array('photo'),Middleware.fixInputFormat,function(req,res){
+	Analyst.findById(req.params.analystID,function(err,analyst){
 		if(err){
 			req.flash("error",err.message+", please login again to continue");
 			req.logout();
 			return res.redirect("/login");
 		}
 		else{
-			var analistFirstName=analist.firstName; 
-			var analistLastName=analist.lastName;
-			var analistClients=analist.clients;
-			Analist.findByIdAndUpdate(req.params.analistID,{$set:req.body.analist},function(err){
+			var analystFirstName=analyst.firstName; 
+			var analystLastName=analyst.lastName;
+			var analystClients=analyst.clients;
+			Analyst.findByIdAndUpdate(req.params.analystID,{$set:req.body.analyst},function(err){
 				if(err){
 					req.flash("error",err.message+", please login again to continue");
 					req.logout();
 					return res.redirect("/login");
 				}
 				else{
-					var addedClients=Functions.arraycmp(req.body.analist.clients,analistClients,"added");
+					var addedClients=Functions.arraycmp(req.body.analyst.clients,analystClients,"added");
 					addedClients.forEach(function(addedClient){
-						Client.findByIdAndUpdate(addedClient,{$set:{'analist.firstName':analistFirstName,'analist.lastName':analistLastName}},function(err,client){
+						Client.findByIdAndUpdate(addedClient,{$set:{'analyst.firstName':analystFirstName,'analyst.lastName':analystLastName}},function(err,client){
 							if(err){
 								req.flash("error",err.message+", please login again to continue");
 								req.logout();
@@ -170,9 +170,9 @@ router.put("/:analistID",Middleware.isLoggedIn,Middleware.isAnalistSuperuser,Mid
 							}
 						});
 					});
-					var deletedClients=Functions.arraycmp(req.body.analist.clients,analistClients,"deleted");
+					var deletedClients=Functions.arraycmp(req.body.analyst.clients,analystClients,"deleted");
 					deletedClients.forEach(function(deletedClient){
-						Client.findByIdAndUpdate(deletedClient,{$set:{'analist.firstName':'','analist.lastName':''}},function(err,client){
+						Client.findByIdAndUpdate(deletedClient,{$set:{'analyst.firstName':'','analyst.lastName':''}},function(err,client){
 							if(err){
 								req.flash("error",err.message+", please login again to continue");
 								req.logout();
@@ -180,9 +180,9 @@ router.put("/:analistID",Middleware.isLoggedIn,Middleware.isAnalistSuperuser,Mid
 							}
 						});
 					});
-					var unchangedClients=Functions.arraycmp(req.body.analist.clients,analistClients,"unchanged");
+					var unchangedClients=Functions.arraycmp(req.body.analyst.clients,analystClients,"unchanged");
 					unchangedClients.forEach(function(unchangedClient){
-						Client.findByIdAndUpdate(unchangedClient,{$set:{'analist.firstName':req.body.analist.firstName,'analist.lastName':req.body.analist.lastName}},function(err,client){
+						Client.findByIdAndUpdate(unchangedClient,{$set:{'analyst.firstName':req.body.analyst.firstName,'analyst.lastName':req.body.analyst.lastName}},function(err,client){
 							if(err){
 								req.flash("error",err.message+", please login again to continue");
 								req.logout();
@@ -193,43 +193,43 @@ router.put("/:analistID",Middleware.isLoggedIn,Middleware.isAnalistSuperuser,Mid
                     
 				}
 			});      
-			if(req.user.type=="analist"){
+			if(req.user.type=="analyst"){
 				req.flash("success","Profile successfully updated"); 
 			}
 			else{
-				req.flash("success","Analist successfully updated");
+				req.flash("success","Analyst successfully updated");
 			}
-			res.redirect("/superuser/"+req.params.superuserID+"/analist/"+req.params.analistID);
+			res.redirect("/superuser/"+req.params.superuserID+"/analyst/"+req.params.analystID);
 		}
                     
 	});
 });
 
 //DELETE ROUTE
-router.delete("/:analistID",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
-	Superuser.findByIdAndUpdate(req.user.userRef,{$pull:{analists:req.params.analistID}},function(err,superuser){
+router.delete("/:analystID",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthorizedSuperuser,function(req,res){
+	Superuser.findByIdAndUpdate(req.user.userRef,{$pull:{analysts:req.params.analystID}},function(err,superuser){
 		if(err){
 			req.flash("error",err.message+", please login again to continue");
 			req.logout();
 			return res.redirect("/login");
 		}
 	});
-	User.findOneAndRemove({userRef:req.params.analistID},function(err){
+	User.findOneAndRemove({userRef:req.params.analystID},function(err){
 		if(err){
 			req.flash("error",err.message+", please login again to continue");
 			req.logout();
 			return res.redirect("/login");
 		}
 	});
-	Analist.findById(req.params.analistID,function(err,analist){
+	Analyst.findById(req.params.analystID,function(err,analyst){
 		if(err){
 			req.flash("error",err.message+", please login again to continue");
 			req.logout();
 			return res.redirect("/login");
 		}
 		else{
-			analist.clients.forEach(function(client){
-				Client.findByIdAndUpdate(client,{$set:{'analist.firstName':'','analist.lastName':''}},function(err){
+			analyst.clients.forEach(function(client){
+				Client.findByIdAndUpdate(client,{$set:{'analyst.firstName':'','analyst.lastName':''}},function(err){
 					if(err){
 						req.flash("error",err.message+", please login again to continue");
 						req.logout();
@@ -238,29 +238,29 @@ router.delete("/:analistID",Middleware.isLoggedIn,Middleware.isSuperuser,Middlew
 				});
 			});
 			if(req.body.deleteFlag!="deactivate"){
-				Analist.findByIdAndRemove(req.params.analistID,function(err){
+				Analyst.findByIdAndRemove(req.params.analystID,function(err){
 					if(err){
 						req.flash("error",err.message+", please login again to continue");
 						req.logout();
 						return res.redirect("/login");
 					}
 					else{
-						req.flash("success","Analist successfully deleted");
-						return res.redirect("/superuser/"+req.user.userRef+"/analist"); 
+						req.flash("success","Analyst successfully deleted");
+						return res.redirect("/superuser/"+req.user.userRef+"/analyst"); 
 					}
 				}); 
 			}
 			else{
                 
-				Analist.findByIdAndUpdate(req.params.analistID,{$set:{deactivationSuperuser:req.user.userRef,clients:[]}},function(err){
+				Analyst.findByIdAndUpdate(req.params.analystID,{$set:{deactivationSuperuser:req.user.userRef,clients:[]}},function(err){
 					if(err){
 						req.flash("error",err.message+", please login again to continue");
 						req.logout();
 						return res.redirect("/login");
 					}
 					else{
-						req.flash("success","Analist successfully deactivated");
-						return res.redirect("/superuser/"+req.user.userRef+"/analist"); 
+						req.flash("success","Analyst successfully deactivated");
+						return res.redirect("/superuser/"+req.user.userRef+"/analyst"); 
 					}
 				}); 
 			}

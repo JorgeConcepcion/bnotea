@@ -1,0 +1,36 @@
+<%include ../../partials/header%>
+<div class="container-fluid" style="padding-top: 60px;"> 
+    <div class="row ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="page-header" >
+                <h4 class="report-h4" >Schedule</h4>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time in</th>
+                    <th>Time out</th>
+                    <th>Units</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%report.schedule.forEach(function(day,index){%>
+                    <%if(day.timeIn && day.timeIn.length>0){%>
+                    <tr>
+                        <td><%=day.date%></td>
+                        <td><%=day.timeIn%></td>
+                        <td><%=day.timeOut%></td>
+                        <td><%=units[index]%></td>
+                    </tr>
+                    <%}%>
+                <%})%>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<%include ../../partials/footer%>

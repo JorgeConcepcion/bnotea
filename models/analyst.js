@@ -1,6 +1,6 @@
 var mongoose=require("mongoose");
 
-var analistSchema=new mongoose.Schema({
+var analystSchema=new mongoose.Schema({
 	firstName:String,
 	lastName:String,
 	phone:String,
@@ -25,4 +25,4 @@ var analistSchema=new mongoose.Schema({
 		],
 });
 
-module.exports=mongoose.model("Analist",analistSchema);
+module.exports=mongoose.model("Analyst",analystSchema);

@@ -73,35 +73,35 @@ if ($(".assistant-canvas").length > 0) {
 } 
 
 
-if ($(".analist-canvas").length > 0) {
+if ($(".analyst-canvas").length > 0) {
     
-	let signaturePadAnalist = new SignaturePad($(".analist-canvas").get(0));
-	if($(".analist-input").attr("value")!=""){
-		signaturePadAnalist.fromDataURL($(".analist-input").attr("value"));
-		$(".clear-analist").attr("disabled", "");
-		$(".activate-analist").attr("disabled", "");
-		$(".save-analist").attr("disabled", "");
-		signaturePadAnalist.off();
+	let signaturePadAnalyst = new SignaturePad($(".analyst-canvas").get(0));
+	if($(".analyst-input").attr("value")!=""){
+		signaturePadAnalyst.fromDataURL($(".analyst-input").attr("value"));
+		$(".clear-analyst").attr("disabled", "");
+		$(".activate-analyst").attr("disabled", "");
+		$(".save-analyst").attr("disabled", "");
+		signaturePadAnalyst.off();
 	}
-	signaturePadAnalist.off();
-	$(".activate-analist").on("click",function(){
-		signaturePadAnalist.on();
+	signaturePadAnalyst.off();
+	$(".activate-analyst").on("click",function(){
+		signaturePadAnalyst.on();
 		$(this).attr("disabled", "");
-		$(".analist-canvas").addClass("active-signature");
+		$(".analyst-canvas").addClass("active-signature");
 	});
      
-	$(".clear-analist").on("click",function(){
-		signaturePadAnalist.clear();
+	$(".clear-analyst").on("click",function(){
+		signaturePadAnalyst.clear();
 	});
     
-	$(".save-analist").on("click",function(){
-		if (!signaturePadAnalist.isEmpty()) {
-			$(".clear-analist").attr("disabled", "");
-			$(".analist-input").attr("value", signaturePadAnalist.toDataURL());
-			signaturePadAnalist.off();
+	$(".save-analyst").on("click",function(){
+		if (!signaturePadAnalyst.isEmpty()) {
+			$(".clear-analyst").attr("disabled", "");
+			$(".analyst-input").attr("value", signaturePadAnalyst.toDataURL());
+			signaturePadAnalyst.off();
 		}
 		else {
-			$.alert("Analist needs to sign first!!!", {
+			$.alert("Analyst needs to sign first!!!", {
 				position: ["center", [-0.42, 0]],
 				title: false // title
 			});

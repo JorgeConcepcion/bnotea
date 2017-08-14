@@ -33,7 +33,7 @@ var clientSchema=new mongoose.Schema({
 			firstName:{type:String,default:""},
 			lastName:{type:String,default:""}
 		},
-	analist:
+	analyst:
 		{
 			firstName:{type:String,default:""},
 			lastName:{type:String,default:""}
@@ -46,7 +46,7 @@ var clientSchema=new mongoose.Schema({
 			},
 
 		],
-	analistReports:
+	analystReports:
 		[
 			{
 				type:mongoose.Schema.Types.ObjectId,

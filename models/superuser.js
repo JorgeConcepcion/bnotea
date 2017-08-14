@@ -8,11 +8,11 @@ var superuserSchema=new mongoose.Schema({
 	company:String,
 	providerId:String,
 	photo:String,
-	analists:
+	analysts:
 								[
 									{
 										type:mongoose.Schema.Types.ObjectId,
-										ref:"Analist"
+										ref:"Analyst"
 									},
 								],
 	clients:
