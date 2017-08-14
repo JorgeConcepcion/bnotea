@@ -207,7 +207,7 @@
                                                       <h4 class="report-h4"><%="Supervision Conducted by Behavior Analyst"+": "+report.supervision.state%></h4>
                                                 </div>
                                                 <div class="col-md-7">
-                                                     <%if(currentUser.type=="assistant" &&(report.supervision.state=="Started" || report.supervision.state=="On revision" || report.supervision.state=="Completed") || currentUser.type=="analyst" &&(report.supervision.state=="Started" || report.supervision.state=="On revision" || report.supervision.state=="Completed" ) || currentUser.type=="superuser" &&( report.supervision.state=="Accepted" || report.supervision.state=="Completed" )){%>   
+                                                     <%if(currentUser.type=="analyst" &&(report.supervision.state=="Started" || report.supervision.state=="On revision" || report.supervision.state=="Completed") || currentUser.type=="assistant" &&(report.supervision.state=="On revision" || report.supervision.state=="Completed") || currentUser.type=="superuser" &&( report.supervision.state=="Accepted" || report.supervision.state=="Completed" )){%>   
                                                      <a href="/superuser/<%=superuserID%>/client/<%=client._id%>/report/<%=report._id%>/edit?section=supervision" class="btn btn-success btn-sm report-edit-btn">Edit</a>
                                                     <%}%>
                                                  

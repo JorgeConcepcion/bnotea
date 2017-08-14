@@ -38,7 +38,7 @@
         <%}%>
         
         
-        <%if(page!="behavior-edit-section" && page!="replacement-edit-section"){%>
+        <%if(page!="behavior-edit-section" && page!="replacement-edit-section" && page!="supervision-edit-section"){%>
             <script src="/scripts/report/validation.js"></script>
         <%}%>
         
@@ -49,7 +49,9 @@
         <%if(page=="replacement-edit-section"){%>
             <script src="/scripts/report/replacement.js"></script>
         <%}%>
-        
+         <%if(page=="supervision-edit-section"){%>
+            <script src="/scripts/report/supervision.js"></script>
+        <%}%>
         <%if(page=="medical-edit-section"){%>
             <script src="/scripts/report/medical.js"></script>
         <%}%>

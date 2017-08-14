@@ -18,6 +18,14 @@
             </tbody>
         </table>
     </div>
+    <%if(currentUser.type=="assistant"){%>
+        <input style="display:none" type="text" name="report[supervision][date]" value="<%=report.supervision.date%>" >
+        <%report.supervision.characteristics.forEach(function(characteristic){%>
+        <input style="display:none" type="text" name="report[supervision][characteristics]" value="<%=characteristic%>" >
+        <%})%>
+        <input style="display:none" type="text" name="report[supervision][performance]" value="<%=report.supervision.performance%>">
+        <input style="display:none" type="number" name="report[supervision][duration]" value="<%=report.supervision.duration%>">
+    <%}%>
     <div class="table-responsive supervision">
        <table class="table table-bordered">
             <tbody>
@@ -33,16 +41,16 @@
                 </thead>
                  <tr>
                      <td>
-                        <select  class="selectpicker" data-width="auto" name="report[supervision][date]" title="Date" data-validation="required">
+                        <select  class="selectpicker" data-width="auto" name="report[supervision][date]" title="Date" data-validation="required" <%if(currentUser.type=="assistant"){%>disabled="disabled"<%}%>>
                         <% report.schedule.forEach(function(day){%>
                                 <option<%if(report.supervision.date==day.date){%> selected="selected" <%}%>><%=day.date%></option>
                         <%})%>
                         </select>
                     </td>
-                    <td><input class="form-control" type="number"  step="1" name="report[supervision][duration]"  data-validation="number" data-validation-allowing="range[0;120]" data-validation-error-msg="The supervision time should not exceeded the 120 minutes" value="<%=report.supervision.duration%>"></td>
+                    <td><input class="form-control" type="number"  step="1" name="report[supervision][duration]"  data-validation="number" data-validation-allowing="range[0;120]" data-validation-error-msg="The supervision time should not exceeded the 120 minutes" value="<%=report.supervision.duration%>" <%if(currentUser.type=="assistant"){%>disabled="disabled"<%}%>></td>
                     <td>
                         <div class="form-group">
-				            <select class="selectpicker" multiple data-width="100%" name="report[supervision][characteristics]" title="Characteristics of supervision" data-header="Select all that apply" data-validation="required">
+				            <select class="selectpicker" multiple data-width="100%" name="report[supervision][characteristics]" title="Characteristics of supervision" data-header="Select all that apply" data-validation="required" <%if(currentUser.type=="assistant"){%>disabled="disabled"<%}%>>
                                   
                                 <option <%if(report.supervision.characteristics.indexOf("A")>-1){%> selected="selected"<%}%> data-subtext="Observation of supervisee working with the individual">A</option>
   					            <option <%if(report.supervision.characteristics.indexOf("B")>-1){%> selected="selected"<%}%> data-subtext="Specific recipient discussed">B</option>
@@ -56,7 +64,7 @@
                     </td>
                     <td>
                         <div class="form-group">
-				            <select class="selectpicker" data-width="100%" name="report[supervision][performance]" title="Supervisee performance" data-validation="required">
+				            <select class="selectpicker" data-width="100%" name="report[supervision][performance]" title="Supervisee performance" data-validation="required" <%if(currentUser.type=="assistant"){%>disabled="disabled"<%}%>>
   					            <option <%if(report.supervision.performance=="S"){%> selected="selected" <%}%> data-subtext="Satisfactory">S</option>
   					            <option <%if(report.supervision.performance=="NI"){%> selected="selected" <%}%> data-subtext="Needs improvment">NI</option>
   					            <option <%if(report.supervision.performance=="U"){%> selected="selected" <%}%> data-subtext="Unsatisfactory">U</option>
@@ -86,7 +94,7 @@
         </table>
     </div>
      <div class="save-buttons text-center">
-         <%if(report.supervision.state=="Started"){%>
+          <%if(report.supervision.state=="Started" || (report.supervision.state=="On revision" && currentUser.type!="analyst")|| (report.supervision.state=="Completed" && currentUser.type=="superuser")){%>
         <button class="btn btn-success btn-lg save">Save</button>
         <%}%>
         <button class="btn btn-success btn-lg submit">Submit</button>
