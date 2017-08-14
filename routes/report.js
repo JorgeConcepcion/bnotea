@@ -328,7 +328,7 @@ router.get("/:reportID/edit",function(req,res){
 										}
 										else{
 											if(req.query.section=="schedule"){
-												return res.render("report/edit/schedule",{page:"schedule-edit-section",superuser:superuser,superuserID:req.params.superuserID,clientID:req.params.clientID,report:report});
+												return res.render("report/edit/schedule",{page:"report-edit",superuser:superuser,superuserID:req.params.superuserID,clientID:req.params.clientID,report:report});
 											}
 											else if(req.query.section=="assistantLog"){
 												return res.render("report/edit/assistantLog",{page:"assistantLog-edit-section",superuser:superuser,superuserID:req.params.superuserID,clientID:req.params.clientID,report:report,client:client,assistant:assistant,analyst:analyst,unit:unit,units:units,hours:hours});
