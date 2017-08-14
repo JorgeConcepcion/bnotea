@@ -15,7 +15,7 @@ var express = require("express"),
 	//middleware
 	Middleware = require("./middleware"),
 	//database seed
-	seedDB = require("./seedDB"),
+	//seedDB = require("./seedDB"),
 	//routes
 	superuserRoutes = require("./routes/superuser"),
 	indexRoutes = require("./routes/index"),
@@ -82,7 +82,7 @@ app.use(defaultRoute);
 
 
 //SEEDING THE DATABASE
-seedDB();
+//seedDB();
 
 //STARTING THE SERVER
 app.listen(8080,"0.0.0.0",function() {
