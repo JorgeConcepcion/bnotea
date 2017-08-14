@@ -70,7 +70,7 @@
     <div class="medication-change">
        <div class="row ">
 	      <div class="col-md-12">
-	          <h4 class="page-header header-wide">Medication <i class="fa fa-plus fa-plus-medication" aria-hidden="true"></i></h4>  
+	          <h4 class="page-header header-wide">Medication Changes <i class="fa fa-plus fa-plus-medication" aria-hidden="true"></i></h4>  
 	      </div>
        </div>
         <%if(report.medical.medication[0]){%>
@@ -119,7 +119,9 @@
         
     </div>
     <div class="save-buttons text-center">
-    	<button class="btn btn-success btn-lg save">Save</button>
+        <%if(report.medical.state=="Started" || (report.medical.state=="On revision" && currentUser.type!="assistant")|| (report.medical.state=="Completed" && currentUser.type=="superuser")){%>
+        <button class="btn btn-success btn-lg save">Save</button>
+        <%}%>
         <button class="btn btn-success btn-lg submit">Submit</button>
         <%if(currentUser.type=="assistant"){%>
         <input id="button" class="assistant" type="text" name="report[medical][state]" value="<%=report.medical.state%>" style="display:none">

@@ -1,0 +1,80 @@
+<%include ../../partials/header%>
+
+	<div class="doc-name text-center">
+        <h4>MONITORING AND SUPERVISION CONDUCTED BY LEAD ANALYST</h4>
+    </div>
+    <div class="table-responsive">
+       <table class="table table-bordered doc-header">
+            <tbody>
+                <tr>
+                   <td><h4>Name of Recipient/Medicaid ID:<%=report.recipient.firstName+" "+report.recipient.lastName+"/"+report.recipient.medicaidNumber%></h4></td>
+                     <td><h4>PA #: <%=report.recipient.approvalNumber%></h4></td>
+                     <td class="col-center-supervision" rowspan="2"><h4>Week:<%=report.schedule[0].date+" - "+report.schedule[6].date%></h4></td>
+                </tr>
+                 <tr>
+                   <td><h4>Name of Behavior Technician/Provider ID:<%=report.author.firstName+" "+report.author.lastName+"/"+report.author.providerId%></h4></td>
+                    <td><h4>Name of Behavior Analyst/Provider ID:<%=report.author.firstName+" "+report.author.lastName+"/"+report.author.providerId%></h4></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="table-responsive supervision">
+       <table class="table table-bordered">
+            <tbody>
+                <thead>
+	                <tr>
+	                    <th><h4>Date</h4></th>
+	                    <th><h4>Duration (min)</h4></th>
+	                    <th><h4>Characteristics of supervision conducted</h4></th>
+	                    <th><h4>Overall evaluation of supervisee performance</h4></th>
+	                    <th><h4>Behavior assistant signature</h4></th>
+	                    <th><h4>Behavior analyst signature</h4></th>
+	                </tr>
+                </thead>
+                 <tr>
+                     <td>
+                        <div class="text-center">
+                            <p><%=report.supervision.date%></p>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-center">
+                            <p><%=report.supervision.duration%></p>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-center">
+                            <p>
+                                <%report.supervision.characteristics.forEach(function(characteristic){%>
+                                    <%=characteristic+"   "%> 
+                                <%})%>
+                            </p>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-center">
+                            <p><%=report.supervision.performance%></p>
+                        </div>
+                    </td>
+                    <td>
+                        <div <%if(currentUser.type=="analyst"){%>style="display:none"<%}%>>
+	                     <canvas class="assistant-canvas" width="290" height="70" ></canvas>
+	                     <input type="text" class="assistant-input" name="report[supervision][signatures][assistant]" style="display:none" value="<%=report.supervision.signatures.assistant%>">
+                        </div>
+                    </td>
+                    <td>
+                        <div <%if(currentUser.type=="assistant"){%>style="display:none"<%}%>>
+    		    		 <canvas class="analyst-canvas" width="290" height="70"></canvas>
+    		    		 <input type="text" class="analyst-input" name="report[supervision][signatures][analyst]" style="display:none" value="<%=report.supervision.signatures.analyst%>">
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+   
+
+
+
+
+<%include ../../partials/footer%>

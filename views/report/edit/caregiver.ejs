@@ -171,7 +171,9 @@
 
     </div>
      <div class="save-buttons text-center">
-    	<button class="btn btn-success btn-lg save">Save</button>
+		 <%if(report.caregiver.state=="Started" || (report.caregiver.state=="Completed" && currentUser.type=="superuser")){%>
+		<button class="btn btn-success btn-lg save">Save</button>
+		<%}%>
 		<button class="btn btn-success btn-lg submit">Submit</button>
 		<%if(currentUser.type=="analyst"){%>
 		<input id="button" class="analyst" type="text" name="report[caregiver][state]" value="<%=report.caregiver.state%>" style="display:none">

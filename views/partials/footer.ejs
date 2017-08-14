@@ -25,7 +25,7 @@
         
         <%}%>
         
-        <%if(page.indexOf("edit-section") > -1 &&page!= "schedule-edit-section"){%>
+        <%if(page.indexOf("section") > -1){%>
             <div class="confidentiality-area text-center">
         		<p>
         			Confidentiality Notice: This information is for the sole use of ACHA, Beacon Health Options, and <%=superuser.company%>. This form may contain confidential and priviliged information that is exempt from public disclosure
@@ -60,6 +60,9 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js"></script>
             <script type='text/javascript'src='/scripts/external/timepicki.js'></script>
            <script src="/scripts/report.js"></script>
+        <%}%>
+         <%if (page.indexOf("show-section") > -1){%>
+           <script src="/scripts/report/show-report.js"></script>
         <%}%>
     </body>
 </html>

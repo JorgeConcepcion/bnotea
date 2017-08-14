@@ -45,8 +45,9 @@
 								<h4>Setting:</h4>
 								<select  class="selectpicker" data-width="auto" title="setting" name="report[assistantLog][log][<%=i%>][setting]"  data-validation="required" >
 		  							<option <%if(report.assistantLog.log[i].setting=="Home"){%> selected="selected" <%}%>>Home</option>
-		  							<option <%if(report.assistantLog.log[i].setting=="Day care"){%> selected="selected" <%}%>>Day care</option>
-		  							<option<%if(report.assistantLog.log[i].setting=="Community"){%> selected="selected" <%}%>>Park</option>
+									<option <%if(report.assistantLog.log[i].setting=="Day care"){%> selected="selected" <%}%>>Day care</option>
+									<option <%if(report.assistantLog.log[i].setting=="School"){%> selected="selected" <%}%>>School</option>
+		  							<option<%if(report.assistantLog.log[i].setting=="Community"){%> selected="selected" <%}%>>Community</option>
 								</select>
 							</div>
 		                </td>
@@ -199,7 +200,9 @@
 		
     </div>
      <div class="save-buttons text-center">
-    	<button class="btn btn-success btn-lg save">Save</button>
+		 <%if(report.assistantLog.state=="Started" || (report.assistantLog.state=="On revision" && currentUser.type!="assistant")|| (report.assistantLog.state=="Completed" && currentUser.type=="superuser")){%>
+		<button class="btn btn-success btn-lg save">Save</button>
+		<%}%>
 		<button class="btn btn-success btn-lg submit">Submit</button>
 		<%if(currentUser.type=="superuser"){%>
 		<input id="button" class="superuser" type="text" name="report[assistantLog][state]" value="<%=report.assistantLog.state%>" style="display:none">

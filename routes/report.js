@@ -464,8 +464,6 @@ router.get("/:reportID/show",function(req,res){
 			return res.redirect("/login");
 		}
 		else{
-
-		
 			Report.findById(req.params.reportID,function(err,report){
 				if(err){
 					req.flash("error", err.message + ", please login again to continue");

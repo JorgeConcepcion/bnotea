@@ -1,0 +1,152 @@
+<%include ../../partials/header%>
+
+
+<div class="doc-name text-center">
+    <h4>BEHAVIOR ASSISTANT DAILY LOG</h4>
+</div>
+<div class="table-responsive">
+    <table class="table table-bordered doc-header">
+        <tbody>
+            <tr>
+                <td><h4>Name of Recipient/Medicaid ID:<%=report.recipient.firstName+" "+report.recipient.lastName+"/"+report.recipient.medicaidNumber%></h4></td>
+                <td><h4>Name of Behavior Technician/Provider ID:<%=report.author.firstName+" "+report.author.lastName+"/"+report.author.providerId%></h4></td>
+                <td class="col-center-daily"rowspan="2">
+                    <h4>Week's Hours/Units:</h4>
+                    <h4><%=hours%>/<%=unit%></h4>
+                </td>
+            </tr>
+            <tr>
+                <td><h4>PA #: <%=report.recipient.approvalNumber%></h4></td>
+                <td><h4>Week:<%=report.schedule[0].date+" - "+report.schedule[6].date%></h4></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<%report.schedule.forEach(function(day,i){%>
+    <div class="table-responsive" <%if(!(day.timeIn && day.timeIn.length>0)){%>style="display:none"<%}%>>
+        <table class="table table-bordered">
+            <tbody>
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th><h4>Duration of Meeting</h4></th>
+                        <th><h4>Environmental Changes</h4></th>
+                        <th><h4>Brief Description of Performance/Observation</h4></th>
+                    
+                    </tr>
+                </thead>
+                    <tr class="text-center">
+                    <td>
+                        <div class="show-report-row-date">
+                            <h4 >Date:</h4>
+                            <h5><%=day.date%></h5>
+                        </div>
+                        <div class="show-report-row-setting">
+                            <h4>Setting:</h4>
+                            <h5><%=report.assistantLog.log[i].setting%></h5>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="show-report-row-time">
+                            <div >
+                                <h4>Time in:</h4>
+                                <h5><%=day.timeIn%></h5>
+                            </div>
+                            <div>
+                                <h4>Time out:</h4>
+                                <h5><%=day.timeOut%></h5>
+                            </div>
+                            <div >
+                                <h4>Units:</h4>
+                                <h5><%=units[i]%></h5>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                          <div class="show-report-row-environmental">
+                            <h5><%=report.assistantLog.log[i].environmentalChange%></h5>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="show-report-row">
+                            <%if(report.assistantLog.log[i].participation){%>
+                            <p>
+                                The client has a <span><%=report.assistantLog.log[i].participation%></span> participation during session. 
+                            </p>
+                            <%}%>
+                            <%if(report.assistantLog.log[i].status){%>
+                            <p>
+                                The physical, behavioral and emotional health status of the client has been <span><%=report.assistantLog.log[i].status%></span>.
+                            </p>
+                            <%}%>
+                        </div>
+                        <div class="show-report-row">
+                            <h4>Target Behaviors Observed:</h4>
+                                <p>
+                                <%report.assistantLog.log[i].behaviors.forEach(function(behavior){%>	
+                                    <span><%=behavior+"   "%></span>
+                                <%})%>
+                                </p>
+                        </div>
+                        <div class="show-report-row">
+                            <h4>Implemented interventions:</h4>
+                            <%if(report.assistantLog.log[i].intervention.behavior && report.assistantLog.log[i].intervention.name && report.assistantLog.log[i].intervention.result){%>
+                            <p>
+                                Client showed <span><%=report.assistantLog.log[i].intervention.behavior+" "%></span>the applied intervention was:
+                                <span><%=report.assistantLog.log[i].intervention.name%></span>.It <span><%=report.assistantLog.log[i].intervention.result%></span>
+                                at this time.
+                            </p>
+                            <%}%>
+                        </div>
+                        <div class="show-report-row">
+                            <h4>Implemented Replacements:</h4>
+                             <p>
+                                <%report.assistantLog.log[i].replacements.forEach(function(replacement){%>	
+                                    <span><%=replacement+"   "%></span>
+                                <%})%>
+                                </p>
+                        </div>
+                        <div class="show-report-row">
+                            <h4> Reinforces used today:<h4>
+                            <h5><%=report.assistantLog.log[i].reinforces%></h5>
+                        </div>
+                        <div class="show-report-row">
+                            <h4>Today's Progress:</h4> 
+                            <p><%=report.assistantLog.log[i].progress%></p>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<%})%>
+<div class="row canvas-area text-center">
+    
+    <div class="col-md-4 col-sm-12 col-xs-12" <%if(currentUser.type=="analyst"){%>style="display:none"<%}%>>
+            <canvas class="assistant-canvas" width="290" height="150" ></canvas>
+            <h4>Assistant Signature</h4>
+            <input type="text" class="assistant-input" name="report[assistantLog][signatures][assistant]" style="display:none" value="<%=report.assistantLog.signatures.assistant%>">
+           
+    </div>
+    
+    <div class="col-md-4 col-sm-12 col-xs-12"  <%if(currentUser.type=="assistant"){%>style="display:none"<%}%>>
+            <canvas class="analyst-canvas" width="290" height="150"></canvas>
+            <h4>Analyst Signature</h4>
+            <input type="text" class="analyst-input" name="report[assistantLog][signatures][analyst]" style="display:none" value="<%=report.assistantLog.signatures.analyst%>">
+        
+    </div>
+
+    
+    <div  class="col-md-4 col-sm-12 col-xs-12" <%if(currentUser.type=="analyst"){%>style="display:none"<%}%>>
+            <canvas class="caregiver-canvas" width="290" height="150"></canvas>
+            <h4>Caregiver Signature</h4>
+            <input type="text" class="caregiver-input" name="report[assistantLog][signatures][caregiver]" style="display:none" value="<%=report.assistantLog.signatures.caregiver%>">
+ 
+    </div>
+    
+</div>
+
+
+
+
+<%include ../../partials/footer%>

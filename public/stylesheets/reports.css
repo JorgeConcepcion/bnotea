@@ -132,7 +132,7 @@ canvas {
 }
 
 .page-header.header-wide {
-    width: 150px;
+    width: 200px;
 }
 
 .row.medical-visit-row,
@@ -202,4 +202,25 @@ h4 .fa-plus {
 
 #analyst-progress {
     height: 235px;
+}
+
+/*Show assistant log*/
+.show-report-row{
+    margin-top:25px;
+    margin-bottom:25px;
+}
+.show-report-row-time{
+     margin-top:230px;
+}
+.show-report-row-date{
+    margin-top:150px;
+}
+.show-report-row-setting{
+     margin-top:150px;
+}
+.show-report-row-environmental{
+    margin-top:250px;
+}
+.row{
+    width:100%;
 }

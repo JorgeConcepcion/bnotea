@@ -1,6 +1,6 @@
 <%include ../../partials/header%>
 	
-<form id="form" method="POST" action="/superuser/<%=superuserID%>/client/<%=clientID%>/report/<%=report._id%>?_method=PUT">
+
 	<div class="doc-name text-center">
         <h4>REPLACEMENT BEHAVIOR DATA COLLECTION</h4>
     </div>
@@ -21,14 +21,14 @@
     </div>
 	<div class="container">
 	    <div class="text-center">
-			<h4 class="page-header"><%=client.replacementsBehaviors[replacement].name%></h4>
-			<input style="display:none" type="text" name="report[replacement][name]" value="<%=client.replacementsBehaviors[replacement].name%>">
+			<h4 class="page-header"><%=report.replacement[replacement].name%></h4>
+			
 	    </div>
 	    <div class="text-center behavior-collection-header-container">
 		    <h5  class="behavior-collection-header">Trials: <span id="trialsTotal"><%=trials%></span></h5>
 		    <h5  class="behavior-collection-header">Completed: <span id="trialsCompleted"><%=completed%></span></h5>
 		    <h5  class="behavior-collection-header">Porcentage: <span id="porcentage"><%=porcentage%></span></h5>
-		    <h5 class="behavior-collection-header">Baseline:<span id="baseline"><%=client.replacementsBehaviors[replacement].baseline%></span></h5>
+		   
 	    </div>
 	     <div class="table-responsive">
 	        <table class="table table-bordered table-condensed text-center">
@@ -50,48 +50,45 @@
 		                    <td id="1C<%=i%>" class="cellCompletion"><%if(report.replacement[replacement].completion[0][i-1]=="1"){%>Yes<%}%><%if(report.replacement[replacement].completion[0][i-1]=="0"){%>No<%}%></td>
 							<%}%>
 							
-							<input id="1N<%=i%>" style="display:none" type="number" name="report[replacement][completion][0][<%=i-1%>]" value="<%=report.replacement[replacement].completion[0][i-1]%>">
+							
 							<%if(report.schedule[1].timeIn && report.schedule[1].timeIn.length>0){%>
 							<td id="2T<%=i%>" class="cellTrial"><%if(report.replacement[replacement].trials[1]>=i){%>X<%}%></td>
 		                    <td id="2C<%=i%>" class="cellCompletion"><%if(report.replacement[replacement].completion[1][i-1]=="1"){%>Yes<%}%><%if(report.replacement[replacement].completion[1][i-1]=="0"){%>No<%}%></td>
 							<%}%>
 							
-							<input id="2N<%=i%>" style="display:none" type="number" name="report[replacement][completion][1][<%=i-1%>]" value="<%=report.replacement[replacement].completion[1][i-1]%>">
+							
 							<%if(report.schedule[2].timeIn && report.schedule[2].timeIn.length>0){%>
 							<td id="3T<%=i%>" class="cellTrial"><%if(report.replacement[replacement].trials[2]>=i){%>X<%}%></td>
 		                    <td id="3C<%=i%>" class="cellCompletion"><%if(report.replacement[replacement].completion[2][i-1]=="1"){%>Yes<%}%><%if(report.replacement[replacement].completion[2][i-1]=="0"){%>No<%}%></td>
 							<%}%>
 							
-							<input id="3N<%=i%>" style="display:none" type="number" name="report[replacement][completion][2][<%=i-1%>]" value="<%=report.replacement[replacement].completion[2][i-1]%>">
+							
 							<%if(report.schedule[3].timeIn && report.schedule[3].timeIn.length>0){%>
 							<td id="4T<%=i%>" class="cellTrial"><%if(report.replacement[replacement].trials[3]>=i){%>X<%}%></td>
 		                    <td id="4C<%=i%>" class="cellCompletion"><%if(report.replacement[replacement].completion[3][i-1]=="1"){%>Yes<%}%><%if(report.replacement[replacement].completion[3][i-1]=="0"){%>No<%}%></td>
 							<%}%>
-							<input id="4N<%=i%>" style="display:none" type="number" name="report[replacement][completion][3][<%=i-1%>]" value="<%=report.replacement[replacement].completion[3][i-1]%>">
+							
 							
 							<%if(report.schedule[4].timeIn && report.schedule[4].timeIn.length>0){%>
 							<td id="5T<%=i%>" class="cellTrial"><%if(report.replacement[replacement].trials[4]>=i){%>X<%}%></td>
 		                    <td id="5C<%=i%>" class="cellCompletion"><%if(report.replacement[replacement].completion[4][i-1]=="1"){%>Yes<%}%><%if(report.replacement[replacement].completion[4][i-1]=="0"){%>No<%}%></td>
 							<%}%>
-							<input id="5N<%=i%>" style="display:none" type="number" name="report[replacement][completion][4][<%=i-1%>]" value="<%=report.replacement[replacement].completion[4][i-1]%>">
+							
 							
 							<%if(report.schedule[5].timeIn && report.schedule[5].timeIn.length>0){%>
 							<td id="6T<%=i%>" class="cellTrial"><%if(report.replacement[replacement].trials[5]>=i){%>X<%}%></td>
 		                    <td id="6C<%=i%>" class="cellCompletion"><%if(report.replacement[replacement].completion[5][i-1]=="1"){%>Yes<%}%><%if(report.replacement[replacement].completion[5][i-1]=="0"){%>No<%}%></td>
 							<%}%>
-							<input id="6N<%=i%>" style="display:none" type="number" name="report[replacement][completion][5][<%=i-1%>]" value="<%=report.replacement[replacement].completion[5][i-1]%>">
+							
 							
 							<%if(report.schedule[6].timeIn && report.schedule[6].timeIn.length>0){%>
 							<td id="7T<%=i%>" class="cellTrial"><%if(report.replacement[replacement].trials[6]>=i){%>X<%}%></td>
 		                    <td id="7C<%=i%>" class="cellCompletion"><%if(report.replacement[replacement].completion[6][i-1]=="1"){%>Yes<%}%><%if(report.replacement[replacement].completion[6][i-1]=="0"){%>No<%}%></td>
 							<%}%>
-							<input id="7N<%=i%>" style="display:none" type="number" name="report[replacement][completion][6][<%=i-1%>]" value="<%=report.replacement[replacement].completion[6][i-1]%>">
+							
 							
 						</tr
 		              <%}%>
-		              <%for(i=0;i<8;i++){%>
-		                 <input id="<%=i%>" style="display:none" type="number" name="report[replacement][trials]" value="<%=report.replacement[replacement].trials[i-1]%>">
-	                 <%}%>
 	                    <tr>
 	                        <td><h5>Days</h5></td>
 							<%for(let i=0;i<7;i++){%>
@@ -110,9 +107,7 @@
     		 <canvas class="assistant-canvas" width="290" height="150" ></canvas>
     		 <h4>Assistant Signature</h4>
     		 <input type="text" class="assistant-input" name="report[replacement][signatures][assistant]" style="display:none" value="<%=report.replacement[replacement].signatures.assistant%>">
-    		 <button type="button" class="btn btn-default activate-assistant">Activate</button>
-    		 <button type="button" class="btn btn-default clear-assistant" >Clear</button>
-  			 <button type="button" class="btn btn-default save-assistant"  >Save</button>
+    		 
 		</div>
 		
 	
@@ -120,27 +115,10 @@
     		 <canvas class="analyst-canvas" width="290" height="150"></canvas>
     		 <h4>Analyst Signature</h4>
     		 <input type="text" class="analyst-input" name="report[replacement][signatures][analyst]" style="display:none" value="<%=report.replacement[replacement].signatures.analyst%>">
-    		 <button type="button" class="btn btn-default activate-analyst"  >Activate</button>
-    		 <button type="button" class="btn btn-default clear-analyst" >Clear</button>
-  			 <button type="button" class="btn btn-default save-analyst"  >Save</button>
+    		
 		</div>
 		
     </div>
-     <div class="save-buttons text-center">
-		  <%if(report.replacement[replacement].state=="Started" || (report.replacement[replacement].state=="On revision" && currentUser.type!="assistant")|| (report.replacement[replacement].state=="Completed" && currentUser.type=="superuser")){%>
-		<button class="btn btn-success btn-lg save">Save</button>
-		<%}%>
-		<button class="btn btn-success btn-lg submit">Submit</button>
-		<%if(currentUser.type=="analyst"){%>
-		<input class="analyst" id="button" type="text" name="report[replacement][state]" value="<%=report.replacement[replacement].state%>" style="display:none">
-		<%}%>
-		<%if(currentUser.type=="assistant"){%>
-		<input  class="assistant" id="button" type="text" name="report[replacement][state]" value="<%=report.replacement[replacement].state%>" style="display:none">
-		<%}%>
-		<%if(currentUser.type=="superuser"){%>
-		<input  class="superuser" id="button" type="text" name="report[replacement][state]" value="<%=report.replacement[replacement].state%>" style="display:none">
-		<%}%>
-    </div>
-</form>
+  
 
 <%include ../../partials/footer%>

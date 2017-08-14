@@ -336,6 +336,11 @@ midlewareObj.checkSchedule= function(req,res,next){
 								req.flash("error","On day "+resultTotalHours[1]+" there is more than 8 hours of therapy between you and the analyst. You will need to contact the case analyst in order to solve the conflict");
 								return res.redirect("back");
 							}
+							let resultTotalHoursWeekly=Functions.scheduleTotalHoursWeeklyChecker(client.analystReports[0].schedule,req.body.report.schedule);
+							if(resultTotalHoursWeekly[0]==true){
+								req.flash("error","On the week there is more than 40 hours of therapy between you and the analyst. You will need to contact the case analyst in order to solve the conflict");
+								return res.redirect("back");
+							}
 						}
 					}
 					return next();
@@ -360,6 +365,11 @@ midlewareObj.checkSchedule= function(req,res,next){
 							let resultTotalHours=Functions.scheduleTotalHoursChecker(client.assistantReports[0].schedule,req.body.report.schedule);
 							if(resultTotalHours[0]==true){
 								req.flash("error","On day "+resultTotalHours[1]+" there is more than 8 hours of therapy between you and the assistant. You will need to contact the case assistant in order to solve the conflict");
+								return res.redirect("back");
+							}
+							let resultTotalHoursWeekly=Functions.scheduleTotalHoursWeeklyChecker(client.assistantReports[0].schedule,req.body.report.schedule);
+							if(resultTotalHoursWeekly[0]==true){
+								req.flash("error","On the week there is more than 40 hours of therapy between you and the assistant. You will need to contact the case assistant in order to solve the conflict");
 								return res.redirect("back");
 							}
 						}

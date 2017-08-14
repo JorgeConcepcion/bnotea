@@ -9,7 +9,7 @@
       <%if(currentUser.type=="analyst" || currentUser.type=="superuser"){%>
          <div class="row ">
                 <div class="col-md-3 col-sm-12 col-xs-12">
-                    <h4 class="page-header">analyst Reports</h4>
+                    <h4 class="page-header">Analyst Reports</h4>
                 </div>
         </div>
         <div class="table-responsive">
@@ -173,7 +173,7 @@
                                             
                                                 <%report.replacement.forEach(function(r,index){%>
                                                     <div class="report-index-sub-section">
-                                                        <div class="row">
+                                                        <div class="row report-index-section-row">
                                                             <div class="col-md-5">
                                                                 <h5 class="report-h4"><%=r.name+": "+r.state%></h5>
                                                             </div>
@@ -189,7 +189,7 @@
                                             
                                         </li>
                                          <li class="report-index-section">
-                                             <div class="row">
+                                             <div class="row report-index-section-row">
                                                 <div class="col-md-5">
                                                      <h4 class="report-h4"><%="Medical Log"+": "+report.medical.state%></h4>
                                                 </div>
@@ -202,9 +202,9 @@
                                             </div> 
                                         </li>
                                         <li class="report-index-section">
-                                             <div class="row">
+                                             <div class="row report-index-section-row">
                                                 <div class="col-md-5">
-                                                      <h4 class="report-h4"><%="Supervision Conducted by Behavior analyst"+": "+report.supervision.state%></h4>
+                                                      <h4 class="report-h4"><%="Supervision Conducted by Behavior Analyst"+": "+report.supervision.state%></h4>
                                                 </div>
                                                 <div class="col-md-7">
                                                      <%if(currentUser.type=="assistant" &&(report.supervision.state=="Started" || report.supervision.state=="On revision" || report.supervision.state=="Completed") || currentUser.type=="analyst" &&(report.supervision.state=="Started" || report.supervision.state=="On revision" || report.supervision.state=="Completed" ) || currentUser.type=="superuser" &&( report.supervision.state=="Accepted" || report.supervision.state=="Completed" )){%>   

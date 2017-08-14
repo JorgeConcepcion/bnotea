@@ -140,6 +140,31 @@ functionObj.scheduleTotalHoursChecker=function(schedule1,schedule2){
 	});
 	return sol;
 };
+functionObj.scheduleTotalHoursWeeklyChecker=function(schedule1,schedule2){
+	var sol=[];
+	sol[0]=false;
+	var schedule1TotalWeeklyHours=0;
+	var schedule2TotalWeeklyHours=0;
+	schedule1.forEach(function(schedule1Day){	
+		if(schedule1Day.timeIn &&schedule1Day.timeIn.length>0 ){
+			let schedule1In=Number(schedule1Day.timeIn.split(":")[0])+(Number(schedule1Day.timeIn.split(":")[1])/60);
+			let schedule1Out=Number(schedule1Day.timeOut.split(":")[0])+(Number(schedule1Day.timeOut.split(":")[1])/60);
+			schedule1TotalWeeklyHours=schedule1TotalWeeklyHours+schedule1Out-schedule1In;
+		}
+	});
+	schedule2.forEach(function(schedule2Day){
+		if(schedule2Day.timeIn &&schedule2Day.timeIn.length>0 ){
+			let schedule2In=Number(schedule2Day.timeIn.split(":")[0])+(Number(schedule2Day.timeIn.split(":")[1])/60);
+			let schedule2Out=Number(schedule2Day.timeOut.split(":")[0])+(Number(schedule2Day.timeOut.split(":")[1])/60);
+			schedule2TotalWeeklyHours=schedule2TotalWeeklyHours+schedule2Out-schedule2In;
+		}
+	});
+	if(schedule1TotalWeeklyHours+schedule2TotalWeeklyHours>40){
+		sol[0]=true;
+	}
+	return sol;
+};
+
 functionObj.scheduleOwnOverlappingChecker=function(reports,schedule,id){
 	var sol=[];
 	sol[0]=false;

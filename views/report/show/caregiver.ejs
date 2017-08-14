@@ -1,0 +1,136 @@
+<%include ../../partials/header%>
+		
+
+	<div class="doc-name text-center">
+        <h4>CAREGIVER COMPETENCY CHECK</h4>
+	</div>
+   <div class="table-responsive">
+        <table class="table table-bordered doc-header">
+            <tbody>
+                <tr>
+                   <td><h4>Name of Recipient/Medicaid ID:<%=report.recipient.firstName+" "+report.recipient.lastName+"/"+report.recipient.medicaidNumber%></h4></td>
+                     <td><h4>Name of Behavior Analyst/Provider ID:<%=report.author.firstName+" "+report.author.lastName+"/"+report.author.providerId%></h4></td>
+                </tr>
+                <tr>
+                    <td><h4>PA #: <%=report.recipient.approvalNumber%></h4></td>
+                    <td><h4>Week:<%=report.schedule[0].date+" - "+report.schedule[6].date%></h4></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="table-responsive">
+	   <table class="table table-bordered">
+	        <tbody>
+	             <thead>
+	                <tr class="date-row">
+	                    <th class="text-center"><h4>Evaluation Parameter</i></h4></th>
+	                	<th>
+                            
+                                <div class="text-center">
+                                    <h5 class="control-label">Date: </h5>
+                                </div>
+                                <div class="text-center">
+                                    <h5 ><%=report.caregiver.date%></h5>
+                                </div> 
+                           
+	                       
+						</th>
+	                </tr>
+	            </thead>
+	             <tr class="text-center performance-row">
+	                <td>
+						<p>Caregiver was able to recognize incidents of maladaptative behaviors as ocurred today and collect data</p>
+							
+					</td>
+					
+	                <td>
+	                   	<div class="text-center">
+				            <p><%=report.caregiver.performance[0]%></p>
+		                </div>
+					</td>
+		
+	            </tr>
+	            <tr class="text-center performance-row">
+	                <td>
+						<p>Caregiver followed recommended intervention/procedures upon ocurrence of maladaptative behaviors in session</p>
+							
+					</td>
+					
+	                <td>
+	                   	<div class="text-center">
+				            <p><%=report.caregiver.performance[1]%></p>
+		                </div>
+					</td>
+		
+	            </tr>
+	            <tr class="text-center performance-row">
+	                <td>
+						<p>Caregiver provided reinforcers/reinforcement in accordance with the Behavior Support Plan</p>
+							
+	                </td>
+	
+	                <td>
+	                    <div class="text-center">
+				            <p><%=report.caregiver.performance[2]%></p>
+		                </div>
+					</td>
+					
+	            </tr>
+	            <tr class="text-center performance-row">
+	                <td>
+						<p>Caregiver implemented the acquisitions/replacements programs and recorded data</p>	
+	                </td>
+	                <td>
+	                    <div class="text-center">
+				            <p><%=report.caregiver.performance[3]%></p>
+		                </div>
+					</td>
+	            </tr>
+	            <tr class="text-center performance-row">
+	                <td>
+						<p>Caregiver can indicate when the behavior ocurred across setting and people, and the effectiveness of the plan's implementation (programming for generalization)</p>
+							
+	                </td>
+	                <td>
+	                    <div class="text-center">
+				            <p><%=report.caregiver.performance[4]%></p>
+		                </div>
+					</td>
+	            </tr>
+	            <tr class="text-center performance-row">
+	                <td>
+						<p>Verbally reported about major changes in the environment, daily activity schedule, medical status, or severity of problem behaviors, along with new behaviors ocurring, and difficulty implementing behavior plan as is</p>
+							
+	                </td>
+	            
+	                <td>
+	                    <div class="text-center">
+				            <p><%=report.caregiver.performance[5]%></p>
+		                </div>
+					</td>
+			
+	            </tr>
+	        </tbody>
+	    </table>
+	</div>
+    <div class="row canvas-area text-center">
+    	<div class="col-sm-6 col-xs-12" <%if(currentUser.type=="assistant"){%>style="display:none"<%}%>>
+			
+    		 <canvas class="analyst-canvas" width="290" height="150"></canvas>
+    		 <h4>Analyst Signature</h4>
+    		 <input type="text" class="analyst-input" name="report[caregiver][signatures][analyst]" style="display:none" value="<%=report.caregiver.signatures.analyst%>">
+    		 
+		</div>
+    	<div class="col-sm-6 col-xs-12" <%if(currentUser.type=="assistant"){%>style="display:none"<%}%>>
+    		 <canvas class="caregiver-canvas" width="290" height="150"></canvas>
+    		 <h4>Caregiver Signature</h4>
+    		 <input type="text" class="caregiver-input" name="report[caregiver][signatures][caregiver] " style="display:none" value="<%=report.caregiver.signatures.caregiver%>">
+    	
+		</div>
+
+    </div>
+   
+
+	
+	
+	<%include ../../partials/footer%>

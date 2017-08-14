@@ -1,0 +1,129 @@
+<%include ../../partials/header%>
+	
+
+	<div class="doc-name text-center">
+        <h4>MEDICAL VISIT LOG</h4>
+    </div>
+    <div class="table-responsive">
+       <table class="table table-bordered doc-header">
+            <tbody>
+                <tr>
+                     <td><h4>Name of Recipient/Medicaid ID:<%=report.recipient.firstName+" "+report.recipient.lastName+"/"+report.recipient.medicaidNumber%></h4></td>
+                    <td><h4>Name of Behavior Technician/Provider ID:<%=report.author.firstName+" "+report.author.lastName+"/"+report.author.providerId%></h4></td>
+                </tr>
+                 <tr>
+                    <td><h4>PA #: <%=report.recipient.approvalNumber%></h4></td>
+                    <td ><h4>Week:<%=report.schedule[0].date+" - "+report.schedule[6].date%></h4></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div  id="dates" style="display:none">
+            
+            <% report.schedule.forEach(function(day){%>
+                    <option><%=day.date%></option>
+            <%})%>
+        
+    </div>
+    <input  style="display:none" type="text" name="checker" value="medical">
+    <div class="medical-visit">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="page-header header-wide">Medical Visit</h4>  
+            </div>
+        </div>
+        <%if(report.medical.medicalVisit[0]){%>
+        <%report.medical.medicalVisit.forEach(function(visit,index){%>
+	    <div class="row medical-visit-row ">
+            <div class="col-md-3 col-sm-12">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Doctor: </label>
+                    </div>
+                    <div class="col-sm-9">
+                        <p ><%=visit.doctor%></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="row">
+                    <div class="col-sm-3">
+                            <label class="control-label">Reason: </label>
+                    </div>
+                    <div class="col-sm-9">
+                        <p ><%=visit.reason%></p>
+                    </div>
+                 </div>
+            </div>
+            <div class="col-md-3 col-sm-12 ">
+                <div class="row">
+                    <div class="col-sm-3">
+                            <label class="control-label">Date: </label>
+                        </div>
+                        <div class="col-sm-9">
+                            <p ><%=visit.date%></p>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <%})%>
+        <%}%>
+    </div>
+    <div class="medication-change">
+       <div class="row ">
+	      <div class="col-md-12">
+	          <h4 class="page-header header-wide">Medication Changes</h4>  
+	      </div>
+       </div>
+        <%if(report.medical.medication[0]){%>
+        <%report.medical.medication.forEach(function(med,index){%>
+        <div class="row medication-row">
+            <div class="col-md-6">
+                 <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Medication: </label>
+                    </div>
+                    <div class="col-sm-9">
+                        <p ><%=med.name%></p>
+                    </div>
+                 </div>
+            
+            </div>
+            <div class="col-md-6">
+                
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Action: </label>
+                    </div>
+                    <div class="col-sm-9">
+                        <p ><%=med.action%></p>
+                    </div>
+                </div>
+            </div>
+         
+        </div>
+         <%})%>
+        <%}%>
+    </div>
+    <div class="row canvas-area">
+        
+    	<div class="col-sm-6 col-xs-12 text-center" <%if(currentUser.type=="analyst"){%>style="display:none"<%}%>>
+    		 <canvas class="assistant-canvas" width="290" height="150" ></canvas>
+    		 <h4>Assistant Signature</h4>
+    		 <input type="text" class="assistant-input" name="report[medical][signatures][assistant]" style="display:none" value="<%=report.medical.signatures.assistant%>">
+    		
+        </div>
+    	<div class="col-sm-6 col-xs-12 text-center" <%if(currentUser.type=="analyst"){%>style="display:none"<%}%>>
+    		 <canvas class="caregiver-canvas" width="290" height="150"></canvas>
+    		 <h4>Caregiver Signature</h4>
+    		 <input type="text" class="caregiver-input" name="report[medical][signatures][caregiver] " style="display:none" value="<%=report.medical.signatures.caregiver%>">
+    	
+        </div>
+        
+    </div>
+ 
+
+
+
+
+<%include ../../partials/footer%>	

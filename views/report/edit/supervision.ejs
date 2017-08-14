@@ -86,7 +86,9 @@
         </table>
     </div>
      <div class="save-buttons text-center">
-    	<button class="btn btn-success btn-lg save">Save</button>
+         <%if(report.supervision.state=="Started"){%>
+        <button class="btn btn-success btn-lg save">Save</button>
+        <%}%>
         <button class="btn btn-success btn-lg submit">Submit</button>
         <%if(currentUser.type=="assistant"){%>
         <input class="assistant" id="button" type="text" name="report[supervision][state]" value="<%=report.supervision.state%>" style="display:none">
