@@ -7,7 +7,7 @@ $("#start-date").on("changed.bs.select",function(){
 		$(this).text(date.add({days:1}).toString("MM/dd/yyyy"));
 		$(this).parent().find(".date-hidden").val($(this).text());
 	});
-	$("input[type='checkbox'").removeAttr("disabled");
+	$("input[type='checkbox']").removeAttr("disabled");
 	$("#startDate").val($(this).val());
 	$("#endDate").val($("#end-date").text());
 });
@@ -65,7 +65,7 @@ function change(ele) {
 		$(element).attr("data-timepicki-tim",temp[0]);
 	}
 	else{
-		console.log("AAAA");
+	
 		let ele_tim=Number($(ele).attr("data-timepicki-tim"));
 		let element_tim=Number($(element).attr("data-timepicki-tim"));
 		let ele_mini=Number($(ele).attr("data-timepicki-mini"));
@@ -74,8 +74,7 @@ function change(ele) {
 			element_tim=$(element).val().split(":")[0];
 			element_mini=$(element).val().split(":")[1];
 		}
-		console.log(ele_tim+" "+ele_mini);
-		console.log(element_tim+" "+element_mini);
+		
 		let units=((ele_tim-element_tim)*4)+((ele_mini-element_mini)/15);
 		if(ele_tim<element_tim || (ele_mini==element_mini && ele_tim<=element_tim) || (units>32)){
 			let t=$(element).val().split(":");
