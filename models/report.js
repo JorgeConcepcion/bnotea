@@ -52,6 +52,7 @@ var reportSchema=new mongoose.Schema({
 	},
 	behavior:[{
 		name:String,
+		justification:String,
 		intensity:[[]],
 		frequency:[],
 		signatures:{
@@ -62,6 +63,7 @@ var reportSchema=new mongoose.Schema({
 	}],
 	replacement:[{
 		name:String,
+		justification:String,
 		completion:[[]],
 		trials:[],
 		signatures:{

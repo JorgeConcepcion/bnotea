@@ -29,7 +29,13 @@
 		    <h5  class="behavior-collection-header">Completed: <span id="trialsCompleted"><%=completed%></span></h5>
 		    <h5  class="behavior-collection-header">Porcentage: <span id="porcentage"><%=porcentage%></span></h5>
 		   
-	    </div>
+		</div>
+		<%if(report.replacement[replacement].justification && report.replacement[replacement].justification.length>0){%>
+		<div>
+			<h5>Why is the completion porcentage too far away from the baseline:</h5>
+			<p><%=report.replacement[replacement].justification%></p>
+		<div>
+		<%}%>
 	     <div class="table-responsive">
 	        <table class="table table-bordered table-condensed text-center">
 	            <tbody>

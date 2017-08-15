@@ -10,5 +10,6 @@ router.get("/",Middleware.isLoggedInLandingPage,function(req,res){
 });  
     
 
+//GOOGLE VERIFICATION ROUTE
 
 module.exports=router;

@@ -27,7 +27,13 @@
 		    <h5  class="behavior-collection-header">Frequency:
 				<span id="frequency"><%=frequency%></span>
 			</h5>
-	    </div>
+		</div>
+		<%if(report.behavior[behavior].justification && report.behavior[behavior].justification.length>0){%>
+		<div>
+			<h5>Why is the frequency too far away from the baseline:</h5>
+			<p><%=report.behavior[behavior].justification%></p>
+		<div>
+		<%}%>
 	    <%if(!(report.behavior[behavior].name=="tantrum" || report.behavior[behavior].name=="elopement" || report.behavior[behavior].name=="physical aggression" || report.behavior[behavior].name=="property destruction")){%>   <!--No Intensity-->
 	     <div class="table-responsive">
 	       <table class="table table-bordered table-condensed behavior-collection text-center">

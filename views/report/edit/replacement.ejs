@@ -29,7 +29,11 @@
 		    <h5  class="behavior-collection-header">Completed: <span id="trialsCompleted"><%=completed%></span></h5>
 		    <h5  class="behavior-collection-header">Porcentage: <span id="porcentage"><%=porcentage%></span></h5>
 		    <h5 class="behavior-collection-header">Baseline:<span id="baseline"><%=client.replacementsBehaviors[replacement].baseline%></span></h5>
-	    </div>
+		</div>
+		<div id="justification-cont" class="form-group" <%if(porcentage - client.replacementsBehaviors[replacement].baseline <=2 && client.replacementsBehaviors[replacement].baseline - porcentage <=2){%>style="display:none"<%}%>>
+			<label>Why is the completion porcentage so far from the baseline:</label>
+			<input id="justification-input" class="form-control" type="text" name="report[replacement][justification]" value="<%=report.replacement[replacement].justification%>" data-validation="required" data-validation-error-msg="You need to justify why the completion porcentage is so far from the baseline">
+		</div>
 	     <div class="table-responsive">
 	        <table class="table table-bordered table-condensed text-center">
 	            <tbody>

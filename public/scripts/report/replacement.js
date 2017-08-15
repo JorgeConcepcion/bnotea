@@ -1,4 +1,8 @@
 /* global $ */
+$(".save").on("click",function(e){
+	e.preventDefault();
+	$("#form").get(0).submit(); 
+});
 
 $(".cellCompletion").each(function(){
 	if($(this).text()=="No"){
@@ -51,7 +55,14 @@ $(".cellTrial").on("click", function () {
 	let trialsTotal = Number($("#trialsTotal").text());
 	let porcentage = Math.round((trialsCompleted / trialsTotal) * 10000) / 100;
 	$("#porcentage").text(porcentage);
-
+	let baseline = Number($("#baseline").text());
+	if(porcentage - baseline >2 || baseline - porcentage >2){
+		$("#justification-cont").removeAttr("style");
+	}
+	else{
+		$("#justification-cont").attr("style","display:none");
+		$("#justification-input").val("");
+	}
 });
 
 $(".cellCompletion").on("click", function () {
@@ -85,11 +96,18 @@ $(".cellCompletion").on("click", function () {
 	let trialsTotal = Number($("#trialsTotal").text());
 	let porcentage = Math.round((trialsCompleted / trialsTotal) * 10000) / 100;
 	$("#porcentage").text(porcentage);
+	let baseline = Number($("#baseline").text());
+	if(porcentage - baseline >2 || baseline - porcentage >2){
+		$("#justification-cont").removeAttr("style");
+	}
+	else{
+		$("#justification-cont").attr("style","display:none");
+		$("#justification-input").val("");
+	}
 });
 
 $(".submit").on("click", function (e) {
-	let frequency = Number($("#porcentage").text());
-	let baseline = Number($("#baseline").text());
+
 	let trials = Number($("#trialsTotal").text());
 	if (trials > 35) {
 		e.preventDefault();
@@ -99,13 +117,6 @@ $(".submit").on("click", function (e) {
 		});
 	}
 	
-	else if (frequency - baseline >= 5 || baseline - frequency >= 5) {
-		e.preventDefault();
-		$.alert("Completion porcentage is too far from the baseline ", {
-			position: ["center", [-0.42, 0]],
-			title: false // title
-		});
-	}
 	else if($(".assistant-input").attr("value")=="" && $(".assistant-canvas").parent().attr("style")==undefined ||  $(".analyst-input").attr("value")=="" && $(".analyst-canvas").parent().attr("style")==undefined || $(".caregiver-input").attr("value")=="" && $(".caregiver-canvas").parent().attr("style")==undefined ){
 		e.preventDefault();
 		$.alert("The entire document needs to be signed", {
@@ -124,4 +135,9 @@ $(".submit").on("click", function (e) {
 			$("#button").attr("value", "Accepted");
 		}
 	}
+});
+
+$.validate({
+	modules: "security",
+	validateOnBlur: false,
 });

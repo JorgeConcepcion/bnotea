@@ -217,14 +217,14 @@ functionObj.initializeAssistantReport=function(report,client,assistant){
 	client.maladaptativeBehaviors.forEach(function(maladaptativeBehavior){
 		let intensityTemp=[[],[],[],[],[],[],[]];
 		let frequencyTemp=[];
-		report.behavior.push({name:maladaptativeBehavior.name,intensity:intensityTemp,frequency:frequencyTemp,signatures:{assistant:"",analyst:""},state:"Started"});
+		report.behavior.push({name:maladaptativeBehavior.name,justification:"",intensity:intensityTemp,frequency:frequencyTemp,signatures:{assistant:"",analyst:""},state:"Started"});
 	});
 	//Replacement
 	report.replacement=[];
 	client.replacementsBehaviors.forEach(function(replacementBehavior){
 		let completionTemp=[[],[],[],[],[],[],[]];
 		let trialsTemp=[];
-		report.replacement.push({name:replacementBehavior.name,completion:completionTemp,trials:trialsTemp,signatures:{assistant:"",analyst:""},state:"Started"});
+		report.replacement.push({name:replacementBehavior.name,justification:"",completion:completionTemp,trials:trialsTemp,signatures:{assistant:"",analyst:""},state:"Started"});
 	});
 	//Supervision
 	let characteristicsTemp=[];

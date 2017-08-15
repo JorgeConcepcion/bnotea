@@ -29,7 +29,11 @@
 				<span id="frequency"><%=frequency%></span>
 			</h5>
 		    <h5 class="behavior-collection-header">Baseline:<span id="baseline"><%=client.maladaptativeBehaviors[behavior].baseline%></span></h5>
-	    </div>
+		</div>
+		<div id="justification-cont" class="form-group" <%if(frequency - client.maladaptativeBehaviors[behavior].baseline <=2 && client.maladaptativeBehaviors[behavior].baseline - frequency <=2){%>style="display:none"<%}%>>
+			<label>Why is the frequency so far from the baseline:</label>
+			<input id="justification-input" class="form-control" type="text" name="report[behavior][justification]" value="<%=report.behavior[behavior].justification%>" data-validation="required" data-validation-error-msg="You need to justify why the frequency is so far from the baseline">
+		</div>
 	    <%if(!(client.maladaptativeBehaviors[behavior].name=="tantrum" || client.maladaptativeBehaviors[behavior].name=="elopement" || client.maladaptativeBehaviors[behavior].name=="physical aggression" || client.maladaptativeBehaviors[behavior].name=="property destruction")){%>   <!--No Intensity-->
 	     <div class="table-responsive">
 	       <table class="table table-bordered table-condensed behavior-collection text-center">
