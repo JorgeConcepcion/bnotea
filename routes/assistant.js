@@ -1,11 +1,13 @@
 //VAR DECLARATION
 var express=require("express"),
 	router=express.Router({mergeParams:true}),
+	moment=require("moment"),
 	//models
 	Superuser=require("../models/superuser"),
 	Assistant=require("../models/assistant"),
 	User=require("../models/user"),
 	Client=require("../models/client"),
+	Log=require("../models/log"),
 	//midleware
 	Middleware=require("../middleware"),
 	//functions
@@ -90,6 +92,8 @@ router.post("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthor
 							return res.redirect("/login");
 						}
 						else{
+							let info="created assistant id: "+user.userRef;
+							Log.create({info:info,code:"CREATEASSISTANT",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
 							req.flash("success","Assistant successfully created");
 							res.redirect("/superuser/"+req.user.userRef+"/assistant");
 						}
@@ -211,6 +215,8 @@ router.put("/:assistantID",Middleware.isLoggedIn,Middleware.isAssistantSuperuser
 					});
 				}
 			});
+			let info="updated assistant id: "+req.params.assistantID;
+			Log.create({info:info,code:"UPDATEASSISTANT",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
 			if(req.user.type=="assistant"){
 				req.flash("success","Profile successfully updated"); 
 			}
@@ -265,6 +271,8 @@ router.delete("/:assistantID",Middleware.isLoggedIn,function(req,res){
 						return res.redirect("/login");
 					}
 					else{
+						let info="deleted assistant id: "+req.params.assistantID;
+						Log.create({info:info,code:"DELETEASSISTANT",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
 						req.flash("success","Assistant successfully deleted");
 						return res.redirect("/superuser/"+req.user.userRef+"/assistant"); 
 					}
@@ -278,6 +286,8 @@ router.delete("/:assistantID",Middleware.isLoggedIn,function(req,res){
 						return res.redirect("/login");
 					}
 					else{
+						let info="deactivated assistant id: "+req.params.assistantID;
+						Log.create({info:info,code:"DEACTIVATEASSISTANT",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
 						req.flash("success","Assistant successfully deactivated");
 						return res.redirect("/superuser/"+req.user.userRef+"/assistant"); 
 					}

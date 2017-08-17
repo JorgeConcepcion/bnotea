@@ -6,6 +6,7 @@ var express=require("express"),
 	Client=require("../models/client"),
 	Assistant=require("../models/assistant"),
 	Analyst=require("../models/analyst"),
+	Log=require("../models/log"),
 	//middleware
 	Middleware=require("../middleware"),
 	//functions
@@ -141,6 +142,8 @@ router.post("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthor
 				else{
 					superuser.clients.push(client);
 					superuser.save();
+					let info="created client id: "+client._id;
+					Log.create({info:info,code:"CREATECLIENT",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
 					req.flash("success","Client successfully created");
 					res.redirect("/superuser/"+superuser._id+"/client");
 				}
@@ -204,6 +207,8 @@ router.put("/:clientID",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.
 			return res.redirect("/login");
 		}
 		else{
+			let info="created client id: "+req.params.clientID;
+			Log.create({info:info,code:"UPDATECLIENT",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
 			req.flash("success","Client successfully updated");
 			res.redirect("/superuser/"+req.params.superuserID+"/client/"+req.params.clientID);
 		}
@@ -242,6 +247,8 @@ router.delete("/:clientID",Middleware.isLoggedIn,Middleware.isSuperuser,Middlewa
 										return res.redirect("/login");
 									}
 									else{
+										let info="deleted client id: "+req.params.clientID;
+										Log.create({info:info,code:"DELETECLIENT",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
 										req.flash("success","Client successfully deleted");
 										return res.redirect("/superuser/"+req.params.superuserID+"/client");
 									}
@@ -256,6 +263,8 @@ router.delete("/:clientID",Middleware.isLoggedIn,Middleware.isSuperuser,Middlewa
 										return res.redirect("/login");
 									}
 									else{
+										let info="deactivated client id: "+req.params.clientID;
+										Log.create({info:info,code:"DEACTIVATECLIENT",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
 										req.flash("success","Client successfully deactivated" );
 										return res.redirect("/superuser/"+req.params.superuserID+"/client");
 									}

@@ -28,8 +28,10 @@ var express = require("express"),
 	testRoute=require("./routes/test"),
 	//private
 	mongooseConnect = require("../private/mongooseConnect"),
+
 	//setting session store
 	connectionUri=mongooseConnect.uri(),
+	
 	store = new MongoDBStore({uri:connectionUri,collection:"sessions"});
 		
 			

@@ -3,6 +3,7 @@ var express=require("express"),
 	router=express.Router({mergeParams:true}),
 	moment=require("moment"),
 	Superuser=require("../models/superuser"),
+	Log=require("../models/log"),
 	Client=require("../models/client"),
 	Assistant=require("../models/assistant"),
 	Analyst=require("../models/analyst"),
@@ -199,6 +200,8 @@ router.post("/",Middleware.checkSchedule,Middleware.checkOwnSchedule,function(re
 														return res.redirect("/login");
 													}
 													else{
+														let info="client: "+req.params.clientID+", report "+report._id;
+														Log.create({info:info,code:"ANALYSTCREATEREPORT",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
 														req.flash("success","Report successfully created");
 														return res.redirect("/superuser/"+req.params.superuserID+"/client/"+req.params.clientID+"/report");
 													}
@@ -250,6 +253,8 @@ router.post("/",Middleware.checkSchedule,Middleware.checkOwnSchedule,function(re
 														return res.redirect("/login");
 													}
 													else{
+														let info="client: "+req.params.clientID+", report "+report._id;
+														Log.create({info:info,code:"ASSISTANTCREATEREPORT",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
 														req.flash("success","Report successfully created");
 														return res.redirect("/superuser/"+req.params.superuserID+"/client/"+req.params.clientID+"/report");
 													}
@@ -397,6 +402,8 @@ router.put("/:reportID",Middleware.checkSchedule,Middleware.checkOwnSchedule,fun
 				return res.redirect("/login");
 			}
 			else{
+				let info="client: "+req.params.clientID+", report "+req.params.reportID;
+				Log.create({info:info,code:"ASSISTANTBEHAVIORUPDATEREPORT",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
 				req.flash("success","Report successfully updated");
 				return res.redirect("/superuser/"+req.params.superuserID+"/client/"+req.params.clientID+"/report");
 			
@@ -404,13 +411,15 @@ router.put("/:reportID",Middleware.checkSchedule,Middleware.checkOwnSchedule,fun
 		});
 	}
 	else if(req.body.report.replacement){
-		Report.update({_id:req.params.reportID,"replacement.name":req.body.report.replacement.name},{$set:{"replacement.$":req.body.report.replacement}},function(err,report){
+		Report.update({_id:req.params.reportID,"replacement.name":req.body.report.replacement.name},{$set:{"replacement.$":req.body.report.replacement}},function(err){
 			if(err){
 				req.flash("error", err.message + ", please login again to continue");
 				req.logout();
 				return res.redirect("/login");
 			}
 			else{
+				let info="client: "+req.params.clientID+", report "+req.params.reportID;
+				Log.create({info:info,code:"ASSISTANTREPLACEMENTUPDATEREPORT",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
 				req.flash("success","Report successfully updated");
 				return res.redirect("/superuser/"+req.params.superuserID+"/client/"+req.params.clientID+"/report");
 			
@@ -426,13 +435,18 @@ router.put("/:reportID",Middleware.checkSchedule,Middleware.checkOwnSchedule,fun
 			}
 			else{
 				if(req.body.report.schedule){
+					
 					if(req.user.type=="assistant"){
+						let info="client: "+req.params.clientID+", report "+req.params.reportID;
+						Log.create({info:info,code:"SCHEDULEASSISTANTUPDATEREPORT",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
 						report.assistantLog.state="Started";
 						report.replacement.forEach(function(b){
 							b.state="Started";
 						});
 					}
 					else if(req.user.type=="analyst"){
+						let info="client: "+req.params.clientID+", report "+req.params.reportID;
+						Log.create({info:info,code:"SCHEDULEANALYSTUPDATEREPORT",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
 						report.analystLog.state="Started";
 						report.caregiver.state="Started";
 						report.caregiver.date="";
@@ -445,6 +459,17 @@ router.put("/:reportID",Middleware.checkSchedule,Middleware.checkOwnSchedule,fun
 						}
 					});
 				}
+				else{
+					if(req.user.type=="analyst"){
+						let info="client: "+req.params.clientID+", report "+req.params.reportID;
+						Log.create({info:info,code:"ANALYSTUPDATEREPORT",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
+					}
+					else if(req.user.type=="assistant"){
+						let info="client: "+req.params.clientID+", report "+req.params.reportID;
+						Log.create({info:info,code:"ASSISTANTUPDATEREPORT",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
+					}
+				}
+				
 				req.flash("success","Report successfully updated");
 				return res.redirect("/superuser/"+req.params.superuserID+"/client/"+req.params.clientID+"/report");
 			

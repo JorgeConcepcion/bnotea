@@ -1,10 +1,12 @@
 //VAR DECLARATION
 var express = require("express"),
+	moment=require("moment"),
 	router = express.Router({
 		mergeParams: true
 	}),
 	//models
 	Superuser = require("../models/superuser"),
+	Log=require("../models/log"),
 	//midleware
 	Middleware = require("../middleware");
 
@@ -55,6 +57,8 @@ router.put("/:superuserID", Middleware.isLoggedIn, Middleware.isSuperuser, Middl
 			return res.redirect("/login");
 		}
 		else {
+			let info="updated superuser id: "+req.params.superuserID;
+			Log.create({info:info,code:"SUPERUSERUPDATE",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
 			req.flash("success", "Profile successfully updated");
 			res.redirect("/superuser/" + superuser._id);
 		}

@@ -1,11 +1,13 @@
 //VAR DECLARATION
 var express=require("express"),
 	router=express.Router({mergeParams:true}),
+	moment=require("moment"),
 	//models
 	Superuser=require("../models/superuser"),
 	Analyst=require("../models/analyst"),
 	User=require("../models/user"),
 	Client=require("../models/client"),
+	Log=require("../models/log"),
 	//midleware
 	Middleware=require("../middleware"),
 	//functions
@@ -83,6 +85,8 @@ router.post("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthor
 							return res.redirect("/login");
 						}
 						else{
+							let info="created analyst id: "+user.userRef;
+							Log.create({info:info,code:"CREATEANALYST",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
 							req.flash("success","Analyst successfully created");
 							res.redirect("/superuser/"+req.user.userRef+"/analyst");
 						}
@@ -96,7 +100,7 @@ router.post("/",Middleware.isLoggedIn,Middleware.isSuperuser,Middleware.isAuthor
 
 //SHOW ROUTE
 router.get("/:analystID",Middleware.isLoggedIn,Middleware.isAnalystSuperuser,Middleware.isAuthorizedSuperuser,Middleware.isAuthorizedAnalyst,function(req,res){
-	Superuser.findById(req.params.superuserID,function(err,superuser){
+	Superuser.findById(req.params.superuserID,function(err){
 		if(err){
 			req.flash("error",err.message+", please login again to continue");
 			req.logout();
@@ -192,7 +196,9 @@ router.put("/:analystID",Middleware.isLoggedIn,Middleware.isAnalystSuperuser,Mid
 					});
                     
 				}
-			});      
+			}); 
+			let info="updated analyst id: "+req.params.analystID;
+			Log.create({info:info,code:"UPDATEANALYST",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
 			if(req.user.type=="analyst"){
 				req.flash("success","Profile successfully updated"); 
 			}
@@ -245,6 +251,8 @@ router.delete("/:analystID",Middleware.isLoggedIn,Middleware.isSuperuser,Middlew
 						return res.redirect("/login");
 					}
 					else{
+						let info="deleted analyst id: "+req.params.analystID;
+						Log.create({info:info,code:"DELETEANALYST",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
 						req.flash("success","Analyst successfully deleted");
 						return res.redirect("/superuser/"+req.user.userRef+"/analyst"); 
 					}
@@ -259,6 +267,8 @@ router.delete("/:analystID",Middleware.isLoggedIn,Middleware.isSuperuser,Middlew
 						return res.redirect("/login");
 					}
 					else{
+						let info="deactivated analyst id: "+req.params.analystID;
+						Log.create({info:info,code:"DEACTIVATEANALYST",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
 						req.flash("success","Analyst successfully deactivated");
 						return res.redirect("/superuser/"+req.user.userRef+"/analyst"); 
 					}

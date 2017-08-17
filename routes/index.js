@@ -1,5 +1,6 @@
 //VAR DECLARATION
 var express=require("express"),
+	Log=require("../models/log"),
 	router=express.Router({mergeParams:true}),
 	//midleware
 	Middleware=require("../middleware");
@@ -10,6 +11,6 @@ router.get("/",Middleware.isLoggedInLandingPage,function(req,res){
 });  
     
 
-//GOOGLE VERIFICATION ROUTE
+
 
 module.exports=router;

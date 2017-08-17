@@ -2,10 +2,11 @@
 //VAR DECLARATION
 var express=require("express"),
 	router=express.Router({mergeParams:true}),
+	moment=require("moment"),
 	passport=require("passport"),
 	//models
-	Superuser=require("../models/superuser");
-
+	Superuser=require("../models/superuser"),
+	Log=require("../models/log");
 //LOGIN ROUTE: SHOW LOGIN FORM 
 router.get("/login",function(req,res){
 	res.render("authentication/login",{page:"login"});
@@ -17,6 +18,7 @@ router.post("/login",passport.authenticate("local",{
 	failureFlash:true,
 	successFlash: "Successfully logged in"
 }),function(req,res){
+	Log.create({info:"",code:"LOGIN",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
 	if(req.user.type=="superuser"){
 		res.redirect("/superuser/"+req.user.userRef);   
 	}
@@ -48,6 +50,7 @@ router.post("/login",passport.authenticate("local",{
 
 //LOGOUT ROUTE
 router.get("/logout",function(req,res){
+	Log.create({info:"",code:"LOGOUT",user:req.user.username,timeStamp:moment(Date.now()).format("MM/DD/YYYY, h:mm:ss a")},function(){});
 	req.logout();
 	res.redirect("/");
 });
